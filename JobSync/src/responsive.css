@@ -1,0 +1,108 @@
+/* Basic Styles */
+.form-column {
+  padding-right: 30px;
+}
+
+.support-icon {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.support-image {
+  max-width: 150%;
+  height: auto;
+  margin-left: 250px;
+  margin-top: -100px;
+}
+
+.mb-3 {
+  text-align: left;
+}
+
+.text-muted {
+  text-align: left;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For small screens (mobiles) */
+@media (max-width: 576px) {
+  .support-image {
+    max-width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .form-column {
+    padding-right: 0;
+  }
+
+  .col-md-6 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .text-muted {
+    font-size: 12px;
+  }
+
+  .support-icon {
+    width: 80px;
+  }
+
+  .d-flex {
+    justify-content: center;
+  }
+
+  /* Adjust margin and padding for small screens */
+  .mb-4 {
+    margin-bottom: 10px;
+  }
+
+  .mb-1 {
+    margin-bottom: 5px;
+  }
+
+  .form-label {
+    font-size: 14px;
+  }
+
+  /* Button styles */
+  .btn {
+    width: 100%;
+  }
+}
+
+/* For medium screens (tablets) */
+@media (max-width: 768px) {
+  .support-image {
+    max-width: 120%;
+    margin-left: 150px;
+    margin-top: -50px;
+  }
+
+  .support-icon {
+    width: 90px;
+  }
+}
+
+/* For large screens (desktops) */
+@media (min-width: 1200px) {
+  .support-image {
+    max-width: 150%;
+    margin-left: 250px;
+    margin-top: -100px;
+  }
+
+  .form-column {
+    padding-right: 40px;
+  }
+}
+
+

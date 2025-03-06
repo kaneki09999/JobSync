@@ -1,0 +1,148 @@
+/* Dashboard styles */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 16px;
+}
+
+.card {
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Ensure the chart containers adapt to screen sizes */
+.chart-container, .pie-chart-container {
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Default height for charts */
+.chart-container {
+  height: 275px;
+}
+
+.pie-chart-container {
+  height: 280px;
+}
+
+/* Media Queries */
+
+/* Small devices (phones, 600px and below) */
+@media (max-width: 600px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 8px;
+  }
+
+  /* Cards layout adjustment for small screens */
+  .card {
+    margin-bottom: 16px;
+  }
+
+  /* Chart resizing for mobile screens */
+  .chart-container {
+    height: 200px;
+  }
+
+  .pie-chart-container {
+    height: 200px;
+  }
+
+  /* Sidebar adjustments */
+  .sidebar {
+    width: 0 !important; /* Sidebar hidden by default */
+  }
+
+  .sidebar.visible {
+    width: 250px !important; /* Sidebar shown when visible */
+  }
+
+  .sidebar.hidden {
+    width: 0 !important; /* Sidebar hidden */
+  }
+
+  /* Adjust main content margin when sidebar is hidden */
+  .main-content {
+    margin-left: 0 !important; /* Remove sidebar space */
+  }
+}
+
+/* Medium devices (tablets, 768px and above) */
+@media (min-width: 601px) and (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+
+  /* Chart resizing for medium screens */
+  .chart-container {
+    height: 250px;
+  }
+
+  .pie-chart-container {
+    height: 250px;
+  }
+
+  /* Sidebar adjustments for medium screens */
+  .sidebar {
+    width: 250px !important;
+  }
+
+  .main-content {
+    margin-left: 260px; /* Adjust for sidebar width */
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 769px) {
+  .dashboard-container {
+    flex-direction: row;
+  }
+
+  /* Large screens should have more spacious layout */
+  .main-content {
+    padding: 20px;
+  }
+
+  .chart-container {
+    height: 275px;
+  }
+
+  .pie-chart-container {
+    height: 280px;
+  }
+
+  /* Sidebar should always be visible on large screens */
+  .sidebar {
+    width: 250px;
+  }
+
+  .main-content {
+    margin-left: 250px; /* Adjust for sidebar width */
+  }
+}
+
+.nav-link {
+  transition: all 0.3s ease; /* Apply transition to all properties for a smooth effect */
+  padding: 15px 10px; /* Ensure padding is consistent */
+}
+
+.nav-link:hover {
+  color: #007bff; /* Change color on hover */
+  background-color: #f1f1f1; /* Change background color on hover */
+  transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+

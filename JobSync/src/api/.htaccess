@@ -1,0 +1,6 @@
+  RewriteEngine On
+
+    AddType application/javascript .jsx
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.html [QSA,L]
