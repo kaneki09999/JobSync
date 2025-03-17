@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ApplicantsSidebar from '../../../components/applicantsidebar';
 import AppliedJobsTable from '../../../components/JobTable';
-import { FaBriefcase, FaBell, FaArrowRight, FaBars } from 'react-icons/fa';
+import { FaBriefcase, FaBell, FaArrowRight, FaBars, FaBookmark } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark as farBookmark } from '@fortawesome/free-regular-svg-icons';
 import { Container, Row, Col, Card, Button, Offcanvas } from "react-bootstrap";
@@ -36,7 +36,10 @@ export default function Overview() {
 
 
                 {/* Offcanvas Sidebar (Small Screens) */}
-                <Offcanvas show={showSidebar} onHide={() => setShowSidebar(false)} placement="start">
+                <Offcanvas 
+                    show={showSidebar} 
+                    onHide={() => setShowSidebar(false)} 
+                    placement="start">
                     <Offcanvas.Header closeButton>
                         <Offcanvas.Title>Applicant Dashboard</Offcanvas.Title>
                     </Offcanvas.Header>
@@ -49,49 +52,49 @@ export default function Overview() {
         {/* Main Content */}
         <Col lg={9} className="p-4">
             <Row className="mb-4 g-3">
-                {/* Applied Jobs Card */}
-                <Col xs={12} sm={6} md={4}>
-                    <Card className="shadow-sm border rounded p-3 text-dark dashboard-card" style={{ backgroundColor: "#b8e2fe" }}>
-                        <Card.Body className="d-flex justify-content-between align-items-center">
-                            <div>
-                                <Card.Text className="fs-3">5</Card.Text>
-                                <Card.Title className='titles' style={{ fontSize: "16px", color: "#2d2d2d" }}>Applied Jobs</Card.Title>
-                            </div>
-                            <div className=" p-2 rounded" style={{background: '#f9f9f9'}}>
-                                <FaBriefcase size={30} className="text-primary" />
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
+            {/* Applied Jobs Card */}
+            <Col xs={12} sm={6} md={4}>
+                <Card className="shadow-lg border-0 modern-card p-3 text-dark">
+                    <Card.Body className="d-flex justify-content-between align-items-center">
+                    <div>
+                        <Card.Text className="display-6 fw-bold">5</Card.Text>
+                        <Card.Title className="h6 text-secondary mb-0">Applied Jobs</Card.Title>
+                    </div>
+                    <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                        <FaBriefcase size={30} className="text-primary" />
+                    </div>
+                    </Card.Body>
+                </Card>
+            </Col>
 
-                {/* Favorite Jobs Card */}
-                <Col xs={12} sm={6} md={4}>
-                    <Card className="shadow-sm border rounded p-3 text-dark dashboard-card" style={{ backgroundColor: "#ffd4bb" }}>
-                        <Card.Body className="d-flex justify-content-between align-items-center">
-                            <div>
-                                <Card.Text className="fs-3">3</Card.Text>
-                                <Card.Title className='titles' style={{ fontSize: "16px", color: "#2d2d2d" }}>Favorite Jobs</Card.Title>
-                            </div>
-                            <div className=" p-2 rounded" style={{background: '#f9f9f9', width: '42px'}}>
-                                <FontAwesomeIcon icon={farBookmark} style={{fontSize: '24px'}} className="text-warning" />
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
+            {/* Favorite Jobs Card */}
+            <Col xs={12} sm={6} md={4}>
+                <Card className="shadow-lg border-0 modern-card p-3 text-dark">
+                    <Card.Body className="d-flex justify-content-between align-items-center">
+                    <div>
+                        <Card.Text className="display-6 fw-bold">3</Card.Text>
+                        <Card.Title className="h6 text-secondary mb-0">Favorite Jobs</Card.Title>
+                    </div>
+                    <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                        <FaBookmark size={30} className="text-warning" />
+                    </div>
+                    </Card.Body>
+                </Card>
+            </Col>
 
-                {/* Job Alerts Card */}
-                <Col xs={12} sm={6} md={4}>
-                    <Card className="shadow-sm border rounded p-3 text-dark dashboard-card" style={{ backgroundColor: "#d7ffd4" }}>
-                        <Card.Body className="d-flex justify-content-between align-items-center">
-                            <div>
-                                <Card.Text className="fs-3">2</Card.Text>
-                                <Card.Title className='titles' style={{ fontSize: "16px", color: "#2d2d2d" }}>Job Alerts</Card.Title>
-                            </div>
-                            <div className=" p-2 rounded" style={{background: '#f9f9f9'}}>
-                                <FaBell size={30} className="text-success" />
-                            </div>
-                        </Card.Body>
-                    </Card>
+            {/* Job Alerts Card */}
+            <Col xs={12} sm={6} md={4}>
+                <Card className="shadow-lg border-0 modern-card p-3 text-dark">
+                    <Card.Body className="d-flex justify-content-between align-items-center">
+                    <div>
+                        <Card.Text className="display-6 fw-bold">2</Card.Text>
+                        <Card.Title className="h6 text-secondary mb-0">Job Alerts</Card.Title>
+                    </div>
+                    <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                        <FaBell size={30} className="text-success" />
+                    </div>
+                    </Card.Body>
+                </Card>
                 </Col>
             </Row>
 
@@ -116,9 +119,9 @@ export default function Overview() {
 </Container>
 
 <style>{`
-        .offcanvas.show {
-            display: block !important;
-        }
+    .offcanvas.show {
+        display: block !important;
+    }
     #root {
         width: 100%;
     }
@@ -135,6 +138,23 @@ export default function Overview() {
     .mobile-sidebar-toggle {
         display: flex !important;
     }
+}
+
+.modern-card {
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+  border-radius: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modern-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.icon-wrapper {
+  background: #ffffff;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 992px) { 

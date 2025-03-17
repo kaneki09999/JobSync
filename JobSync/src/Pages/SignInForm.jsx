@@ -8,6 +8,8 @@ import { postToEndpoint } from '../components/apiService';
 import { useAuth } from '../AuthContext';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Container, Row, Col, Button, Form, Card, Image } from 'react-bootstrap';
+// import our_service from '../assets/our-services.jpg';
+import { FaBriefcase, FaLock, FaUserShield } from 'react-icons/fa';
 
 function SignInForm() { 
     const navigate = useNavigate();
@@ -199,7 +201,7 @@ function SignInForm() {
                                 <Button 
                                     className={`mx-1 mb-2 mb-sm-0 ${formType === "candidate" ? "active" : ""} btn5`}
                                     style={{ 
-                                        backgroundColor: formType === "candidate" ? "#042852" : "white", 
+                                        backgroundColor: formType === "candidate" ? "#1863b9" : "white", 
                                         color: formType === "candidate" ? "white" : "black", 
                                         flexGrow: 1, 
                                         
@@ -208,7 +210,7 @@ function SignInForm() {
                                 >
                                     <FontAwesomeIcon icon={faUser} /> Candidate
                                 </Button>
-                                <Link to="/employer_login" className="text-decoration-none">
+                                {/* <Link to="/employer_login" className="text-decoration-none">
                                     <Button 
                                         className={`mx-1 ${formType === "employer" ? "active" : ""} resp btn5`}
                                         style={{ 
@@ -221,7 +223,7 @@ function SignInForm() {
                                     >
                                         <FontAwesomeIcon icon={faBuilding} /> Employer
                                     </Button>
-                                </Link>
+                                </Link> */}
                             </div>
                         </Card>
                     </div>
@@ -290,24 +292,44 @@ function SignInForm() {
                         </div>
                     </Form>
                 </Col>
-                <Col  xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
-                    <div className="position-relative w-100">
-                        <Image 
-                            src="/assets/our-services.jpg" 
-                            alt="Registration Visual" 
-                            fluid
-                            className="w-100 h-100"
-                            style={{ objectFit: "cover" }}
-                        />
-                        <div
-                            className="position-absolute top-0 start-0 w-100 h-100"
-                            style={{
-                                background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
-                                zIndex: 1
-                            }}
-                        ></div>
+                <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
+                    <div
+                        className="modern-login-card position-relative w-100 d-flex flex-column align-items-center justify-content-center text-white p-5"
+                        style={{
+                            background: "rgba(255, 255, 255, 0.1)",
+                            // backdropFilter: "blur(10px)",
+                            borderRadius: "20px",
+                            boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+                            border: "1px solid rgba(255,255,255,0.2)",
+                            minHeight: "400px",
+                            transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                            // border: "1px solid rgba(255,255,255)"
+                        }}
+                    >
+                        <h2 className="fw-bold fs-1" style={{ color: "#1863b9" }}>
+                            Find Your Next Opportunity
+                        </h2>
+                        <p className="text-center" style={{ maxWidth: "450px", fontSize: "16px", opacity: "0.9" }}>
+                            Connect with top employers, discover job opportunities, and take the next step in your career journey.
+                        </p>
+
+                        <div className="d-flex flex-column align-items-center gap-3 mt-4">
+                            <div className="d-flex align-items-center gap-2 text-primary">
+                                <FaBriefcase size={24} />
+                                <span>Browse thousands of jobs</span>
+                            </div>
+                            <div className="d-flex align-items-center gap-2 text-primary">
+                                <FaUserShield size={24} />
+                                <span>Secure application process</span>
+                            </div>
+                            <div className="d-flex align-items-center gap-2 text-primary">
+                                <FaLock size={24} />
+                                <span>Confidential & safe job search</span>
+                            </div>
+                        </div>
                     </div>
                 </Col>
+
             </Row>
         </Container>
 
@@ -318,6 +340,10 @@ function SignInForm() {
             /* Card Responsiveness */
             .btn5 {
                 maxWidth: 270px;
+            }
+            .modern-login-card:hover {
+                transform: scale(1.02);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
             }
             .card {
                 width: 100%;
@@ -343,12 +369,6 @@ function SignInForm() {
             .image-container {
                 position: relative;
                 width: 100%;
-            }
-
-            .image-container img {
-                width: 100%;
-                height: auto;
-                object-fit: cover;
             }
 
             /* Responsive Design */

@@ -293,7 +293,7 @@ body {
 
 /* Scrollbar custom styles */
 ::-webkit-scrollbar {
-  width: 1px;
+  width: 10px;
 }
        
 ::-webkit-scrollbar-thumb {

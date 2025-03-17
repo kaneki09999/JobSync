@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAndroid } from '@fortawesome/free-brands-svg-icons';
+import footer_log from '../assets/logo3.png';
 
 function Footer() {
   return (
@@ -18,7 +19,7 @@ function Footer() {
           {/* Logo and Contact Info */}
           <div className="col-lg-2 col-md-6 mb-2">
             <p>
-              <img src="/assets/logo3-DvGSKCSt.png" alt="JobSync Logo" className="mb-2" style={{ width: '50px' }} /> JobSync
+              <img src={footer_log} alt="JobSync Logo" className="mb-2" style={{ width: '50px' }} /> JobSync
             </p>
             <p className="mb-1"><strong>Call now:</strong> (319) 555-0115</p>
             <a href="https://jobsync-ph.com/src/api/apk/JobSync.apk" download className="btn btn-primary px-4 py-2 mt-2 bg-custom" style={{ borderRadius: '30px', fontWeight: 'bold'}}>

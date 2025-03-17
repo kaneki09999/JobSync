@@ -7,6 +7,8 @@ import { getFromEndpoint } from '../components/apiService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faPesoSign, faCalendar, faTimesCircle, faBookmark, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Image, Button, Badge } from 'react-bootstrap';
+import jobsynclogo_style_3 from '../assets/logo3.png';
+
 function FavoriteJob() {
   const { user } = useAuth(); 
   const [jobs, setJobs] = useState([]);  
@@ -60,7 +62,18 @@ function FavoriteJob() {
             <Row key={job.id || index} className="border-bottom py-3 align-items-center" style={{ paddingTop: '1.1rem', paddingBottom: '1.1rem' }}>
                 {/* Job Logo */}
                 <Col xs={2} md={1} className="text-center">
-                    <Image src={job.logo} alt="Job Logo" width="50" height="50" rounded />
+                    {/* <Image src={job.logo} alt="Job Logo" width="50" height="50" rounded /> */}
+
+                    <img
+                        src={job.logo}
+                        alt="Job Logo"
+                        className="me-2"
+                        style={{ width: "50px" }}
+                        onError={(e) => {
+                        e.target.onerror = null; // Prevents looping if the default image fails too
+                        e.target.src = jobsynclogo_style_3; // Path to your default image
+                        }}
+                    />
                 </Col>
 
                 {/* Job Details */}

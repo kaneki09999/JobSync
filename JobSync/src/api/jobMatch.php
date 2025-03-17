@@ -70,32 +70,34 @@ function matchJobsWithGPT($skills, $workExperience, $jobs) {
 
     $response = curl_exec($ch);
     if (!$response) {
-        file_put_contents("gpt_response.log", "OpenAI API Error: " . curl_error($ch));
         curl_close($ch);
         return [];
     }
     curl_close($ch);
-    file_put_contents("gpt_response.log", "GPT API Response: " . $response);
     
     $responseData = json_decode($response, true);
-    $responseText = $responseData['choices'][0]['message']['content'] ?? '[]';
-    file_put_contents("debug_gpt.log", "GPT Raw Response: " . $responseText);
-
-    $matchedJobs = json_decode(trim($responseText), true);
-    if (!is_array($matchedJobs)) {
-        file_put_contents("debug_gpt.log", "Invalid JSON Response: " . print_r($matchedJobs, true));
+    
+    if (!isset($responseData['choices'][0]['message']['content'])) {
         return [];
     }
     
+    $responseText = trim($responseData['choices'][0]['message']['content']);
+    
+    $matchedJobs = json_decode($responseText, true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return [];
+    }
     
     $responseData = json_decode($response, true);
-    file_put_contents("gpt_response.log", print_r($responseData, true));
     return $matchedJobs ?? [];
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $inputData = json_decode(file_get_contents("php://input"), true);
-    $applicant_id = $inputData['applicant_id'] ?? null; 
+    $rawInput = file_get_contents("php://input");
+    $inputData = json_decode($rawInput, true);
+    
+    $applicant_id = $inputData['applicant_id'] ?? null;
 
     if (!$applicant_id) {
         echo json_encode(["error" => "Applicant ID is required."]);
@@ -150,8 +152,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(["error" => "No job postings available."]);
             exit;
         }
-        
-        $matchedJobs = matchJobsWithGPT($skills, $workExperience, $jobResult);
+
+    $matchedJobs = matchJobsWithGPT($skills, $workExperience, $jobResult);
 
             if (!empty($matchedJobs)) {
                 foreach ($matchedJobs as $job) {
@@ -168,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             'match_score' => $job['score']
                         ]);
                     } catch (PDOException $e) {
-                        file_put_contents("sql_error.log", "SQL Error: " . $e->getMessage() . "\n", FILE_APPEND);
+                        echo json_encode("sql_error.log", "SQL Error: " . $e->getMessage() . "\n", FILE_APPEND);
                     }
                 }
             }

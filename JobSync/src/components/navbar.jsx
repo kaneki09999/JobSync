@@ -81,16 +81,16 @@ const MyNavbar = () => {
     const renderNavLinks = () => {
         const commonLinks = (
             <>
-                <Nav.Link as={Link} to="/" className={location.pathname === '/' ? 'active-link' : ''} onClick={handleNavClick}>
+                <Nav.Link as={Link} to="/" className={`${location.pathname === '/' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                     Home
                 </Nav.Link>
-                <Nav.Link as={Link} to="/findjob" className={location.pathname === '/findjob' ? 'active-link' : ''} onClick={handleNavClick}>
+                <Nav.Link as={Link} to="/findjob" className={`text-white ${location.pathname === '/findjob' ? 'active-link' : ''}`} onClick={handleNavClick}>
                     Find Job
                 </Nav.Link>
-                <Nav.Link as={Link} to="/findemployer" className={location.pathname === '/findemployer' ? 'active-link' : ''} onClick={handleNavClick}>
+                <Nav.Link as={Link} to="/findemployer" className={`${location.pathname === '/findemployer' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                     Employers
                 </Nav.Link>
-                <Nav.Link as={Link} to="/customersupport" className={location.pathname === '/customersupport' ? 'active-link' : ''} onClick={handleNavClick}>
+                <Nav.Link as={Link} to="/customersupport" className={`${location.pathname === '/customersupport' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                     Customer Support
                 </Nav.Link>
             </>
@@ -101,50 +101,49 @@ const MyNavbar = () => {
         } else if (user.userType === USER_TYPES.APPLICANT) {
             return (
                 <>
-                    <Nav.Link as={Link} to="/" className={location.pathname === '/' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/" className={`${location.pathname === '/' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/findjob" className={location.pathname === '/findjob' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/findjob" className={`${location.pathname === '/findjob' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Find Job
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/findemployer" className={location.pathname === '/findemployer' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/findemployer" className={`${location.pathname === '/findemployer' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Employers
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/applicants/overview" className={location.pathname === '/applicants/overview' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/applicants/overview" className={`${location.pathname === '/applicants/overview' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Dashboard
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/applicants/jobsalert" className={location.pathname === '/applicants/jobsalert' ? 'active-link' : ''} onClick={() => { handleJobAlertClick(); handleNavClick();}}>
-                        Job Alerts {unreadCount > 0 && <span className="badge bg-primary" style={{borderRadius: '50px', fontSize: '10px', position: 'relative', top: '-5px', left: '-1px'}}>{unreadCount}</span>}
+                    <Nav.Link as={Link} to="/applicants/jobsalert" className={`${location.pathname === '/applicants/jobsalert' ? 'active-link' : ''} text-white`} onClick={() => { handleJobAlertClick(); handleNavClick(); }}>
+                        Job Alerts {unreadCount > 0 && <span className="badge bg-primary" style={{ borderRadius: '50px', fontSize: '10px', position: 'relative', top: '-5px', left: '-1px' }}>{unreadCount}</span>}
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/customersupport" className={location.pathname === '/customersupport' ? 'active-link' : ''} onClick={handleNavClick}>
-                    Customer Support
+                    <Nav.Link as={Link} to="/customersupport" className={`${location.pathname === '/customersupport' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
+                        Customer Support
                     </Nav.Link>
                 </>
             );
         } else if (user.userType === USER_TYPES.EMPLOYER) {
             return (
                 <>
-                    <Nav.Link as={Link} to="/home" className={location.pathname === '/home' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/home" className={`${location.pathname === '/home' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/employer/findapplicant" className={location.pathname === '/employer/findapplicant' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/employer/findapplicant" className={`${location.pathname === '/employer/findapplicant' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Find Applicant
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/employer/overview" className={location.pathname === '/employer/overview' || location.pathname === '/employer/profile' ||
-                    location.pathname === '/employer/postjob' || location.pathname === '/employer/savedapplicant' || location.pathname === '/employer/settings' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/employer/overview" className={`${['/employer/overview', '/employer/profile', '/employer/postjob', '/employer/savedapplicant', '/employer/settings'].includes(location.pathname) ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Dashboard
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/employer/myjobs" className={location.pathname === '/employer/myjobs' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/employer/myjobs" className={`${location.pathname === '/employer/myjobs' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         My Jobs
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/employer/applications" className={location.pathname === '/employer/applications' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/employer/applications" className={`${location.pathname === '/employer/applications' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Applications
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/employer/interview" className={location.pathname === '/employer/interview' ? 'active-link' : ''} onClick={handleNavClick}>
+                    <Nav.Link as={Link} to="/employer/interview" className={`${location.pathname === '/employer/interview' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
                         Interview
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/customersupport" className={location.pathname === '/customersupport' ? 'active-link' : ''} onClick={handleNavClick}>
-                    Customer Support
+                    <Nav.Link as={Link} to="/customersupport" className={`${location.pathname === '/customersupport' ? 'active-link' : ''} text-white`} onClick={handleNavClick}>
+                        Customer Support
                     </Nav.Link>
                 </>
             );
@@ -156,7 +155,7 @@ const MyNavbar = () => {
     return (
         <>
          <div>
-            <Navbar style={{ backgroundColor: '#eaeaea', fontWeight: '400' }} expand="lg" fixed="top">
+            <Navbar style={{ backgroundColor: '#1863b9' , fontWeight: '400' }} expand="lg" fixed="top">
                 <Container>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleNavbar} />
                     <Navbar.Collapse ref={navbarRef} id="basic-navbar-nav" className={isNavbarOpen ? 'show' : ''}>
@@ -164,7 +163,7 @@ const MyNavbar = () => {
                             {renderNavLinks()}
                         </Nav>
                         <Nav className="ms-auto">
-                            <Nav.Link href="#">me.jobsync@gmail.com</Nav.Link>
+                            <Nav.Link href="#" className='text-white'>me.jobsync@gmail.com</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -173,6 +172,11 @@ const MyNavbar = () => {
         </div>
         <style>{`
         /* Default Navbar Styling */
+
+        .active-link {
+            color: #f8f9fa !important;
+        }
+
         .custom-navbar {
             background-color: #eaeaea;
             font-weight: 400;

@@ -7,6 +7,7 @@ import { postToEndpoint } from "../components/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faLocationDot, faPesoSign } from "@fortawesome/free-solid-svg-icons";
 import { Container, Table, Badge, Button } from "react-bootstrap";
+import jobsynclogo_style_3 from "../assets/logo3.png";
 
 function AppliedJobsTable() {
     const [showModal, setShowModal] = useState(false);
@@ -81,20 +82,20 @@ function AppliedJobsTable() {
                     <Table className="table mb-0" responsive="md">
                         <thead className="thead-light">
                             <tr>
-                                <th style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>JOB</th>
-                                {windowWidth > 992 && <th  style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>DATE APPLIED</th>}
-                                {windowWidth > 768 && <th style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>STATUS</th>}
-                                {windowWidth > 576 && <th style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>ACTION</th>}
+                                <th style={{ color: 'white', background: '#1863b9', fontWeight: '500', fontSize: '13px' }}>JOB</th>
+                                {windowWidth > 992 && <th  style={{ color: 'white', background: '#1863b9', fontWeight: '500', fontSize: '13px' }}>DATE APPLIED</th>}
+                                {windowWidth > 768 && <th style={{ color: 'white', background: '#1863b9', fontWeight: '500', fontSize: '13px' }}>STATUS</th>}
+                                {windowWidth > 576 && <th style={{ color: 'white', background: '#1863b9', fontWeight: '500', fontSize: '13px' }}>ACTION</th>}
                             </tr>
                         </thead>
-                        <tfoot className="tfoot-light">
+                        {/* <tfoot className="tfoot-light">
                             <tr>
                                 <th style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>JOB</th>
                                 {windowWidth > 992 && <th  style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>DATE APPLIED</th>}
                                 {windowWidth > 768 && <th style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>STATUS</th>}
                                 {windowWidth > 576 && <th style={{ color: '#676767', background: '#ebebebc2', fontWeight: '500', fontSize: '13px' }}>ACTION</th>}
                             </tr>
-                        </tfoot>
+                        </tfoot> */}
                         <tbody>
                             {currentJobs.length === 0 ? (
                                 <tr>
@@ -118,10 +119,14 @@ function AppliedJobsTable() {
                                         </Button>
 
                                         <img
-                                            src={appliedJob.logo}
-                                            alt="Job Logo"
-                                            className="me-2"
-                                            style={{ width: "50px", height: "50px" }}
+                                              src={appliedJob.logo}
+                                              alt="Job Logo"
+                                              className="me-2"
+                                              style={{ width: "50px" }}
+                                              onError={(e) => {
+                                                e.target.onerror = null; // Prevents looping if the default image fails too
+                                                e.target.src = jobsynclogo_style_3; // Path to your default image
+                                              }}
                                         />
                                         <div>
                                             <div className="d-flex align-items-center flex-wrap">

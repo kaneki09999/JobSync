@@ -37,7 +37,7 @@ export default function Home() {
         <div> 
             {loading && <div id='preloader'></div>}
 
-            <header className="container text-center py-4 paddings">
+            <header className="relative container text-center py-4 paddings">
                 <div className="row align-items-center">
                     <div className="col-md-7 text-md-start text-center">
                         <h1>Find a job that suits<br />your interest & skills.</h1>

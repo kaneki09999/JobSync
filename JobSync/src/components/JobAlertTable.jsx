@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faPesoSign, faCalendar, faTimesCircle, faBookmark, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Image, Badge, Button } from 'react-bootstrap';
+import jobsynclogo_style_3 from '../assets/logo3.png';
 
 function JobAlerts() {
   const { user } = useAuth(); 
@@ -81,7 +82,18 @@ function JobAlerts() {
         currentJobs.map((job, index) => (
           <Row key={job.id || index} className="d-flex align-items-center p-3 border-bottom">
             <Col xs={12} md={8} className="d-flex align-items-start">
-              <Image src={job.logo} alt="Job Logo" className="me-3" width={50} height={50} rounded />
+
+              <img
+                  src={job.logo}
+                  alt="Job Logo"
+                  className="me-2"
+                  style={{ width: "50px" }}
+                  onError={(e) => {
+                  e.target.onerror = null; // Prevents looping if the default image fails too
+                  e.target.src = jobsynclogo_style_3; // Path to your default image
+                  }}
+              />
+
               <div>
               <div className="d-flex align-items-start mb-2">
                   <h6 className="mb-0 me-3" style={{color: '#373737'}}>{job.jobTitle}</h6>
