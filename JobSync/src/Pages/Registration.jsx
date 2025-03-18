@@ -295,7 +295,7 @@ function RegistrationForm() {
                 <div>
                 <Form.Label className="ms-2">
                     I've read and agreed with{' '}
-                    <a href="#!" onClick={handleShowModal}> Terms and Services</a>
+                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
                 </Form.Label>
                 <TermsAndConditions show={showModal} onClose={handleCloseModal} />
                 </div>
@@ -340,19 +340,11 @@ function RegistrationForm() {
                             <div className="d-flex flex-column flex-sm-row justify-content-center">
                                 <Button 
                                      className={`btn btn-primary mx-1 custom-button mb-3 ${formType === 'candidate' ? 'active' : ''} btn5`}
-                                     style={{ backgroundColor: formType === 'candidate' ? '#042852' : 'white', color: formType === 'candidate' ? 'white' : 'black', width: '270px', borderColor: 'black' }} 
+                                     style={{ backgroundColor: formType === 'candidate' ? '#1863b9' : 'white', color: formType === 'candidate' ? 'white' : 'black', width: '100%',  }} 
                                      onClick={() => setFormType('candidate')}
                                 >
                                     <FontAwesomeIcon icon={faUser} /> Candidate
                                 </Button>
-                                <Link to="/registration_employer" className="text-decoration-none">
-                                    <Button 
-                                         className={`btn btn-primary mx-1 custom-button ${formType === 'employer' ? 'active' : ''} resp btn5`}
-                                         style={{ backgroundColor: formType === 'employer' ? '#042852' : 'white', color: formType === 'employer' ? 'white' : 'black', width: '225px', borderColor: 'black' }} 
-                                    >
-                                        <FontAwesomeIcon icon={faBuilding} /> Employer
-                                    </Button>
-                                </Link>
                             </div>
                         </Card>
                     </div>
@@ -362,24 +354,41 @@ function RegistrationForm() {
                     </Form>
                 </Col>
             {/* Right Section - Image Display */}
-            <Col xs={12} lg={7} className="d-none d-md-block">
-                <div className="position-relative">
-                    <Image
-                        src="/assets/our-services.jpg"  
+            <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
+                    <div className="position-relative w-100">
+                        {/* Background Image */}
+                        <Image
+                        src="/assets/our-services.jpg"
                         alt="Registration Visual"
                         fluid
-                        className="rounded"
-                        style={{ objectFit: "cover", width: "100%" }}
-                    />
-                    <div
+                        className="w-100 h-100"
+                        style={{ objectFit: "cover" }}
+                        />
+
+                        {/* Gradient Overlay */}
+                        <div
                         className="position-absolute top-0 start-0 w-100 h-100"
                         style={{
                             background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
                             zIndex: 1,
                         }}
-                    ></div>
-                </div>
-            </Col>
+                        ></div>
+
+                        {/* Image Credit Overlay */}
+                        <div
+                        className="position-absolute bottom-0 start-0 w-100 text-center"
+                        style={{
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            color: "#fff",
+                            fontSize: "0.8rem",
+                            padding: "0.5rem",
+                            zIndex: 2,
+                        }}
+                        >
+                        Image credit: <a href="https://callclickmedia.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f0f0f0", textDecoration: "underline" }}>Call Click Media</a>
+                        </div>
+                    </div>
+                    </Col>
         </Row>
         </Container>
         

@@ -4,14 +4,14 @@ include 'config.php';
 
 try {
     $objDb = new Dbconnect(); 
-    $pdo = $objDb->connect();   
+    $conn = $objDb->connect();   
 
     if (isset($_GET['company_name'])) {
         $company_name = $_GET['company_name'];  
 
         $sql = "SELECT * FROM active_job_postings WHERE company_name = :company_name"; 
 
-        $stmt = $pdo->prepare($sql);
+        $stmt = $conn->prepare($sql);
         $stmt->bindParam(':company_name', $company_name, PDO::PARAM_STR); 
         $stmt->execute();
 
@@ -20,6 +20,10 @@ try {
         foreach ($jobs as &$job) {
             if (isset($job['logo']) && !empty($job['logo'])) {
                 $job['logo'] = BASE_URL . $job['logo'];  
+            }
+        
+            if (isset($job['banner']) && !empty($job['banner'])) {
+                $job['banner'] = BASE_URL . $job['banner'];  
             }
         }
 

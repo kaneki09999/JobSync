@@ -19,7 +19,7 @@ export default function ApplicantSettings() {
     <>
     <Container style={{marginTop: '3rem'}}>
       <Row>
-          <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+          <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                     <ApplicantsSidebar />
                 </Col>
                 {/* Sidebar Toggle Button (Small Screens) */}
@@ -30,8 +30,8 @@ export default function ApplicantSettings() {
                         style={{
                             position: "relative",
                             left: "0",
-                            color: "#333", // Dark color
-                            fontSize: "24px", // Bigger icon
+                            color: "#333", 
+                            fontSize: "24px", 
                             padding: "5px"
                         }}
                     >

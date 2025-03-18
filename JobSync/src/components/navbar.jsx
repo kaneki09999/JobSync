@@ -163,7 +163,7 @@ const MyNavbar = () => {
                             {renderNavLinks()}
                         </Nav>
                         <Nav className="ms-auto">
-                            <Nav.Link href="#" className='text-white'>me.jobsync@gmail.com</Nav.Link>
+                            <Nav.Link href="#" className='text-white'>Contact Us @: me.jobsync@gmail.com</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

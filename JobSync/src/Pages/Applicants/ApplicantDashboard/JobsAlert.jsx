@@ -11,7 +11,7 @@ export default function JobsAlert() {
         <>
         <Container style={{marginTop: '3rem'}}>
             <Row>
-                <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+                <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                     <ApplicantsSidebar />
                 </Col>
                 {/* Sidebar Toggle Button (Small Screens) */}
@@ -45,7 +45,7 @@ export default function JobsAlert() {
                 {/* Main Content */}
                 <Col xs={12} md={9} lg={9} className="mt-4">
                     <h2 className="mb-3" style={{ fontSize: '17px', color: '#333', fontWeight: '500', marginLeft: '20px' }}>
-                        Job Alerts <span style={{ color: '#656565', fontSize: '14px' }}>(10)</span>
+                        Job Alerts 
                     </h2>
                     <JobAlers />
                 </Col>

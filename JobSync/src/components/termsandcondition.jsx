@@ -19,21 +19,21 @@ const TermsAndConditions = ({ show, onClose }) => {
           <img
             src={logo} 
             alt="Logo"
-            style={{ width: '65px', height: '60px', marginRight: '10px' }} // Adjust the logo size
+            style={{ width: '60px', height: '60px', marginRight: '10px' }} // Adjust the logo size
           />
           {/* Modal title */}
           <Modal.Title style={{ color: 'white' }}>Terms and Conditions</Modal.Title>
         </div>
       </Modal.Header>
-      <Modal.Body>
-        <h5>Effective Date: [Insert Date]</h5>
-        <p style={{ textIndent: '30px' , textAlign: 'justify'}}>Welcome to JobSync: Advanced Recruitment Platform with Integrated Video Interviewing and Face ID Verification ("JobSync"). By accessing or using our platform, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully.</p>
+      <Modal.Body style={{padding: '20px 40px'}}>
+        <h5>Effective Date: August 26, 2024</h5>
+        <p style={{ textAlign: 'justify'}}>Welcome to JobSync: Advanced Recruitment Platform with Integrated Video Interviewing and Face ID Verification ("JobSync"). By accessing or using our platform, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully.</p>
 
         <h6>1. Acceptance of Terms</h6>
-        <p style={{ textIndent: '30px' , textAlign: 'justify'}}>By registering for and using JobSync, you acknowledge that you have read, understood, and agreed to these Terms and Conditions. If you do not agree, please do not use our services.</p>
+        <p style={{ textAlign: 'justify'}}>By registering for and using JobSync, you acknowledge that you have read, understood, and agreed to these Terms and Conditions. If you do not agree, please do not use our services.</p>
 
         <h6>2. Information You Provide</h6>
-        <p style={{ textIndent: '30px' , textAlign: 'justify'}}>When using JobSync, you will be required to provide personal and professional information, including but not limited to:</p>
+        <p style={{ textAlign: 'justify'}}>When using JobSync, you will be required to provide personal and professional information, including but not limited to:</p>
         <ul>
           <li>Full name, email address, and contact details</li>
           <li>Resume, educational background, and work experience</li>
@@ -42,7 +42,7 @@ const TermsAndConditions = ({ show, onClose }) => {
         </ul>
 
         <h6>3. How We Use Your Information</h6>
-        <p style={{ textIndent: '10px'}}>By providing your information, you consent to JobSync using it for the following purposes:</p>
+        <p>By providing your information, you consent to JobSync using it for the following purposes:</p>
         <ul>
           <li>Facilitating job applications and employer-applicant interactions</li>
           <li>Verifying user identities and preventing fraudulent activities</li>
@@ -52,15 +52,15 @@ const TermsAndConditions = ({ show, onClose }) => {
         </ul>
 
         <h6>4. Information Sharing</h6>
-        <p style={{ textIndent: '10px'}}>We may share your information with:</p>
+        <p>We may share your information with:</p>
         <ul>
           <li>Employers and Recruiters: To connect you with job opportunities</li>
           <li>Third-Party Services: For identity verification, email notifications, or background checks</li>
         </ul>
-        <p style={{ textIndent: '10px'}}>We do not sell your personal information to third parties.</p>
+        <p>We do not sell your personal information to third parties.</p>
 
         <h6>5. User Responsibilities</h6>
-        <p style={{ textIndent: '10px'}}>By using JobSync, you agree to:</p>
+        <p>By using JobSync, you agree to:</p>
         <ul>
           <li>Provide accurate and up-to-date information</li>
           <li>Keep your login credentials secure</li>
@@ -69,10 +69,10 @@ const TermsAndConditions = ({ show, onClose }) => {
         </ul>
 
         <h6>6. Data Security</h6>
-        <p style={{ textIndent: '10px'}}>We implement security measures to protect your personal data. However, we cannot guarantee absolute security. You acknowledge and accept any potential risks associated with sharing information online.</p>
+        <p>We implement security measures to protect your personal data. However, we cannot guarantee absolute security. You acknowledge and accept any potential risks associated with sharing information online.</p>
 
         <h6>7. Account Termination</h6>
-        <p style={{ textIndent: '10px'}}>JobSync reserves the right to suspend or terminate your account if you:</p>
+        <p>JobSync reserves the right to suspend or terminate your account if you:</p>
         <ul>
           <li>Violate these Terms and Conditions</li>
           <li>Provide false or misleading information</li>
@@ -80,12 +80,12 @@ const TermsAndConditions = ({ show, onClose }) => {
         </ul>
 
         <h6>8. Updates to Terms</h6>
-        <p style={{ textIndent: '10px'}}>JobSync may update these Terms and Conditions at any time. Continued use of the platform after updates constitutes acceptance of the new terms.</p>
+        <p>JobSync may update these Terms and Conditions at any time. Continued use of the platform after updates constitutes acceptance of the new terms.</p>
 
         <h6>9. Contact Us</h6>
-        <p style={{ textIndent: '10px'}}>For inquiries or concerns regarding these Terms and Conditions, contact us at [Insert Contact Email].</p>
+        <p>For inquiries or concerns regarding these Terms and Conditions, contact us at me.jobsync@gmail.com.</p>
 
-        <p style={{ textIndent: '10px'}}>By using JobSync, you confirm that you have read and agreed to these Terms and Conditions.</p>
+        <p>By using JobSync, you confirm that you have read and agreed to these Terms and Conditions.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose}>

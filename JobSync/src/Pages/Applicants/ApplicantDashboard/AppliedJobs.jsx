@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Offcanvas } from "react-bootstrap";
 import ApplicantsSidebar from '../../../components/applicantsidebar';
 import AppliedJobsTable from '../../../components/JobTable';
 import SearchBar2 from '../../../components/searchbar2';
 import { FaBars } from 'react-icons/fa';
+import { getFromEndpoint } from '../../../components/apiService';
+import { useAuth } from '../../../AuthContext';
 
 export default function AppliedJobs() {
+    const { user } = useAuth();
     const [showSidebar, setShowSidebar] = useState(false);
+    const [appliedCount, setAppliedCount] = useState(0);
+
+    useEffect(() => {
+        getFromEndpoint(`/get_applied_jobs_count.php?applicant_id=${user.id}`)
+            .then(response => {
+                setAppliedCount(response.data.count);
+            })
+            .catch(error => {
+                console.error("Error fetching applied jobs count:", error);
+            });
+    }, [user.id]);
+    
     return (
         <>
         <Container className='paddings' style={{marginTop: '3rem'}}>
             <Row>
                 {/* Sidebar (Large Screens) */}
-                <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+                <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                     <ApplicantsSidebar />
                 </Col>
                 {/* Sidebar Toggle Button (Small Screens) */}
@@ -46,7 +61,7 @@ export default function AppliedJobs() {
                     <SearchBar2 placeholder="Search applied jobs..." className="mb-3" />
                     
                     <h2 className="mb-3 text-muted" style={{ fontSize: '16px', fontWeight: '500', textAlign: 'start'}}>
-                        Applied Jobs (10)
+                        Applied Jobs ({appliedCount})
                     </h2>
                     
                     <AppliedJobsTable />

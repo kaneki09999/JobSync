@@ -39,8 +39,8 @@ export default function Home() {
 
             <header className="relative container text-center py-4 paddings" style={{ marginTop: '60px' }}>
                 <div className="row align-items-center">
-                    <div className="col-md-7 text-md-start text-center">
-                        <h1>Find a job that suits<br />your interest & skills.</h1>
+                    <div className="col-md-7 text-md-start text-center headerss" style={{fontSize: '20px'}}>
+                        <h1>Find a job that suits<br />your interest & skills.</h1> 
                     </div>
                     <div className="col-md-5 text-md-end text-center">
                         <img 
@@ -79,10 +79,15 @@ export default function Home() {
                 </div>
 
                 <div>
-                    <JobCards jobs={jobs.slice(0, 6)} {...(user?.id && { applicantId: user.id })}/>
+                    <JobCards jobs={jobs.slice(0, 4)} {...(user?.id && { applicantId: user.id })}/>
                 </div>
             </main>
             <style>{`
+                @media (max-width: 768px) {
+                    .headerss {
+                        font-size: 11px !important
+                    }
+                    }
                 @media (max-width: 576px) {
                     .text-guest {
                         font-size: 14px;
