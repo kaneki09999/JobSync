@@ -60,7 +60,7 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
                             </div>
 
                             {/* Location Search Input */}
-                            <div className="input-group ms-md-2 mt-2 mt-md-0" style={{ maxWidth: "600px", flexGrow: "1", minWidth: "250px" }}>
+                            <div className="input-group mt-2 mt-md-0" style={{ maxWidth: "600px", flexGrow: "1", minWidth: "250px" }}>
                                 <div className="input-group-prepend">
                                     <span
                                         className="input-group-text"
@@ -85,7 +85,7 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
                                     style={{
                                         paddingLeft: "45px",
                                         fontSize: "16px",
-                                        borderRadius: "0 10px 10px 0",
+                                        borderRadius: "0",
                                         paddingRight: "10px",
                                         height: "50px",
                                     }}
@@ -94,13 +94,20 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
 
                             {/* Filter Button */}
                             <Button
-                                variant="secondary"
-                                className="ms-md-2 mt-2 mt-md-0 d-flex align-items-center justify-content-center"
-                                style={{ fontSize: "16px", height: "50px", width: "150px" }}
+                                variant="primary"
+                                className="d-flex align-items-center justify-content-center gap-2"
+                                style={{ 
+                                    fontSize: "15px", 
+                                    height: "50px", 
+                                    width: "120px",
+                                    borderRadius: "0px 10px 10px 0px",
+                                    fontWeight: "500",
+                                    boxShadow: "0 2px 4px rgba(10, 101, 204, 0.2)"
+                                }}
                                 onClick={handleFilter}
                             >
-                                <FontAwesomeIcon icon={faFilter} className="me-2" />
-                                Filter
+                                <FontAwesomeIcon icon={faSearch} />
+                                Search
                             </Button>
                         </div>
                     </form>

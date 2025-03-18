@@ -203,7 +203,7 @@ function SignInEmployer() {
                     <h3 className="mb-3 text-start">Sign In</h3>
                     <h4 className="mb-4 text-start" style={{ fontSize: "15px" }}>
                         Don't have an account?{" "}
-                        <Link to="/registration" style={{ textDecoration: "none", color: "#0A65CC" }}>
+                        <Link to="/registration_employer" style={{ textDecoration: "none", color: "#0A65CC" }}>
                             Create Account
                         </Link>
                     </h4>
@@ -213,26 +213,10 @@ function SignInEmployer() {
                         <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
                             <h5 className="mb-3">Sign In as</h5>
                             <div className="d-flex flex-column flex-sm-row justify-content-center">
-                                <Link to="/candidate_login" className="text-decoration-none">
-                                    <Button 
-                                        className={`mx-1 mb-2 mb-sm-0${formType === "candidate" ? "active" : ""} resp btn5`}
-                                        style={{ 
-                                            backgroundColor: formType === "candidate" ? "#042852" : "white", 
-                                            color: formType === "candidate" ? "white" : "black", 
-                                            flexGrow: 1, 
-                                            width: "225px", 
-                                            borderColor: "black" 
-                                        }}
-                                        onClick={() => setFormType("candidate")}
-
-                                    >
-                                        <FontAwesomeIcon icon={faBuilding} /> Candidate
-                                    </Button>
-                                </Link>
                                 <Button 
                                     className={`mx-1 ${formType === "employer" ? "active" : ""} btn5`}
                                     style={{ 
-                                        backgroundColor: formType === "employer" ? "#042852" : "white", 
+                                        backgroundColor: formType === "employer" ? "#1863b9" : "white", 
                                         color: formType === "employer" ? "white" : "black", 
                                         flexGrow: 1, 
                                     }}
@@ -288,7 +272,7 @@ function SignInEmployer() {
 
                         <div className="d-flex justify-content-between mb-3">
                             <Form.Check type="checkbox" label="Remember Me" checked={isRemembered} onChange={() => setIsRemembered(!isRemembered)} />
-                            <Link to="/forgot-password" style={{ textDecoration: "underline", color: "#0A65CC" }}>
+                            <Link to="/forgotpassword" style={{ textDecoration: "underline", color: "#0A65CC" }}>
                                 Forgot Password?
                             </Link>
                         </div>
@@ -304,22 +288,40 @@ function SignInEmployer() {
                 {/* Right-Side Image */}
                 <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
                     <div className="position-relative w-100">
+                        {/* Background Image */}
                         <Image
-                            src="/assets/our-services.jpg"
-                            alt="Registration Visual"
-                            fluid
-                            className="w-100 h-100"
-                            style={{ objectFit: "cover" }}
+                        src="/assets/our-services.jpg"
+                        alt="Registration Visual"
+                        fluid
+                        className="w-100 h-100"
+                        style={{ objectFit: "cover" }}
                         />
+
+                        {/* Gradient Overlay */}
                         <div
-                            className="position-absolute top-0 start-0 w-100 h-100"
-                            style={{
-                                background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
-                                zIndex: 1,
-                            }}
+                        className="position-absolute top-0 start-0 w-100 h-100"
+                        style={{
+                            background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
+                            zIndex: 1,
+                        }}
                         ></div>
+
+                        {/* Image Credit Overlay */}
+                        <div
+                        className="position-absolute bottom-0 start-0 w-100 text-center"
+                        style={{
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            color: "#fff",
+                            fontSize: "0.8rem",
+                            padding: "0.5rem",
+                            zIndex: 2,
+                        }}
+                        >
+                        Image credit: <a href="https://callclickmedia.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f0f0f0", textDecoration: "underline" }}>Call Click Media</a>
+                        </div>
                     </div>
-                </Col>
+                    </Col>
+
             </Row>
         </Container>
         <style>{`

@@ -456,20 +456,29 @@ export default function EmployerRegistrationForm() {
                 </div>
             </div>
             <div className="row mb-3 no-margin-bot">
-                <div className="col">
-                    <input 
-                        type="text" 
-                        className={`form-control register ${positionError && showValidation ? 'is-invalid' : ''}`} 
-                        placeholder="Designation *" 
-                        value={position} 
-                        onChange={(e) => {
-                            setPosition(e.target.value);
-                            if (showValidation) setPositionError('');
-                        }} 
-                        onKeyDown={handleTextInput} 
-                    />
-                    {positionError && showValidation && <div style={{ color: 'red', fontSize: '0.8em' }}>{positionError}</div>}
-                </div>
+            <div className="col">
+                <select 
+                    className={`form-control register ${positionError && showValidation ? 'is-invalid' : ''}`} 
+                    value={position} 
+                    onChange={(e) => {
+                        setPosition(e.target.value);
+                        if (showValidation) setPositionError('');
+                    }}
+                >
+                    <option value="">Select Designation *</option>
+                    <option value="HR Manager">HR Manager</option>
+                    <option value="Recruiter">Recruiter</option>
+                    <option value="Hiring Manager">Hiring Manager</option>
+                    <option value="Founder / CEO">Founder / CEO</option>
+                    <option value="COO">COO</option>
+                    <option value="CTO">CTO</option>
+                    <option value="Talent Acquisition Specialist">Talent Acquisition Specialist</option>
+                    {/* Add more relevant employer designations here */}
+                </select>
+                {positionError && showValidation && (
+                    <div style={{ color: 'red', fontSize: '0.8em' }}>{positionError}</div>
+                )}
+            </div>
             </div>
             <div className="row mb-3 no-margin-bot">
                 <div className="col d-flex">
@@ -523,7 +532,7 @@ export default function EmployerRegistrationForm() {
                 <input
                     type="email"
                     className="form-control register"
-                    placeholder="Email *"
+                    placeholder="Service email or Business email *"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
@@ -560,54 +569,59 @@ export default function EmployerRegistrationForm() {
             </div>
 
             {/* Button Section */}
-            <div className="d-flex flex-column align-items-center mb-3" style={{ position: 'relative' }}>
-                <Button
-                    type="button"
-                    className="btn btn-secondary btn-custom w-100"
-                    style={{
-                        backgroundColor: 'transparent',
-                        color: '#000000',
-                        marginTop: '20px',
-                        borderColor: '#000000',
-                    }}
-                    onClick={handleBack2}
-                    disabled={isLoading}
-                >
-                    <FontAwesomeIcon icon={faArrowLeft} /> Back
-                </Button>
-
-                {isLoading ? (
-                    <div
-                        className="loader"
+            <div className="d-flex flex-column mb-3">
+                {/* Flex container that switches direction based on screen size */}
+                <div className="d-flex flex-column flex-md-row justify-content-center align-items-center position-relative w-100">
+                    {/* Back Button */}
+                    <Button
+                        type="button"
+                        className="btn btn-secondary btn-custom w-100 w-md-50 me-md-2"
                         style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            border: '5px solid #f3f3f3',
-                            borderTop: '5px solid #3498db',
-                            borderRadius: '50%',
-                            width: '30px',
-                            height: '30px',
-                            animation: 'spin 2s linear infinite',
+                            backgroundColor: 'transparent',
+                            color: '#000000',
+                            borderColor: '#000000',
                         }}
-                    />
-                ) : null}
+                        onClick={handleBack2}
+                        disabled={isLoading}
+                    >
+                        <FontAwesomeIcon icon={faArrowLeft} /> Back
+                    </Button>
 
-                <Button
-                    type="submit"
-                    className="btn btn-success btn-custom w-100"
-                    style={{
-                        backgroundColor: '#0A65CC',
-                        marginTop: '20px',
-                        border: 'none',
-                        opacity: !isAgreed || isLoading ? 0.4 : 1,
-                    }}
-                    disabled={!isStep4Valid() || isLoading || !isAgreed}
-                >
-                    {isLoading ? 'Verifying your ID...' : <>Create Account <FontAwesomeIcon icon={faArrowRight} /></>}
-                </Button>
+                    {/* Loader */}
+                    {isLoading && (
+                        <div
+                            className="loader"
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                border: '5px solid #f3f3f3',
+                                borderTop: '5px solid #3498db',
+                                borderRadius: '50%',
+                                width: '30px',
+                                height: '30px',
+                                animation: 'spin 2s linear infinite',
+                            }}
+                        />
+                    )}
+
+                    {/* Create Account Button */}
+                    <Button
+                        type="submit"
+                        className="btn btn-success btn-custom w-100 w-md-50 mt-3 mt-md-0"
+                        style={{
+                            backgroundColor: '#0A65CC',
+                            border: 'none',
+                            opacity: !isAgreed || isLoading ? 0.4 : 1,
+                        }}
+                        disabled={!isStep4Valid() || isLoading || !isAgreed}
+                    >
+                        {isLoading ? 'Verifying your ID...' : <>Create Account <FontAwesomeIcon icon={faArrowRight} /></>}
+                    </Button>
+                </div>
             </div>
+
         </div>
         </>
     );
@@ -640,7 +654,7 @@ export default function EmployerRegistrationForm() {
                 <h3 className="mb-3 text-start">Create Account</h3>
                 <h4 className="mb-4 text-start" style={{ fontSize: "15px" }}>
                     Already have an account?{" "}
-                    <Link to="/candidate_login" style={{ textDecoration: "none", color: "#0A65CC" }}>
+                    <Link to="/employer_login" style={{ textDecoration: "none", color: "#0A65CC" }}>
                         Log In
                     </Link>
                 </h4>
@@ -648,20 +662,10 @@ export default function EmployerRegistrationForm() {
                 <div className="d-flex justify-content-center mb-4">
                         <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px"}}>
                             <h5 className="text-center mb-3">Create Account as</h5>
-                            <div className="d-flex flex-column flex-sm-row justify-content-center">
-                                <Link to="/registration" className="text-decoration-none">
-                                    <Button 
-                                         className={`btn btn-primary mx-1 custom-button ${formType === 'candidate' ? 'active' : ''} resp btn5 customss`}
-                                         style={{ backgroundColor: formType === 'candidate' ? '#042852' : 'white', color: formType === 'candidate' ? 'white' : 'black', width: '225px', borderColor: 'black' }} 
-                                        onClick={() => setFormType('candidate')}
-
-                                    >
-                                        <FontAwesomeIcon icon={faBuilding} /> Candidate
-                                    </Button>
-                                </Link>
+                            <div className="container">
                                 <Button 
                                      className={`btn btn-primary mx-1 custom-button ${formType === 'employer' ? 'active' : ''}  btn5`}
-                                     style={{ backgroundColor: formType === 'employer' ? '#042852' : 'white', color: formType === 'employer' ? 'white' : 'black', width: '225px', borderColor: 'black' }} 
+                                     style={{ backgroundColor: formType === 'employer' ? '#1863b9' : 'white', color: formType === 'employer' ? 'white' : 'black', width: '100%',  }} 
                                      onClick={() => setFormType('employer')}
                                 >
                                     <FontAwesomeIcon icon={faUser} /> Employer

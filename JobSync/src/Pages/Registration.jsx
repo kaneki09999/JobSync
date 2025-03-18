@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { postToEndpoint } from '../components/apiService';
 import { Container, Row, Col, Button, Form, Image, Card, InputGroup } from "react-bootstrap";
+import TermsAndConditions from '../components/termsandcondition';
 
 function RegistrationForm() {
     const navigate = useNavigate();
@@ -30,6 +31,11 @@ function RegistrationForm() {
     const [formCompleted, setFormCompleted] = useState(false);
     const [contactError, setContactError] = useState(''); 
 
+
+  
+    const [showModal, setShowModal] = useState(false);
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
 
     useEffect(() => {
         if (user) {
@@ -286,9 +292,13 @@ function RegistrationForm() {
                     checked={isAgreed} 
                     onChange={() => setIsAgreed(!isAgreed)} 
                 />
+                <div>
                 <Form.Label className="ms-2">
-                    I've read and agreed with your Terms and Services
+                    I've read and agreed with{' '}
+                    <a href="#!" onClick={handleShowModal}> Terms and Services</a>
                 </Form.Label>
+                <TermsAndConditions show={showModal} onClose={handleCloseModal} />
+                </div>
             </Form.Group>
 
             {/* Submit Button with Loader */}

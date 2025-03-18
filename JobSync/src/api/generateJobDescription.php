@@ -62,14 +62,36 @@ if (isset($result['choices'][0]['message']['content'])) {
 
     $jobDescription = preg_replace('/^(Job Title|Location|Company|Company Description|Job Type|Reports to): .*$/m', '', $jobDescription);
     $jobDescription = trim($jobDescription);
-
-    $keywords = ['Responsibilities:', 'Requirements:', 'Qualifications:', 'Skills:', 'Benefits:', 'Duties:', 'About Us:'];
+    $jobDescription = preg_replace('/About Us:.*$/s', '', $jobDescription);
+    // Bold the section headers
+    $keywords = ['Responsibilities:', 'Requirements:', 'Qualifications:', 'Skills:', 'Benefits:', 'Duties:'];
     foreach ($keywords as $keyword) {
-       $jobDescription = preg_replace('/(Responsibilities:|Requirements:|Qualifications:|Skills:|Benefits:|Duties:|About Us:)/', '<strong>$1</strong>', $jobDescription);
+        $jobDescription = preg_replace("/($keyword)/", '<strong>$1</strong>', $jobDescription);
     }
-    $jobDescription = nl2br($jobDescription);
     
+    $jobDescription = preg_replace_callback('/<strong>(.*?)<\/strong>\s*(.*?)((?=<strong>)|$)/s', function($matches) {
+        $sectionTitle = $matches[1];
+        $content = trim($matches[2]);
+        $lines = preg_split('/\n+/', $content);
+        $bulletItems = '';
+    
+        foreach ($lines as $line) {
+            $line = preg_replace('/^\d+[\.\)]\s*/', '', $line);  
+            $line = trim($line, "-• \t");   
+            if (!empty($line)) {
+                $bulletItems .= '<li>' . htmlspecialchars($line) . '</li>';
+            }
+        }
+    
+        return "<strong>$sectionTitle</strong><ul>$bulletItems</ul>";
+    }, $jobDescription);
+    
+    $jobDescription = '<div style="text-align: justify;">' . 
+    '<style>ul { list-style-type: disc; padding-left: 20px; }</style>' . 
+    $jobDescription . 
+    '</div>';
     echo json_encode(['jobDescription' => $jobDescription], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    
 } else {
     echo json_encode(['error' => 'Failed to generate job description. Response: ' . json_encode($result)]);
 }

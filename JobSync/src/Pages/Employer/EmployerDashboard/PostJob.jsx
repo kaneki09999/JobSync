@@ -11,6 +11,8 @@ import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 import EmployerSidebar from '../../../components/employersidebar';
 import { Container, Row, Col, Card, Button, Offcanvas, Form  } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
+import Swal from 'sweetalert2';
+
 
 export default function PostJobs() {
     const navigate = useNavigate();
@@ -42,8 +44,8 @@ export default function PostJobs() {
         if (newBenefit.trim() && !jobBenefits.includes(newBenefit)) {
             setJobBenefits([...jobBenefits, newBenefit]);
         }
-        setNewBenefit("");  // Clear input after adding
-        setShowInput(false); // Hide input field
+        setNewBenefit("");  
+        setShowInput(false); 
     };
     useEffect(() => {
         if (formData.selectedBenefits) {
@@ -91,7 +93,6 @@ export default function PostJobs() {
           [{ 'align': [] }],
           [{ 'list': "ordered" }, { 'list': "bullet" }],
           [{ 'indent': "-1" }, { 'indent': "+1" }],
-          ["link", "image", "video"],
           ["clean"]
         ]
       };
@@ -147,30 +148,42 @@ export default function PostJobs() {
     const [loading, setLoading] = useState(false);
 
     const handleGenerateJobDescription = async () => {
-        if (!formData.jobTitle || !formData.jobRole) {
-            alert("Please enter Job Title and Job Role.");
-            return;
-        }
-
-        setLoading(true); // Start loading
-        try {
-            const response = await postToEndpoint("generateJobDescription.php", {
-                jobTitle: formData.jobTitle,
-                jobRole: formData.jobRole,
-            });
-            const data = response.data;
-            if (data.jobDescription) {
-                setFormData((prev) => ({ ...prev, jobDescription: data.jobDescription }));
-            } else {
-                alert(data.error || "Error generating job description.");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Failed to fetch job description. Please try again.");
-        } finally {
-            setLoading(false); 
-        }
-    };
+      if (!formData.jobTitle || !formData.jobRole) {
+          Swal.fire({
+              icon: 'warning',
+              title: 'Missing Fields',
+              text: 'Please enter Job Title and Job Role.',
+          });
+          return;
+      }
+  
+      setLoading(true); // Start loading
+      try {
+          const response = await postToEndpoint("generateJobDescription.php", {
+              jobTitle: formData.jobTitle,
+              jobRole: formData.jobRole,
+          });
+          const data = response.data;
+          if (data.jobDescription) {
+              setFormData((prev) => ({ ...prev, jobDescription: data.jobDescription }));
+          } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: "Error generating job description. Please try again.",
+              });
+          }
+      } catch (error) {
+          console.error("Error:", error);
+          Swal.fire({
+              icon: 'error',
+              title: 'Request Failed',
+              text: 'Failed to fetch job description. Please try again.',
+          });
+      } finally {
+          setLoading(false);
+      }
+  };
 
     return (
         <Container className="d-flex flex-column flex-md-row" style={{ marginTop: "3rem" }}>
@@ -589,9 +602,8 @@ export default function PostJobs() {
                             Job Description
                             </Form.Label>
                         </Col>
-
                         {/* AI Generate Button */}
-                        <Col xs={12} md="auto">
+                        <Col xs={12} md={4} style={{ display: 'flex', justifyContent: 'end' }}>
                             <Button 
                             variant="primary" 
                             onClick={handleGenerateJobDescription} 

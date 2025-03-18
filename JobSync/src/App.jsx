@@ -97,6 +97,9 @@ import ResumeAIForm from './Pages/Resume/CreaeteResume';
 import ForgotPassword from './Pages/ForgotPassword';
 import MapComponent from './Pages/Applicants/Mapp';
 
+import TermsAndConditions from './components/termsandcondition';
+
+
 function Layout({ userId, setUserId }) {
   const location = useLocation();
   const { user } = useAuth();
@@ -367,6 +370,7 @@ const getBreadcrumbs = () => {
       <Route path='/employer/publisher/:application_id/:job_id' element={ <ProtectedRoute><Publisher /> </ProtectedRoute>} />
       <Route path='/applicant/subscriber/:application_id/:job_id' element={ <ProtectedRoute><Subscriber /> </ProtectedRoute>} />
 
+      <Route path='/termsandconditions' element={<TermsAndConditions />} />
       </Routes>
       {!hideNavigationAndFooter && !hideFooter ? <Footer /> : null}
       {hideNavigationAndFooter || !hideFooter ? null : <SemiFooter />}
