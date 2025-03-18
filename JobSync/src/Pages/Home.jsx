@@ -37,7 +37,7 @@ export default function Home() {
         <div> 
             {loading && <div id='preloader'></div>}
 
-            <header className="relative container text-center py-4 paddings">
+            <header className="relative container text-center py-4 paddings" style={{ marginTop: '60px' }}>
                 <div className="row align-items-center">
                     <div className="col-md-7 text-md-start text-center">
                         <h1>Find a job that suits<br />your interest & skills.</h1>
@@ -58,34 +58,14 @@ export default function Home() {
                     {/* Search bar content */}
                 </div>
 
-                <div className="suggestions text-md-start mb-4">
-                    <p style={{ fontWeight: '600' }}>Designer, Programming, Digital Marketing, Video, Animation</p>
-                </div>
-
-                {/* Statistics Section */}
-                <div className="row text-center g-3">
-                    {[
-                        { icon: FaBriefcase, text: "Live Jobs", bg: '#E7F0FA', color: '#0A65CC' },
-                        { icon: FaBuilding, text: "Companies", bg: '#0A65CC', color: '#FFFFFF' },
-                        { icon: FaUser, text: "Candidates", bg: '#E7F0FA', color: '#0A65CC' },
-                        { icon: FaPlus, text: "New Jobs", bg: '#E7F0FA', color: '#0A65CC' }
-                    ].map((item, index) => (
-                        <div key={index} className="col-6 col-md-3">
-                            <div className="border p-3 d-flex align-items-center justify-content-center flex-column">
-                                <item.icon size={50} style={{ backgroundColor: item.bg, padding: '10px', borderRadius: '10px', color: item.color }} className="mb-2" />
-                                <p className="mb-0 fw-bold text-guest">{item.text}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
+               
                 <div className="my-5">
                     <JobSyncFlow />
                 </div>
 
-                <div className="my-5">
+                {/* <div className="my-5">
                     <NewestJob />
-                </div>
+                </div> */}
 
                 {/* Featured Jobs Section */}
                 <div className="d-flex justify-content-between align-items-center my-5">
