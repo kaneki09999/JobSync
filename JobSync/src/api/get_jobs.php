@@ -23,10 +23,12 @@ try {
     $stmt->execute();
 
     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
     foreach ($jobs as &$job) {
         if (isset($job['logo']) && !empty($job['logo'])) {
             $job['logo'] = BASE_URL . $job['logo'];
+        }
+        if (isset($job['banner']) && !empty($job['banner'])) {
+            $job['banner'] = BASE_URL . $job['banner'];
         }
     }
 

@@ -48,24 +48,41 @@ export default function ForgotPassword() {
                             </Card.Body>
                         </Card>
                 </Col>
-                <Col  xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
+                <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
                     <div className="position-relative w-100">
-                        <Image 
-                            src="/assets/our-services.jpg" 
-                            alt="Registration Visual" 
-                            fluid
-                            className="w-100 h-100"
-                            style={{ objectFit: "cover" }}
+                        {/* Background Image */}
+                        <Image
+                        src="/assets/our-services.jpg"
+                        alt="Registration Visual"
+                        fluid
+                        className="w-100 h-100"
+                        style={{ objectFit: "cover" }}
                         />
+
+                        {/* Gradient Overlay */}
                         <div
-                            className="position-absolute top-0 start-0 w-100 h-100"
-                            style={{
-                                background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
-                                zIndex: 1
-                            }}
+                        className="position-absolute top-0 start-0 w-100 h-100"
+                        style={{
+                            background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
+                            zIndex: 1,
+                        }}
                         ></div>
+
+                        {/* Image Credit Overlay */}
+                        <div
+                        className="position-absolute bottom-0 start-0 w-100 text-center"
+                        style={{
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            color: "#fff",
+                            fontSize: "0.8rem",
+                            padding: "0.5rem",
+                            zIndex: 2,
+                        }}
+                        >
+                        Image credit: <a href="https://callclickmedia.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f0f0f0", textDecoration: "underline" }}>Call Click Media</a>
+                        </div>
                     </div>
-                </Col>
+                    </Col>
             </Row>
         </Container>
     <style>{`

@@ -178,13 +178,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     usort($matchedJobs, function($a, $b) {
         return $b['score'] <=> $a['score'];
     });
-
     foreach ($matchedJobs as &$matchedJob) {
         if (isset($matchedJob['logo']) && !empty($matchedJob['logo'])) {
             $matchedJob['logo'] = BASE_URL . $matchedJob['logo'];
         }
+        if (isset($matchedJob['banner']) && !empty($matchedJob['banner'])) {
+            $matchedJob['banner'] = BASE_URL . $matchedJob['banner'];
+        }
     }
-
     echo json_encode(["jobs" => $matchedJobs]);
 }
 ?>

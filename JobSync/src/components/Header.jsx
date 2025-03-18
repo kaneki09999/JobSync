@@ -9,7 +9,7 @@ export default function Header({ pageTitle, breadcrumbs }) {
         className="py-3 fixed-top head d-flex align-items-center justify-content-between"
         style={{ 
           marginTop: "131px", 
-          backgroundColor: "#F1F2F4", 
+          background: "linear-gradient(62deg, rgba(41,108,182,1) 0%, rgba(40,118,185,1) 51%, rgba(23,96,184,1) 98%)", 
           zIndex: 999, 
           width: "100%", 
         }}
@@ -48,6 +48,11 @@ export default function Header({ pageTitle, breadcrumbs }) {
       /* Default Desktop Styles */
       .header-title {
         font-size: 16px; 
+        color: #ffffffff;
+      }
+      .breadcrumb-item.active {
+        font-size: 14px; 
+        color: white;
       }
       
       .breadcrumb-item-text {
@@ -55,7 +60,7 @@ export default function Header({ pageTitle, breadcrumbs }) {
       }
       
       .breadcrumb-link {
-        color: #4ea4ff;
+        color: white;
         white-space: nowrap;
       }
 

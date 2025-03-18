@@ -72,6 +72,10 @@ try {
         if (isset($job['logo']) && !empty($job['logo'])) {
             $job['logo'] = BASE_URL . $job['logo'];
         }
+    
+        if (isset($job['banner']) && !empty($job['banner'])) {
+            $job['banner'] = BASE_URL . $job['banner'];
+        }
     }
 
     // Send JSON response

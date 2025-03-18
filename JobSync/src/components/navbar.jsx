@@ -171,38 +171,40 @@ const MyNavbar = () => {
             <div className="navbar-padding"></div>
         </div>
         <style>{`
-        /* Default Navbar Styling */
-
-        .active-link {
-            color: #f8f9fa !important;
-        }
-
-        .custom-navbar {
-            background-color: #eaeaea;
-            font-weight: 400;
-            z-index: 1050;
-        }
-        
-        /* Mobile dropdown adjustments */
-        @media (max-width: 991px) {
-            .navbar-collapse {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: white;
-                z-index: 1000;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                padding: 10px 0;
+            .active-link {
+                color: #f8f9fa !important;
             }
 
-            /* Ensure page content is pushed down when navbar is open */
-            body.navbar-open .navbar-padding {
-                height: 200px; /* Adjust based on your navbar's height */
+            .custom-navbar {
+                background-color: #eaeaea;
+                font-weight: 400;
+                z-index: 1050;
             }
-        }
 
-        `}</style></>
+            /* Mobile dropdown adjustments */
+            @media (max-width: 991px) {
+                .navbar-collapse {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    width: 100%;
+                    background: white;
+                    z-index: 1000;
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                    padding: 10px 0;
+                }
+
+                .navbar-collapse .nav-link {
+                    color: black !important; /* Make text black in mobile view */
+                }
+
+                body.navbar-open .navbar-padding {
+                    height: 200px; /* Adjust based on your navbar's height */
+                }
+            }
+        `}</style>
+
+        </>
     );
 };
 

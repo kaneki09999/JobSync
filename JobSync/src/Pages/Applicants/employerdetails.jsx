@@ -102,6 +102,7 @@ const CompanyProfileModal = () => {
   return (
     <>
       {/* Banner Section */}
+      <Container style={{marginTop: '6.7rem'}}>
       <Card 
         className="mb-3 shadow" 
         style={{
@@ -123,9 +124,9 @@ const CompanyProfileModal = () => {
           }}
         />
       </Card>
-
+</Container>
       {/* Company Information Section */}
-      <Container style={{ marginTop: "-70px", width: "98%" }}>
+      <Container style={{ marginTop: "-70px", width: "100%" }}>
         <Card className="shadow" style={{height: '113px'}}>
           <Card.Body>
             <Row className="align-items-center">
@@ -314,6 +315,9 @@ const CompanyProfileModal = () => {
             )}
 
             <style>{`
+              #root {
+                width: 100%;
+              }
               @media (max-width: 768px) { 
                 .text-end {
                   margin-right: 0px !important;

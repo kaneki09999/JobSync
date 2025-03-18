@@ -27,6 +27,9 @@ try {
             if (isset($matchjobs['logo']) && !empty($matchjobs['logo'])) {
                 $matchjobs['logo'] = BASE_URL . $matchjobs['logo'];
             }
+            if (isset($matchjobs['banner']) && !empty($matchjobs['banner'])) {
+                $matchjobs['banner'] = BASE_URL . $matchjobs['banner'];
+            }
         }
 
         echo json_encode(['success' => true, 'matchjob' => $matchjob]);
