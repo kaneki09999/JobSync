@@ -290,35 +290,17 @@ function SignInEmployer() {
                     <div className="position-relative w-100">
                         {/* Background Image */}
                         <Image
-                        src="/assets/our-services.jpg"
+                        src="/src/assets/signinemployer.png"
                         alt="Registration Visual"
                         fluid
                         className="w-100 h-100"
                         style={{ objectFit: "cover" }}
                         />
-
-                        {/* Gradient Overlay */}
-                        <div
-                        className="position-absolute top-0 start-0 w-100 h-100"
-                        style={{
-                            background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
-                            zIndex: 1,
-                        }}
-                        ></div>
-
-                        {/* Image Credit Overlay */}
-                        <div
-                        className="position-absolute bottom-0 start-0 w-100 text-center"
-                        style={{
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            color: "#fff",
-                            fontSize: "0.8rem",
-                            padding: "0.5rem",
-                            zIndex: 2,
-                        }}
-                        >
-                        Image credit: <a href="https://callclickmedia.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f0f0f0", textDecoration: "underline" }}>Call Click Media</a>
-                        </div>
+                   {/* Overlay Text */}
+                   <div className="position-absolute bottom-0 end-0 text-white text-center p-4">
+                          <p>Image by <span style={{ color: '#1863b9' , fontWeight: 'bold' }}>Freepik</span></p>
+                          </div>
+                      
                     </div>
                     </Col>
 

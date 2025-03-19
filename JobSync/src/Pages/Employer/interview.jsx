@@ -201,26 +201,16 @@ export default function Interview() {
         <table className="table table-hover" style={{ width: '100%', tableLayout: 'fixed' }}>
           <thead className="thead-light">
             <tr>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '70px' }}>ID</th>
-              <th style={{ color: '#676767', background: '#ebebebc2' , width: '22%' }}>Full Name</th>
-              <th style={{ color: '#676767', background: '#ebebebc2' , width: '15%' }}>Job Type</th>
-              <th style={{ color: '#676767', background: '#ebebebc2' }}>Schedule Interview</th> 
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '140px' }}>Status</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '150px'}}>Join Meeting</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '100px'}}>Action</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '70px' }}>ID</th>
+              <th style={{ color: 'white', background: '#1863b9' , width: '22%' }}>Full Name</th>
+              <th style={{ color: 'white', background: '#1863b9' , width: '15%' }}>Job Type</th>
+              <th style={{ color: 'white', background: '#1863b9' }}>Schedule Interview</th> 
+              <th style={{ color: 'white', background: '#1863b9', width: '140px' }}>Status</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '150px'}}>Join Meeting</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '100px'}}>Action</th>
             </tr>
           </thead>
-          <tfoot className="tfoot-light">
-            <tr>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '70px' }}>ID</th>
-              <th style={{ color: '#676767', background: '#ebebebc2' , width: '22%' }}>Full Name</th>
-              <th style={{ color: '#676767', background: '#ebebebc2' , width: '15%' }}>Job Type</th>
-              <th style={{ color: '#676767', background: '#ebebebc2' }}>Schedule Interview</th> 
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '140px' }}>Status</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '150px'}}>Join Meeting</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '100px'}}>Action</th>
-            </tr>
-          </tfoot>
+          
           <tbody>
             {currentApplications.length > 0 ? (
               currentApplications.map((app, index) => (

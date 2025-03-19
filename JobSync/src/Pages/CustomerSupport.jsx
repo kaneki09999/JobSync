@@ -79,8 +79,12 @@ const CustomerSupport = () => {
                 <Form.Control type="file" onChange={(e) => setAttachment(e.target.files[0])} />
               </Form.Group>
 
-              {/* Submit Button */}
-              <Button style={{ backgroundColor: '#ffbd00' , borderColor: '#ffbd00', color: 'black'}} type="submit">Submit</Button>
+              {/* Submit Button aligned to the right */}
+              <Row>
+                <Col className="text-end">
+                  <Button style={{ backgroundColor: '#ffbd00' , borderColor: '#ffbd00', color: 'black'}} type="submit">Submit</Button>
+                </Col>
+              </Row>
             </Form>
           </Container>
 
