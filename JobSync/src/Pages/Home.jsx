@@ -72,19 +72,19 @@ useEffect(() => {
         <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src="/src/assets/blogging.webp" alt="Job search 1" className="img-fluid carousel-img" />
+              <img src="/assets/blogging.webp" alt="Job search 1" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c1.png" alt="Job search 2" className="img-fluid carousel-img" />
+              <img src="/assets/c1.png" alt="Job search 2" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c2.png" alt="Job search 3" className="img-fluid carousel-img" />
+              <img src="/assets/c2.png" alt="Job search 3" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c3.png" alt="Job search 4" className="img-fluid carousel-img" />
+              <img src="/assets/c3.png" alt="Job search 4" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c4.png" alt="Job search 5" className="img-fluid carousel-img" />
+              <img src="/assets/c4.png" alt="Job search 5" className="img-fluid carousel-img" />
             </div>
           </div>
         </div>

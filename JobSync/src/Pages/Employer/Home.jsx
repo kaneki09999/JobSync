@@ -42,7 +42,7 @@ function Home() {
               </Col>
               <Col xs={12} md={5} className="text-center">
                 <img
-                  src="/src/assets/pic.png"
+                  src="/assets/pic.png"
                   alt="Employer"
                   className="img-fluid rounded"
                   style={{
@@ -57,7 +57,7 @@ function Home() {
         {/* Right Image Section */}
         <Col xs={12} md={5} className="text-center position-relative">
           <img
-            src="/src/assets/employer.jpg"
+            src="/assets/employer.jpg"
             alt="Employer"
             className="img-fluid rounded"
             style={{
@@ -85,7 +85,7 @@ function Home() {
       <Row className="align-items-center justify-content-center">
         <Col md={6} className="text-center">
           <img
-            src="/src/assets/hiring-process-removebg-preview.png"
+            src="/assets/hiring-process-removebg-preview.png"
             alt="Hiring Process"
             className="img-fluid rounded"
             style={{

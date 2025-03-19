@@ -17,7 +17,7 @@ export default function ForgotPassword() {
                         <Card className="shadow-lg p-4 mb-4 cards" style={{ borderRadius: "10px", marginTop: '8rem'}}>
                             <Card.Body>
                             <div className="text-center mb-4">
-                                <img src="/src/assets/logo3.png" alt="Logo" style={{ width: "130px" }} />
+                                <img src="/assets/logo3-DvGSKCSt.png" alt="Logo" style={{ width: "130px" }} />
                             </div>
                             <h2 className="fw-bold text-center">Forgot Password</h2>
                             <p className="text-muted text-center mb-0">
@@ -52,7 +52,7 @@ export default function ForgotPassword() {
                     <div className="position-relative w-100">
                         {/* Background Image */}
                         <Image
-                        src="/src/assets/forgotpassword.png"
+                        src="/assets/forgotpassword.png"
                         alt="Registration Visual"
                         fluid
                         className="w-100 h-100"

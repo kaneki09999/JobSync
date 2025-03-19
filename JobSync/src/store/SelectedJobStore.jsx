@@ -1,0 +1,30 @@
+import { create } from "zustand";
+
+export const useSelectedJobStore = create((set) => ({
+    selectedJob: {
+        address: "",
+        applicant_count: 0,
+        city: "",
+        created_at: "",
+        education: "",
+        employer_id: null,
+        experience: "",
+        expirationDate: "",
+        jobDescription: "",
+        jobLevel: "",
+        jobRole: "",
+        jobTags: "",
+        jobTitle: "",
+        jobType: "",
+        job_id: null,
+        maxSalary: "",
+        minSalary: "",
+        recent: 0,
+        remainingDays: 0,
+        salaryType: "",
+        selectedBenefits: "",
+        status: "",
+        updated_at: null,
+    },
+    setSelectedJob: (job) => set({ selectedJob: job }),
+}));

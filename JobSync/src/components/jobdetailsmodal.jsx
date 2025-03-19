@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { FaGraduationCap, FaBriefcase, FaUserTie, FaCalendarAlt, FaMapMarkerAlt, FaRegClock, FaMailBulk, FaTag, FaMoneyBillWave, FaClock, FaUserClock, FaSuitcase } from 'react-icons/fa';
+import { FaGraduationCap, FaBriefcase, FaUserTie, FaCalendarAlt, FaMapMarkerAlt, FaRegClock, FaComments, FaTag, FaMoneyBillWave, FaClock, FaUserClock, FaSuitcase } from 'react-icons/fa';
 import { getFromEndpoint, postToEndpoint } from '../components/apiService';
 import { useAuth } from '../AuthContext'; 
 import DOMPurify from 'dompurify'; 
@@ -169,12 +169,18 @@ const JobDetailsModal = ({ show, handleClose, job_id, application_id }) => {
           } else if (resultStatus === 'Rejected') {
               alertTitle = 'Not qualified for this job';
               additionalNote = 'Thank you for application. After careful consideration, we’ve decided to move forward with other candidates. We appreciate your time and wish you success in the future.';
+          } else if (resultStatus === 'On hold') {
+              alertTitle = 'Application on hold';
+              additionalNote = 'Your application is currently on hold. We will notify you once a decision has been made.';
+          } else if (resultStatus === 'Waiting for Approval'){
+              alertTitle = 'Application submitted';
+              additionalNote = 'Your application has been submitted. We will notify you once a decision has been made.';
           }
       
           Swal.fire({
               title: alertTitle,
               text: `${additionalNote}`,
-              icon: resultStatus === 'Qualified' ? 'success' : 'error',
+              icon: resultStatus === 'Qualified' ? 'success' : 'On Hold' ? 'info' : 'Waiting for Approval' ? 'info' : 'error',
               confirmButtonText: 'Close',
           }).then(() => {
             setAnswers({});
@@ -210,6 +216,7 @@ const JobDetailsModal = ({ show, handleClose, job_id, application_id }) => {
     );
   };
   
+  console.log(job);
   
   return (
 
@@ -274,14 +281,14 @@ const JobDetailsModal = ({ show, handleClose, job_id, application_id }) => {
                 : "bg-danger"} btn-status`}
               style={{ height: '45px', fontSize: '15px', backgroundColor: '#0A65CC', color: 'white', border: 'none' }}
             >
-              <FaRegClock className="me-2" /> {job.applied_status}
+              <FaRegClock className="me-2" /> {job.applied_status === 'Waiting for Approval' ? 'Waiting' : job.applied_status}
             </Button>
             <Button
               variant="outline-primary"
               className='btn-status'
               style={{ height: '45px', fontSize: '13px' }}
             >
-              <FaMailBulk className="me-2" /> Email Employer
+              <FaComments className="me-2" /> Chat Employer
             </Button>
 
             <style>{`
@@ -303,7 +310,7 @@ const JobDetailsModal = ({ show, handleClose, job_id, application_id }) => {
           </div>
 
           {/* Take Assessment Button */}
-          {job.type === 'assessment' && !['Pending', 'To Interview', 'Rejected', 'Qualified', 'Final Evaluation', 'Hired', 'Not Selected'].includes(job.applied_status) && (
+          {job.type === 'assessment' && !['Pending', 'To Interview', 'Rejected', 'Qualified', 'Final Evaluation', 'Hired', 'Not Selected', 'Waiting for Approval'].includes(job.applied_status) && (
             <div className="text-center mb-3">
               <Button
                 style={{ width: '100%', height: '45px', fontSize: '13px', background: '#559aff', border: 'none' }}

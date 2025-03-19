@@ -387,6 +387,9 @@ function EmployerHeader() {
                                         {selectedNotification?.type === 'scheduled' &&(
                                             <Link to={`/applicantdetails/${selectedNotification.application_id}/${selectedNotification.job_id}/${selectedNotification.applicant_id}/${selectedNotification.firstname}/${selectedNotification.lastname}`} />
                                         )}  
+                                        {selectedNotification?.type === 'On hold' &&(
+                                            <Link to={`/applicantdetails/${selectedNotification.application_id}/${selectedNotification.job_id}/${selectedNotification.applicant_id}/${selectedNotification.firstname}/${selectedNotification.lastname}`} />
+                                        )}  
       {/* Responsive Styles */}
       <style>{`
         /* Notification Icon */
