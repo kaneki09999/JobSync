@@ -207,7 +207,7 @@ const CompanyProfileModal = () => {
               {/* Right Column */}
               <Col md={4}>
                 {/* Company Info Section inside a Card */}
-                <Card className="mb-4" style={{borderColor: '#5cccff',}}>
+                <Card className="mb-4" style={{borderColor: '#5cccff', boxShadow: 'rgba(0, 0, 0, 0.3) 1px 4px 16px'}}>
                   <Card.Body style={{padding: '26px'}}>
                     <Row>
                       <Col xs={12} md={6} className="mb-3 text-start">
@@ -248,7 +248,7 @@ const CompanyProfileModal = () => {
                 </Card>
 
                 {/* Contact Information Section */}
-                <Card className="mb-4" style={{borderColor: '#5cccff',}}>
+                <Card className="mb-4" style={{borderColor: '#5cccff', boxShadow: 'rgba(0, 0, 0, 0.3) 1px 4px 16px'}}>
                   <Card.Body style={{ padding: '20px' }}>
                     <h5 className="text-start mb-4">Contact Information</h5>
 
@@ -288,7 +288,7 @@ const CompanyProfileModal = () => {
                 </Card>
 
                   {/* Follow Us Section */}
-                  <Card className="mb-4" style={{borderColor: '#5cccff',}}>
+                  <Card className="mb-4" style={{borderColor: '#5cccff', boxShadow: 'rgba(0, 0, 0, 0.3) 1px 4px 16px'}}>
                   <Card.Body>
                     <h6 className="text-start">Follow us on:</h6>
                     <div className="d-flex" style={{ paddingTop: '5px' }}>

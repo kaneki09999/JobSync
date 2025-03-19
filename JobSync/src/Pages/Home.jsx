@@ -13,6 +13,9 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import JobDetails from '../Pages/JobDetails';
 import FindEmployer from './findemployer.jsx';
 import NewestJob from './NewestJobDetail.jsx';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { Carousel } from 'bootstrap';
+
 export default function Home() {
     const { user } = useAuth(); 
     const [jobs, setJobs] = useState([]);
@@ -33,6 +36,18 @@ export default function Home() {
         fetchJobs();
     }, []);
 
+useEffect(() => {
+  const myCarousel = document.getElementById('carouselExampleAutoplaying');
+  const carousel = new Carousel(myCarousel, {
+    interval: 3000,
+    ride: 'carousel'
+  });
+
+  return () => {
+    carousel.dispose();
+  };
+}, []);
+
     return (
 <div> 
     {loading && <div id='preloader'></div>}
@@ -40,34 +55,34 @@ export default function Home() {
     <header className="py-4 header-bg" style={{ marginTop: '60px' }}>
   <div className="container">
     <div className="row align-items-center">
-      <div className="col-md-7 text-md-center text-center headerss" style={{ fontSize: '20px', position: 'relative', zIndex: 2 }}>
+      <div className="col-md-7 text-center text-md-start headerss">
         <h1 className="fw-bold text-white">
-          FIND A JOB THAT SUITS<br />YOUR INTEREST & SKILLS.
+          FIND A JOB THAT SUITS<br className="d-none d-md-block" />YOUR INTEREST & SKILLS.
         </h1>
         <div className="mt-4">
-          <button className="btn-search" style={{ backgroundColor: '#ffbd00', color: 'black', marginLeft: '-400px' }}>
+          <button className="btn-search">
             Find Job Now
-            <i className="fa fa-arrow-right" style={{ marginLeft: '8px' }}></i>
+            <i className="fa fa-arrow-right ms-2"></i>
           </button>
         </div>
       </div>
-      <div className="col-md-5 text-md-end text-center" style={{ position: 'relative', zIndex: 1 }}>
-        <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+      <div className="col-md-5 text-center text-md-end mt-5 mt-md-0">
+        <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src="/src/assets/blogging.webp" alt="Job search 1" className="img-fluid" style={{ maxWidth: '100%' }} />
+              <img src="/src/assets/blogging.webp" alt="Job search 1" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c1.png" alt="Job search 2" className="img-fluid" style={{ maxWidth: '100%' }} />
+              <img src="/src/assets/c1.png" alt="Job search 2" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c2.png" alt="Job search 3" className="img-fluid" style={{ maxWidth: '100%' }} />
+              <img src="/src/assets/c2.png" alt="Job search 3" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c3.png" alt="Job search 4" className="img-fluid" style={{ maxWidth: '100%' }} />
+              <img src="/src/assets/c3.png" alt="Job search 4" className="img-fluid carousel-img" />
             </div>
             <div className="carousel-item">
-              <img src="/src/assets/c4.png" alt="Job search 5" className="img-fluid" style={{ maxWidth: '100%' }} />
+              <img src="/src/assets/c4.png" alt="Job search 5" className="img-fluid carousel-img" />
             </div>
           </div>
         </div>
@@ -101,6 +116,10 @@ export default function Home() {
     </main>
 
     <style>{`
+    .btn-search {
+      background: #144a9d;
+      box-shadow: 1px 3px 7px 0px rgb(255 255 255 / 52%);
+    }
     .header-bg {
         background: linear-gradient(135deg, #1d73cb, #9c9ecd);
         padding: 2rem 0;
@@ -119,6 +138,9 @@ export default function Home() {
     }
 
     @media (max-width: 768px) {
+      .header-bg {
+        height: 600px;
+    }
         .headerss h1 {
             font-size: 1.5rem !important;
             margin-top: 2rem;

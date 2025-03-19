@@ -28,7 +28,7 @@ function SearchBarSection({ selected }) {
             } else if (location.pathname === "/findjob") {
                 navigate("/findjob");
             }
-        }, 500);
+        }, 600);
 
         return () => clearTimeout(delaySearch);
     }, [searchQuery, locationQuery, navigate, location.pathname]);

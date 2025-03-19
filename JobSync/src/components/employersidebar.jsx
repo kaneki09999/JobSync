@@ -26,13 +26,13 @@ function EmployerSidebar() {
     };
 
     const activeStyle = {
-        backgroundColor: "#E5F1FF",
+        backgroundColor: "#9ecbff",
         color: "#0A65CC",
         fontWeight: "bold"
     };
 
     return (
-        <div className="d-flex flex-column bg-light vh-100 p-3">
+        <div className="d-flex flex-column vh-100 p-3">
             <h2 className="text-muted mt-3 mb-4 text-center" style={{ fontSize: "18px" }}>
                 Employer Dashboard
             </h2>

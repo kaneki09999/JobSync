@@ -180,7 +180,7 @@ export default function ProfilePage() {
 
           {/* Screening Questions */}
           <h6 className="mt-4 mb-3" style={{ textAlign: 'left', fontSize: '18px' , marginBottom: '10px' }}>Screening Question</h6>
-          <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded" style={{background: 'linear-gradient(49deg, rgba(230,241,255,1) 0%, rgba(255,255,255,1) 52%, rgba(223,240,255,1) 100%)', borderRadius: '10px'}}>
+          <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded" style={{background: 'linear-gradient(49deg, rgba(230,241,255,1) 0%, rgba(255,255,255,1) 52%, rgba(223,240,255,1) 100%)', borderRadius: '10px', boxShadow: 'rgba(0, 0, 0, 0.3) 1px 4px 16px'}}>
             <Button variant="link" className="text-primary" onClick={handlePrevQuestion} disabled={currentQuestionIndex === 0}>
               <FaChevronLeft />
             </Button>
@@ -284,7 +284,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Personal Information */}
-          <Card className="p-4 mb-4" style={{ borderRadius: '8px', border: '1px solid #afd0ec', borderColor: '#afd0ec' }}>
+          <Card className="p-4 mb-4" style={{ borderRadius: '8px', border: '1px solid #6abbff', borderColor: '#6abbff', boxShadow: 'rgba(0, 0, 0, 0.2) 1px 4px 16px'}}>
             <h6 className="text-start mb-4">Personal Information</h6>
             
             <Row className="g-4" style={{textAlign: 'left'}}>
@@ -331,7 +331,7 @@ export default function ProfilePage() {
           </Card>
 
           {/* Download Resume */}
-          <Card className="mb-4" style={{ borderRadius: '8px', border: '1px solid #afd0ec', textAlign:  'left' }}>
+          <Card className="mb-4" style={{ borderRadius: '8px', border: '1px solid #6abbff', textAlign:  'left', boxShadow: 'rgba(0, 0, 0, 0.2) 1px 4px 16px' }}>
             <Card.Body>
               <Card.Title style={{fontSize: '17px'}}>Download Resume</Card.Title>
               {applications[0]?.resumePath ? (
@@ -343,7 +343,7 @@ export default function ProfilePage() {
               )}
             </Card.Body>
           </Card>
-          <Card className="p-4" style={{ borderRadius: '8px', border: '1px solid #afd0ec', textAlign: 'left' }}>
+          <Card className="p-4" style={{ borderRadius: '8px', border: '1px solid #6abbff', textAlign: 'left', boxShadow: 'rgba(0, 0, 0, 0.2) 1px 4px 16px'}}>
             <h6 className="text-start mb-3">Contact Information</h6>
 
             <Row className="g-3">
@@ -363,8 +363,8 @@ export default function ProfilePage() {
                         style={{ 
                           fontSize: '15px', 
                           marginTop: '5px',
-                          wordBreak: 'break-word',  // ✅ Prevents text overflow
-                          overflowWrap: 'break-word' // ✅ Ensures wrapping
+                          wordBreak: 'break-word',   
+                          overflowWrap: 'break-word' 
                         }}
                       >
                         {contact.value}

@@ -300,7 +300,7 @@ export default function Interview() {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center">No applications found</td>
+                <td colSpan="7" className="text-center">No applications found</td>
               </tr>
             )}
 

@@ -6,6 +6,7 @@ import ReactQuill from 'react-quill';
 import { useAuth } from '../../../../AuthContext'; 
 import { postToEndpoint } from '../../../../components/apiService';
 import { useNavigate } from 'react-router-dom'; // Add this for navigation
+import Swal from 'sweetalert2';
 
 const FileUpload = ({ label, required, onChange }) => (
   <Form.Group controlId={`form${label.replace(" ", "")}`} className="text-start">
@@ -73,24 +74,40 @@ export default function CompanySettings() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     if (logoFile) formData.append('logo', logoFile);
     if (bannerFile) formData.append('banner', bannerFile);
     formData.append('companyName', companyName);
     formData.append('aboutUs', aboutUs);
     formData.append('employer_id', user?.id);
-
+  
     try {
       const response = await postToEndpoint('/companyprofile.php', formData, {
         'Content-Type': 'multipart/form-data',
       });
+  
       console.log('Data saved successfully:', response.data);
-      setTimeout(() => window.scrollTo(0, 0), 1);
+  
+      Swal.fire({
+        title: 'Saved!',
+        text: 'Your changes have been saved.',
+        icon: 'success',
+        timer: 1000, 
+        showConfirmButton: false,
+        timerProgressBar: true,
+      });
     } catch (error) {
       console.error('Error saving data:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to save changes. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
+  
 
   return (
     <Container fluid className="d-flex justify-content-center" style={{ padding: '0', paddingTop: '15px' }}>
@@ -207,6 +224,11 @@ export default function CompanySettings() {
           </Col>
         </Row>
       </Form>
+      <style>{`
+      #root {
+        width: 100% !important;
+      }
+  `}</style>
     </Container>
   );
 }

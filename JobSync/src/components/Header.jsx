@@ -72,6 +72,9 @@ export default function Header({ pageTitle, breadcrumbs }) {
       
       /* Mobile View (Up to 768px) */
       @media (max-width: 768px) {
+        .breadcrumb-item.active {
+          font-size: 11px; 
+        }
         .header-title {
           font-size: 14px; 
         }
