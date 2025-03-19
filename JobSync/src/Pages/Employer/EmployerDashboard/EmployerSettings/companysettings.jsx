@@ -5,7 +5,7 @@ import { Container, Form, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import ReactQuill from 'react-quill';
 import { useAuth } from '../../../../AuthContext'; 
 import { postToEndpoint } from '../../../../components/apiService';
-
+import { useNavigate } from 'react-router-dom'; // Add this for navigation
 
 const FileUpload = ({ label, required, onChange }) => (
   <Form.Group controlId={`form${label.replace(" ", "")}`} className="text-start">
@@ -18,8 +18,16 @@ const FileUpload = ({ label, required, onChange }) => (
 
 export default function CompanySettings() {
   const { user } = useAuth(); 
-  const [logo, setLogo] = useState(null);
-  const [banner, setBanner] = useState(null);
+  const navigate = useNavigate();
+
+  // File object states
+  const [logoFile, setLogoFile] = useState(null);
+  const [bannerFile, setBannerFile] = useState(null);
+
+  // Preview URL states
+  const [logoPreview, setLogoPreview] = useState(null);
+  const [bannerPreview, setBannerPreview] = useState(null);
+
   const [companyName, setCompanyName] = useState('');
   const [aboutUs, setAboutUs] = useState('');
 
@@ -35,8 +43,8 @@ export default function CompanySettings() {
             setCompanyName(company_name);
             setAboutUs(about_us);
 
-            setLogo(logo ? logo : null);
-            setBanner(banner ? banner : null);
+            if (logo) setLogoPreview(logo);
+            if (banner) setBannerPreview(banner);
           }
         } catch (error) {
           console.error('Error fetching company info:', error);
@@ -49,31 +57,45 @@ export default function CompanySettings() {
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
-    if (file) setLogo(URL.createObjectURL(file));
+    if (file) {
+      setLogoFile(file);
+      setLogoPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
-    if (file) setBanner(URL.createObjectURL(file));
+    if (file) {
+      setBannerFile(file);
+      setBannerPreview(URL.createObjectURL(file));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ logo, banner, companyName, aboutUs });
+
+    const formData = new FormData();
+    if (logoFile) formData.append('logo', logoFile);
+    if (bannerFile) formData.append('banner', bannerFile);
+    formData.append('companyName', companyName);
+    formData.append('aboutUs', aboutUs);
+    formData.append('employer_id', user?.id);
+
+    try {
+      const response = await postToEndpoint('/companyprofile.php', formData, {
+        'Content-Type': 'multipart/form-data',
+      });
+      console.log('Data saved successfully:', response.data);
+      setTimeout(() => window.scrollTo(0, 0), 1);
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
   };
 
   return (
-    <Container
-      fluid
-      className="d-flex justify-content-center"
-      style={{
-        padding: '0',
-        paddingTop: '15px',
-      }}
-    >
+    <Container fluid className="d-flex justify-content-center" style={{ padding: '0', paddingTop: '15px' }}>
       <Form onSubmit={handleSubmit} style={{ width: '100%' }} className="p-4">
         
-        {/* File upload section */}
         <Row className="mb-4">
           <Col xs={12} md={6}>
             <FileUpload label="Upload Company Logo" required onChange={handleLogoChange} />
@@ -83,11 +105,9 @@ export default function CompanySettings() {
           </Col>
         </Row>
 
-        {/* Image preview section */}
         <Row className="mb-4">
           <Col xs={12} md={6}>
-            <Card
-              className="p-3 mb-4 text-center"
+            <Card className="p-3 mb-4 text-center"
               style={{
                 width: '200px',
                 height: '200px',
@@ -95,11 +115,10 @@ export default function CompanySettings() {
                 borderRadius: '50%',
                 border: '1px solid #ddd',
                 margin: '0 auto',
-              }}
-            >
-              {logo ? (
+              }}>
+              {logoPreview ? (
                 <Image
-                  src={logo}
+                  src={logoPreview}
                   alt="Company Logo Preview"
                   thumbnail
                   style={{
@@ -118,17 +137,15 @@ export default function CompanySettings() {
             </Card>
           </Col>
           <Col xs={12} md={6}>
-            <Card
-              className="p-3 mb-4 text-center"
+            <Card className="p-3 mb-4 text-center"
               style={{
                 width: '100%',
                 height: '200px',
                 overflow: 'hidden',
-              }}
-            >
-              {banner ? (
+              }}>
+              {bannerPreview ? (
                 <Image
-                  src={banner}
+                  src={bannerPreview}
                   alt="Company Banner Preview"
                   thumbnail
                   style={{
@@ -147,7 +164,6 @@ export default function CompanySettings() {
           </Col>
         </Row>
 
-        {/* Company Name Input */}
         <Row className="mb-4">
           <Col xs={12}>
             <Form.Group controlId="formCompanyName" className="text-start">
@@ -166,7 +182,6 @@ export default function CompanySettings() {
           </Col>
         </Row>
 
-        {/* About Us Section */}
         <Row className="mb-4">
           <Col xs={12}>
             <Form.Group controlId="formAboutUs" className="text-start">
@@ -178,16 +193,15 @@ export default function CompanySettings() {
                 value={aboutUs}
                 onChange={setAboutUs}
                 placeholder="Tell us about your company"
-                style={{ height: '200px', marginBottom: '30px', width: '100%'}}
+                style={{ height: '200px', marginBottom: '30px', width: '100%' }}
               />
             </Form.Group>
           </Col>
         </Row>
 
-        {/* Submit Button */}
         <Row>
           <Col className="text-start">
-            <Button type="submit" style={{ width: '200px', backgroundColor: '#0A65CC', marginTop: '3px', height: '50px'}}>
+            <Button type="submit" style={{ width: '200px', backgroundColor: '#0A65CC', marginTop: '3px', height: '50px' }}>
               Save Changes
             </Button>
           </Col>

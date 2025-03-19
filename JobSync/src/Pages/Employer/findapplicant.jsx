@@ -33,7 +33,7 @@ export default function FindApplicant() {
     {/* Fixed Search Bar Section */}
     <div className="w-100 p-3 position-fixed top-0 start-0 end-0" 
          style={{ 
-           backgroundColor: "#f1f2f4", 
+           background: 'linear-gradient(62deg, rgba(41,108,182,1) 0%, rgba(40,118,185,1) 51%, rgba(23,96,184,1) 98%)', 
            zIndex: '10',
            marginTop: '11.4rem'
          }}>

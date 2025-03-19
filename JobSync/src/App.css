@@ -293,17 +293,16 @@ body {
 
 /* Scrollbar custom styles */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
        
 ::-webkit-scrollbar-thumb {
   border-radius: 25px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#363535), to(#9c9999));
-  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.25), inset -2px -2px -2px rgba(0, 0, 0, 0.25);
+  background: -webkit-gradient(linear, left top, left bottom, from(#9c9999), to(#9c9999));
 }
        
 ::-webkit-scrollbar-track {
-  background: radial-gradient(circle, #111111 0%, #2b2828 100%);
+  background: transparent;
 }
 
 .ql-container {

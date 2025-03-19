@@ -163,6 +163,7 @@ export default function Applications() {
                           height: '40px',
                           borderRadius: '50%',
                           marginRight: '10px',
+                          objectFit: 'cover'
                         }}
                       />
                       <span>{app.firstname} {app.middlename || ''} {app.lastname}</span>
