@@ -34,64 +34,88 @@ export default function Home() {
     }, []);
 
     return (
-        <div> 
-            {loading && <div id='preloader'></div>}
+<div> 
+    {loading && <div id='preloader'></div>}
 
-            <header className="relative container text-center py-4 paddings" style={{ marginTop: '60px' }}>
-                <div className="row align-items-center">
-                    <div className="col-md-7 text-md-start text-center">
-                        <h1>Find a job that suits<br />your interest & skills.</h1>
-                    </div>
-                    <div className="col-md-5 text-md-end text-center">
-                        <img 
-                            src="https://i0.wp.com/freelancemethod.com/wp-content/uploads/2021/06/blogging.png?resize=768%2C576&ssl=1" 
-                            alt="Job search" 
-                            className="img-fluid" 
-                            style={{ maxWidth: '100%' }} 
-                        />
-                    </div>
+    <header className="py-4 header-bg" style={{ marginTop: '60px' }}>
+        <div className="container">
+            <div className="row align-items-center">
+                <div className="col-md-7 text-md-center text-center headerss" style={{fontSize: '20px'}}>
+                    <h1 className="fw-bold text-white">
+                        Find a job that suits<br />your interest & skills.
+                    </h1> 
                 </div>
-            </header>
-
-            <main className="container mt-4">
-                <div className="search-bar d-flex justify-content-center align-items-center my-4">
-                    {/* Search bar content */}
+                <div className="col-md-5 text-md-end text-center">
+                    <img 
+                        src="https://i0.wp.com/freelancemethod.com/wp-content/uploads/2021/06/blogging.png?resize=768%2C576&ssl=1" 
+                        alt="Job search" 
+                        className="img-fluid" 
+                        style={{ maxWidth: '100%' }} 
+                    />
                 </div>
-
-               
-                <div className="my-5">
-                    <JobSyncFlow />
-                </div>
-
-                {/* <div className="my-5">
-                    <NewestJob />
-                </div> */}
-
-                {/* Featured Jobs Section */}
-                <div className="d-flex justify-content-between align-items-center my-5">
-                    <h4>Newest Jobs</h4>
-                    <Link to="/findjob" className="text-decoration-none text-primary">
-                        <div className="d-flex align-items-center">
-                            <span>View All</span>
-                            <FontAwesomeIcon icon={faArrowRight} className="ms-2" />
-                        </div>
-                    </Link>
-                </div>
-
-                <div>
-                    <JobCards jobs={jobs.slice(0, 6)} {...(user?.id && { applicantId: user.id })}/>
-                </div>
-            </main>
-            <style>{`
-                @media (max-width: 576px) {
-                    .text-guest {
-                        font-size: 14px;
-                    }
-                    .paddings{
-                        padding: 0 25px !important;     
-                        margin-top: 5rem !important;
-                    }
-            `}</style>
+            </div>
         </div>
+    </header>
+
+    <main className="container mt-4">
+        <div className="search-bar d-flex justify-content-center align-items-center my-4">
+            {/* Search bar content */}
+        </div>
+
+        <div className="my-5">
+            <JobSyncFlow />
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center my-5">
+            <h4>Newest Jobs</h4>
+            <Link to="/findjob" className="text-decoration-none text-primary">
+                <div className="d-flex align-items-center">
+                    <span>View All</span>
+                    <FontAwesomeIcon icon={faArrowRight} className="ms-2" />
+                </div>
+            </Link>
+        </div>
+
+        <div>
+            <JobCards jobs={jobs.slice(0, 4)} {...(user?.id && { applicantId: user.id })}/>
+        </div>
+    </main>
+
+    <style>{`
+        .header-bg {
+            background: linear-gradient(135deg, #1d73cb, #9c9ecd);
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            position: relative;
+            left: 0;
+            right: 0;
+        }
+
+        .headerss h1 {
+            font-size: 3rem;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .headerss h1 {
+                font-size: 1.5rem !important;
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .text-guest {
+                font-size: 14px;
+            }
+            .paddings {
+                padding: 0 25px !important;     
+                margin-top: 5rem !important;
+            }
+        }
+    `}</style>
+</div>
+
     );
 }

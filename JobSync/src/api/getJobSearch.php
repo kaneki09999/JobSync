@@ -7,7 +7,6 @@ try {
     $conn = $objDb->connect();
 
     // Debug incoming parameters
-    file_put_contents("debug_log.txt", json_encode($_GET) . PHP_EOL, FILE_APPEND);
 
     $query = isset($_GET['query']) ? $_GET['query'] : '';
     $location = isset($_GET['location']) ? $_GET['location'] : '';
@@ -65,7 +64,6 @@ try {
     foreach ($params as $key => $val) {
         $debug_sql = str_replace($key, "'$val'", $debug_sql);
     }
-    file_put_contents("debug_log.txt", "Executed SQL: " . $debug_sql . PHP_EOL, FILE_APPEND);
 
     // Add base URL to logo path
     foreach ($jobs as &$job) {

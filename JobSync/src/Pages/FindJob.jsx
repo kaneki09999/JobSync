@@ -24,7 +24,6 @@ export default function FindJob() {
   const [skills, setSkills] = useState([]);
 
   const [SearchJob, setSearchJob] = useState([]);
-  const [FilterSearch, setFilterSearch] = useState([]);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -132,76 +131,9 @@ useEffect(() => {
       return () => clearInterval(interval);  
     }, [user?.id]); 
     
-  const presetRanges = [
-    { label: '₱10 - ₱100', range: [10, 100] },
-    { label: '₱100 - ₱1,000', range: [100, 1000] },
-    { label: '₱1,000 - ₱10,000', range: [1000, 10000] },
-    { label: '₱10,000 - ₱100,000', range: [10000, 100000] },
-    { label: '₱100,000 Up', range: [100000, 200000] },
-    { label: 'Custom', range: salaryRange },
-  ];
-
-  const handleFilter = () => setShowFilter(!showFilter);
-
-  const handleJobTypeChange = (e) => {
-    const selectedJobType = e.target.value;
-    setJobType(selectedJobType);
-
-    const existingFilter = activeFilters.find(filter => filter.type === 'Job Type');
-    if (existingFilter) {
-      existingFilter.value = selectedJobType;
-      setActiveFilters([...activeFilters]);
-    } else {
-      setActiveFilters([...activeFilters, { type: 'Job Type', value: selectedJobType }]);
-    }
-  };
-
-  const handleSalaryRangeChange = (range) => {
-    setSalaryRange(range);
-
-    const existingFilter = activeFilters.find(filter => filter.type === 'Salary Range');
-    if (existingFilter) {
-      existingFilter.value = `₱${range[0]} - ₱${range[1]}`;
-      setActiveFilters([...activeFilters]);
-    } else {
-      setActiveFilters([...activeFilters, { type: 'Salary Range', value: `₱${range[0]} - ₱${range[1]}` }]);
-    }
-  };
-
-  const removeFilter = (filterType) => {
-    setActiveFilters(activeFilters.filter((filter) => filter.type !== filterType));
-  };
-
-  const handleIndustryChange = (e) => {
-    const selectedIndustry = e.target.value;
-    setIndustry(selectedIndustry);
-
-    const existingFilter = activeFilters.find(filter => filter.type === 'Industry');
-    if (existingFilter) {
-      existingFilter.value = selectedIndustry;
-      setActiveFilters([...activeFilters]);
-    } else {
-      setActiveFilters([...activeFilters, { type: 'Industry', value: selectedIndustry }]);
-    }
-  };
-
-  const handlePresetSalarySelect = (range) => {
-    setSalaryRange(range);
-
-    const formattedSalaryRange = `₱${range[0]} - ₱${range[1]}`;
-
-    const existingFilter = activeFilters.find((filter) => filter.type === 'Salary Range');
-
-    if (existingFilter) {
-      existingFilter.value = formattedSalaryRange;
-      setActiveFilters([...activeFilters]);
-    } else {
-      setActiveFilters([ ...activeFilters, { type: 'Salary Range', value: formattedSalaryRange } ]);
-    }
-  };
-
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [FilterSearch, setFilterSearch] = useState([]);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -214,6 +146,79 @@ useEffect(() => {
     };
     fetchJobs();
   }, []);
+
+  const [filters, setFilters] = useState({
+    timePeriod: '',
+    workType: '',
+    minSalary: '',
+    maxSalary: '',
+  });
+
+  const handleFilter = (key, value) => {
+    const updatedFilters = { ...filters, [key]: value };
+    setFilters(updatedFilters);
+    performSearch(updatedFilters);
+  };
+
+  const handleClearFilters = () => {
+    const clearedFilters = {
+      timePeriod: '',
+      workType: '',
+      minSalary: '',
+      maxSalary: '',
+    };
+    setFilters(clearedFilters);
+    performSearch(clearedFilters);
+  
+    setTimeout(() => {
+      window.location.reload();
+    }, 400);  
+  };
+  
+
+  const performSearch = async (filterData) => {
+    const now = new Date();
+    let createdAt = '';
+  
+    if (filterData.timePeriod) {
+      const daysMap = { '24h': 1, '3d': 3, '7d': 7, '14d': 14, '30d': 30 };
+      const days = daysMap[filterData.timePeriod];
+      const targetDate = new Date(now);
+      targetDate.setDate(now.getDate() - days);
+      createdAt = targetDate.toISOString().slice(0, 10);
+    }
+  
+    try {
+      const response = await postToEndpoint('/filter-jobs.php', {
+        created_at: createdAt,
+        work_type: filterData.workType,
+        min_salary: filterData.minSalary,
+        max_salary: filterData.maxSalary,
+        applicant_id: user?.id
+      });
+  
+      console.log('Filtered Jobs:', response.data);
+      setFilterSearch(response.data);   
+    } catch (error) {
+      console.error('Error fetching filtered jobs:', error);
+      setFilterSearch([]);  
+    }
+  };
+  
+  const salaryOptions = [
+    { label: '₱10,000', value: 10000 },
+    { label: '₱15,000', value: 15000 },
+    { label: '₱20,000', value: 20000 },
+    { label: '₱25,000', value: 25000 },
+    { label: '₱30,000', value: 30000 },
+    { label: '₱40,000', value: 40000 },
+    { label: '₱50,000', value: 50000 },
+    { label: '₱60,000', value: 60000 },
+    { label: '₱70,000', value: 70000 },
+    { label: '₱80,000', value: 80000 },
+    { label: '₱90,000', value: 90000 },
+    { label: '₱100,000', value: 100000 },
+  ];
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -239,20 +244,7 @@ useEffect(() => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  
-  const marginTop =
-    (paginatedSearchJobs.length >= 1 && paginatedSearchJobs.length <= 3) || 
-    (paginatedMatchJobs.length >= 1 && paginatedMatchJobs.length <= 3) || 
-    (paginatedJobs.length >= 1 && paginatedJobs.length <= 3) 
-      ? '-225px' 
-      : (paginatedSearchJobs.length >= 4 && paginatedSearchJobs.length <= 6) || 
-        (paginatedMatchJobs.length >= 4 && paginatedMatchJobs.length <= 6) || 
-        (paginatedJobs.length >= 4 && paginatedJobs.length <= 6) 
-        ? '0px' 
-        : '109px';
-  
-  const height = jobs.length > 0 ? 'auto' : '380px';
-
+  const isFiltering = searchQuery || locationQuery || jobType || salaryRange;
   return (
     <>
 <div className="main-container" style={{marginTop: '6.9rem'}}>
@@ -296,14 +288,10 @@ useEffect(() => {
           </span>
           <span>Filters</span>
         </div>
-        
+
         <div className="filters-row">
           <div className="filter-item">
-            <select 
-              className="filter-select" 
-              onChange={(e) => handleFilter('timePeriod', e.target.value)}
-              aria-label="Filter by date posted"
-            >
+            <select className="filter-select" value={filters.timePeriod} onChange={(e) => handleFilter('timePeriod', e.target.value)}>
               <option value="">Date Posted</option>
               <option value="24h">Last 24 hours</option>
               <option value="3d">Last 3 days</option>
@@ -312,45 +300,39 @@ useEffect(() => {
               <option value="30d">Last 30 days</option>
             </select>
           </div>
-          
+
           <div className="filter-item">
-            <select 
-              className="filter-select" 
-              onChange={(e) => handleFilter('workType', e.target.value)}
-              aria-label="Filter by work type"
-            >
+            <select className="filter-select" value={filters.workType} onChange={(e) => handleFilter('workType', e.target.value)}>
               <option value="">Work Type</option>
-              <option value="fullTime">Full-time</option>
-              <option value="partTime">Part-time</option>
-              <option value="contract">Contract</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
               <option value="casual">Casual</option>
-              <option value="internship">Internship</option>
-              <option value="remote">Remote</option>
+              <option value="Internship">Internship</option>
+              <option value="Temporary">Temporary</option>
+              <option value="Remote">Remote</option>
             </select>
           </div>
-          
+
           <div className="filter-item">
-            <select 
-              className="filter-select" 
-              onChange={(e) => handleFilter('salaryRange', e.target.value)}
-              aria-label="Filter by salary range"
-            >
-              <option value="">Monthly Salary</option>
-              <option value="below15k">Below ₱15,000</option>
-              <option value="15k-25k">₱15,000 - ₱25,000</option>
-              <option value="25k-40k">₱25,000 - ₱40,000</option>
-              <option value="40k-60k">₱40,000 - ₱60,000</option>
-              <option value="above60k">Above ₱60,000</option>
+            <select className="filter-select" value={filters.minSalary} onChange={(e) => handleFilter('minSalary', e.target.value)}>
+              <option value="">Min Salary</option>
+              {salaryOptions.map(option => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
             </select>
           </div>
-          
-          <button 
-            className="filter-reset-btn" 
-            onClick={() => handleClearFilters()}
-            aria-label="Reset all filters"
-          >
-            Reset
-          </button>
+
+          <div className="filter-item">
+            <select className="filter-select" value={filters.maxSalary} onChange={(e) => handleFilter('maxSalary', e.target.value)}>
+              <option value="">Max Salary</option>
+              {salaryOptions.map(option => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <button className="filter-reset-btn" onClick={handleClearFilters}>Reset</button>
         </div>
       </div>
     </Container>
@@ -359,68 +341,56 @@ useEffect(() => {
       {/* Job Listings with a fixed top margin to ensure content appears below search area */}
       <div className="job-listings-area mt-4">
         <Container fluid="md" className="d-flex flex-column align-items-center">
-          <Row
+        <Row
             className="gy-4 flex flex-column justify-content-center w-100"
-            style={{ minWidth: "350px",}}
+            style={{ minWidth: "350px" }}
           >
-            {(searchQuery || locationQuery) && (FilterSearch?.length > 0 || SearchJob?.length > 0) ? (
-              FilterSearch?.length > 0 ? (
-                <JobCards jobs={FilterSearch} applicantId={user?.id} />
-              ) : SearchJob?.length > 0 ? (
+            {FilterSearch && FilterSearch.length > 0 ? (
+              // Show Filtered Jobs
+              <JobCards jobs={FilterSearch} applicantId={user?.id} />
+            ) : searchQuery || locationQuery ? (
+              SearchJob && SearchJob.length > 0 ? (
+                // Show Search Jobs
                 <JobCards jobs={SearchJob} applicantId={user?.id} />
               ) : (
+                // No Jobs Found
                 <div className="no-result">
                   No jobs found for "{searchQuery}" in "{locationQuery}". Try adjusting your search terms or filters.
                 </div>
               )
-            ) : (!searchQuery && !locationQuery && user && matchJob?.length > 0) ? (
-              paginatedMatchJobs.length > 0 ? (
-                <>
-                  <h5 className="mb-2 mt-5" style={{ textAlign: "left" }}>Recommended Jobs:</h5>
-                  <JobCards
-                    jobs={paginatedMatchJobs}
-                    jobType={jobType}
-                    salaryRange={salaryRange}
-                    applicantId={user.id}
-                  />
-                </>
-              ) : (
-                <div className="text-center mt-5" style={{ fontSize: "20px", color: "#777" }}>
-                  No job matches based on your skills and experience. Try adjusting your filters or search terms.
-                </div>
-              )
-            )  : FilterSearch?.length > 0 ? (
-              <JobCards jobs={FilterSearch} applicantId={user?.id} />
-            ) : SearchJob?.length > 0 ? (
-              <JobCards jobs={SearchJob} applicantId={user?.id} />
-            ) : searchQuery || locationQuery ? (
-              <div className='no-result'>
-                No jobs found for "{searchQuery}" in "{locationQuery}". Try adjusting your search terms or filters.
-              </div>
-            ) : paginatedJobs.length > 0 ? (
+            ) : matchJob && matchJob.length > 0 ? (
+              // Show Recommended Jobs
+              <>
+                <h5 className="mb-2" style={{ textAlign: "left" }}>Recommended Jobs:</h5>
+                <JobCards
+                  jobs={matchJob}
+                  jobType={jobType}
+                  salaryRange={salaryRange}
+                  applicantId={user.id}
+                />
+              </>
+            ) : (
+              // Show Default Paginated Jobs
               <JobCards
                 jobs={paginatedJobs}
                 jobType={jobType}
                 salaryRange={salaryRange}
                 applicantId={user?.id}
               />
-            ) : (
-              <div className="text-center mt-5" style={{ fontSize: "20px", color: "#777" }}>
-                {searchQuery || locationQuery
-                  ? "No jobs match your search criteria. Please try adjusting your filters or search terms."
-                  : "Start your job search by entering a job title or location above!"}
-              </div>
             )}
-          </Row>
+        </Row>
+
+
+
 
           {/* Pagination */}
-          {totalItems > itemsPerPage && (
+          {/* {totalItems > itemsPerPage && (
             <Row className="w-100">
               <Col className="d-flex justify-content-center">
                 <Pagination currentPage={currentPage} itemsPerPage={itemsPerPage} totalItems={totalItems} paginate={paginate} />
               </Col>
             </Row>
-          )}
+          )} */}
         </Container>
       </div>
     </div>
@@ -507,7 +477,7 @@ useEffect(() => {
 }
 
 .filter-reset-btn {
-  background-color: transparent;
+  background-color: #fffffff;
   border: 2px solid #f0f0f0;
   color: #ff6b6b;
   font-size: 14px;

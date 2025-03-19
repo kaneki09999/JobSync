@@ -113,7 +113,6 @@ const JobPosting = () => {
             navigate('/candidate_login', { state: { from: `/jobdetails/${job_id}` } });
             return;
         }
-    
         try {
             const response = await postToEndpoint('/checkApplicantProfile.php', { applicant_id: user?.id });
             
@@ -403,6 +402,9 @@ const JobPosting = () => {
             
         <style>{`
         @media (max-width: 768px) {
+            .breadcrumb-item.active {
+                font-size: 11px
+            }
             .job-title {
                 font-size: 22px !important;  /* Smaller font for mobile */
             }

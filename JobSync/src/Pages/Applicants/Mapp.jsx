@@ -5,7 +5,7 @@ import { getFromEndpoint } from "../../components/apiService";
 const MapComponent = ({ job_id }) => {
   const [location, setLocation] = useState(null);
   const [mapSrc, setMapSrc] = useState("");
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchLocation = async () => {

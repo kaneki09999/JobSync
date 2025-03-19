@@ -1,20 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ApplicantsSidebar from '../../../components/applicantsidebar';
 import AppliedJobsTable from '../../../components/JobTable';
 import { FaBriefcase, FaBell, FaArrowRight, FaBars, FaBookmark } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark as farBookmark } from '@fortawesome/free-regular-svg-icons';
 import { Container, Row, Col, Card, Button, Offcanvas } from "react-bootstrap";
+import { useAuth } from '../../../AuthContext';
+import { getFromEndpoint } from '../../../components/apiService';
+
 
 export default function Overview() {
     const [showSidebar, setShowSidebar] = useState(false);
+    const { user } = useAuth();
+    const [favoriteCount, setFavoriteCount] = useState(0);
+    const [alertsCount, setAlertsCount] = useState(0);
+    const [appliedCount, setAppliedCount] = useState(0);
 
+    useEffect(() => {
+        getFromEndpoint(`/get_applied_jobs_count.php?applicant_id=${user.id}`)
+            .then(response => {
+                setAppliedCount(response.data.count);
+            })
+            .catch(error => {
+                console.error("Error fetching applied jobs count:", error);
+            });
+    }, [user.id]);
+
+    useEffect(() => {
+        getFromEndpoint(`/get_favorite_jobs_count.php?applicant_id=${user.id}`)
+            .then(response => {
+                setFavoriteCount(response.data.count);
+            })
+            .catch(error => {
+                console.error("Error fetching favorite jobs count:", error);
+            });
+    }, [user.id]);
+
+
+    useEffect(() => {
+        getFromEndpoint(`/get_job_alerts_count.php?applicant_id=${user.id}`)
+            .then(response => {
+                setAlertsCount(response.data.count);
+            })
+            .catch(error => {
+                console.error("Error fetching job alerts count:", error);
+            });
+    }, [user.id]);
+    
     return (
         <>
 <Container className='container-lg' style={{ marginTop: '3rem' }}>
     <Row>
                 {/* Sidebar (Large Screens) */}
-                <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+                <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                     <ApplicantsSidebar />
                 </Col>
                 {/* Sidebar Toggle Button (Small Screens) */}
@@ -54,51 +92,50 @@ export default function Overview() {
             <Row className="mb-4 g-3">
             {/* Applied Jobs Card */}
             <Col xs={12} sm={6} md={4}>
-                <Card className="shadow-lg border-0 modern-card p-3 text-dark">
-                    <Card.Body className="d-flex justify-content-between align-items-center">
+            <Card className="shadow-lg border-0 modern-card p-3 text-dark">
+                <Card.Body className="d-flex justify-content-between align-items-center">
                     <div>
-                        <Card.Text className="display-6 fw-bold">5</Card.Text>
+                        <Card.Text className="display-6 fw-bold">{appliedCount}</Card.Text>
                         <Card.Title className="h6 text-secondary mb-0">Applied Jobs</Card.Title>
                     </div>
                     <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
                         <FaBriefcase size={30} className="text-primary" />
                     </div>
-                    </Card.Body>
-                </Card>
-            </Col>
+                </Card.Body>
+            </Card>
+        </Col>
 
             {/* Favorite Jobs Card */}
             <Col xs={12} sm={6} md={4}>
                 <Card className="shadow-lg border-0 modern-card p-3 text-dark">
                     <Card.Body className="d-flex justify-content-between align-items-center">
-                    <div>
-                        <Card.Text className="display-6 fw-bold">3</Card.Text>
-                        <Card.Title className="h6 text-secondary mb-0">Favorite Jobs</Card.Title>
-                    </div>
-                    <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
-                        <FaBookmark size={30} className="text-warning" />
-                    </div>
+                        <div>
+                            <Card.Text className="display-6 fw-bold">{favoriteCount}</Card.Text>
+                            <Card.Title className="h6 text-secondary mb-0">Favorite Jobs</Card.Title>
+                        </div>
+                        <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                            <FaBookmark size={30} className="text-warning" />
+                        </div>
                     </Card.Body>
                 </Card>
             </Col>
-
             {/* Job Alerts Card */}
             <Col xs={12} sm={6} md={4}>
                 <Card className="shadow-lg border-0 modern-card p-3 text-dark">
                     <Card.Body className="d-flex justify-content-between align-items-center">
-                    <div>
-                        <Card.Text className="display-6 fw-bold">2</Card.Text>
-                        <Card.Title className="h6 text-secondary mb-0">Job Alerts</Card.Title>
-                    </div>
-                    <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
-                        <FaBell size={30} className="text-success" />
-                    </div>
+                        <div>
+                            <Card.Text className="display-6 fw-bold">{alertsCount}</Card.Text>
+                            <Card.Title className="h6 text-secondary mb-0">Job Alerts</Card.Title>
+                        </div>
+                        <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                            <FaBell size={30} className="text-success" />
+                        </div>
                     </Card.Body>
                 </Card>
-                </Col>
+            </Col>
             </Row>
 
-            {/* Recently Applied Section */}
+            {/* Recently Applied Section */} 
             <Row className="mb-3">
                 <Col className="d-flex justify-content-between align-items-center recently-applied">
                     <h3 className="fs-5 fw-semibold text-secondary recently">Recently Applied</h3>

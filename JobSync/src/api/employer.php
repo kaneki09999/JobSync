@@ -11,7 +11,7 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $objDb = new Dbconnect();
-$pdo = $objDb->connect();
+$conn = $objDb->connect();
 $logo = BASE_URL . 'uploads/logo3.png';
 
 // Decode incoming JSON payload
@@ -171,22 +171,22 @@ try {
                 'Pending'
             ];
             
-            $stmt = $pdo->prepare($sql);
+            $stmt = $conn->prepare($sql);
             $stmt->execute($params);
             
-            $lastInsertId = $pdo->lastInsertId();
+            $lastInsertId = $conn->lastInsertId();
             
             $company_sql = "INSERT INTO js_company_info (employer_id) VALUES (?)";
             $founding_sql = "INSERT INTO js_founding_info (employer_id) VALUES (?)";
             $contact_sql = "INSERT INTO js_company_contact (employer_id) VALUES (?)";
             
-            $company_stmt = $pdo->prepare($company_sql);
+            $company_stmt = $conn->prepare($company_sql);
             $company_stmt->execute([$lastInsertId]);
             
-            $founding_stmt = $pdo->prepare($founding_sql);
+            $founding_stmt = $conn->prepare($founding_sql);
             $founding_stmt->execute([$lastInsertId]);
             
-            $contact_stmt = $pdo->prepare($contact_sql);
+            $contact_stmt = $conn->prepare($contact_sql);
             $contact_stmt->execute([$lastInsertId]);
             
             exit;
@@ -201,5 +201,5 @@ try {
 
 echo json_encode(['decision' => $decision]);
 
-$pdo = null;
+$conn = null;
 ?>

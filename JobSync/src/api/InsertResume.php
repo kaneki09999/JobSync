@@ -2,7 +2,7 @@
 include 'dbconnect.php';
 
 $objDb = new Dbconnect();
-$pdo = $objDb->connect();
+$conn = $objDb->connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uploadDir = 'uploads/resume/';
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             try {
-                $checkStmt = $pdo->prepare('SELECT COUNT(*) FROM js_applicant_resume WHERE applicant_id = :applicant_id');
+                $checkStmt = $conn->prepare('SELECT COUNT(*) FROM js_applicant_resume WHERE applicant_id = :applicant_id');
                 $checkStmt->execute([':applicant_id' => $applicant_id]);
                 $resumeCount = $checkStmt->fetchColumn();
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 }
 
-                $insertStmt = $pdo->prepare('INSERT INTO js_applicant_resume (applicant_id, resumeName, resumePath) VALUES (:applicant_id, :cv_name, :file_path)');
+                $insertStmt = $conn->prepare('INSERT INTO js_applicant_resume (applicant_id, resumeName, resumePath) VALUES (:applicant_id, :cv_name, :file_path)');
                 $insertStmt->execute([
                     ':applicant_id' => $applicant_id,
                     ':cv_name' => $cvName,

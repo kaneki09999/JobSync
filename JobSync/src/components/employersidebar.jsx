@@ -41,7 +41,7 @@ function EmployerSidebar() {
                     { path: "/employer/overview", icon: <FaLayerGroup />, label: "Overview" },
                     { path: "/employer/postjob", icon: <FaPlusSquare />, label: "Post a Job" },
                     { path: "/employer/myjobs", icon: <FaBriefcase />, label: "My Jobs" },
-                    { path: "/employer/employermessage", icon: <FaEnvelope />, label: "Messages" },
+                    // { path: "/employer/employermessage", icon: <FaEnvelope />, label: "Messages" },
                     { path: "/employer/savedapplicant", icon: <FaBookmark />, label: "Saved Applicants" },
                     { path: "/employer/settings", icon: <FaCog />, label: "Settings" }
                 ].map(({ path, icon, label }) => (

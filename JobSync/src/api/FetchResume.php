@@ -2,14 +2,14 @@
 include 'dbconnect.php';
 
 $objDb = new Dbconnect();
-$pdo = $objDb->connect();
+$conn = $objDb->connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $applicant_id = $_GET['applicant_id'] ?? null;
     
     if ($applicant_id) {
         try {
-            $stmt = $pdo->prepare('SELECT resume_id, resumeName, resumePath, primaryCv FROM js_applicant_resume WHERE applicant_id = :applicant_id');
+            $stmt = $conn->prepare('SELECT resume_id, resumeName, resumePath, primaryCv FROM js_applicant_resume WHERE applicant_id = :applicant_id');
             $stmt->execute([':applicant_id' => $applicant_id]);
             $resumes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

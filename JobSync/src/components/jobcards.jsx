@@ -6,17 +6,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getFromEndpoint, postToEndpoint } from '../components/apiService';
 import { motion, AnimatePresence } from 'framer-motion'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
-import { Card, Col, Row } from 'react-bootstrap';
-import { FaMapMarkerAlt, FaMoneyBillWave } from 'react-icons/fa';
+import { Card, Col, Row, Button } from 'react-bootstrap';
+import { FaMapMarkerAlt, FaMoneyBillWave, FaCalendarAlt, FaBusinessTime, FaSuitcase, FaBriefcase, FaUserClock, FaUserTie, FaGraduationCap, FaArrowRight } from 'react-icons/fa';
+import { useAuth } from '../AuthContext';
+import ApplyModal from './applynowmodal';
+import MapComponent from '../Pages/Applicants/Mapp';
 
 const JobCards = ({ jobs, applicantId }) => {
   const [bookmarkedJobs, setBookmarkedJobs] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [selectedJob, setSelectedJob] = useState(null); // Track the selected job
+  const [selectedJob, setSelectedJob] = useState(null);
   const navigate = useNavigate(); 
+  const [applied, setApplied] = useState([]);
+  const [modalShow, setModalShow] = useState(false);  
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,6 +96,21 @@ const JobCards = ({ jobs, applicantId }) => {
   setSelectedJob(job);
 };
 
+useEffect(() => {
+  const fetchAppliedJob = async () => {
+      try {
+          const response = await getFromEndpoint('/getApplied.php', { applicant_id: user?.id, job_id: selectedJob?.job_id});
+          if (response.data.success) {
+
+              setApplied(response.data.apply);
+          }
+      } catch (error) {
+          console.error('Error fetching bookmark status:', error);
+      }
+  };
+  fetchAppliedJob();
+}, [user?.id, selectedJob?.job_id])
+
   if (!jobs || jobs.length === 0) {
     return (
       <div
@@ -103,15 +124,59 @@ const JobCards = ({ jobs, applicantId }) => {
             color: '#4d4d4d',
           }}
         >
-          This employer has not posted any job openings at this time.
+          The employer has not posted any job openings at this time.
         </h5>
       </div>
     );
   }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+};
+
+const handleShowModal = async () => {
+  if (!user) {
+      navigate('/candidate_login', { state: { from: `/jobdetails/${selectedJob?.job_id}` } });
+      return;
+  }
+  try {
+      const response = await postToEndpoint('/checkApplicantProfile.php', { applicant_id: user?.id });
+      
+      console.log("Backend response:", response.data); 
+      
+      if (response.data.success) {
+          const { isCompleteSocialMedia, message } = response.data; 
+          if (isCompleteSocialMedia === true) {
+              console.log("Profile is complete. Showing modal.");
+              setModalShow(true);
+          } else {
+              Swal.fire({
+                  title: 'Profile Incomplete',
+                  html: message || "Please complete your profile before applying.",
+                  icon: 'warning',
+                  confirmButtonText: 'Go to Profile',
+                  preConfirm: () => {
+                      navigate('/applicantprofile');
+                  }
+              });
+          }
+      } else {
+          console.error('Failed to check profile completeness:', response.data.message);
+      }
+  } catch (error) {
+      console.error('Error checking applicant profile:', error);
+  }
+};
+
+const handleCloseModal = () => {
+  setModalShow(false); 
+};
 
 
   return (
     <>
+  
       <div className={`jobs-container ${jobs.length <= 3 ? 'fixed-width' : ''}`}>
         {/* Flex container: left column (cards) + right column (details) */}
         <div className="d-flex" style={{ width: '100%' }}>
@@ -134,7 +199,7 @@ const JobCards = ({ jobs, applicantId }) => {
               return (
                 <motion.div
                   key={job.job_id}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', marginBottom: '0.8rem' }}
                   initial={{ opacity: 0, y: 2 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
@@ -239,6 +304,13 @@ const JobCards = ({ jobs, applicantId }) => {
                             />
                             <p className="mb-0">{job.city}</p>
                           </div>
+                          <div className="d-flex align-items-center text-muted mt-2">
+                            <FontAwesomeIcon
+                              icon={faBriefcase}
+                              style={{ marginRight: '5px' }}
+                            />
+                            <p className="mb-0">{job.jobType}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -246,7 +318,7 @@ const JobCards = ({ jobs, applicantId }) => {
                     {/* Bottom Content */}
                     <div className="d-flex justify-content-between align-items-center">
                       {/* Days Ago */}
-                      <p className="mb-0 text-muted" style={{ fontSize: '15px', fontWeight: '500' }}>
+                      <p className="mb-0 text-muted" style={{ fontSize: '15px', fontWeight: '500', textAlign: 'end' }}>
                         {daysAgo === 0 ? 'Today' : `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`}
                       </p>
 
@@ -297,7 +369,7 @@ const JobCards = ({ jobs, applicantId }) => {
                   background: '#f3f5f7',
                   position: 'sticky',
                   top: '200px',
-                  alignSelf: 'flex-start', // Important for sticky inside flex
+                  alignSelf: 'flex-start',  
                 }}
               >
                 <div
@@ -467,23 +539,47 @@ const JobCards = ({ jobs, applicantId }) => {
                         <p style={{ margin: 0, color: '#f0f0f0' }}>{selectedJob.company_name}</p>
                       </div>
                     </div>
-
-                    {/* RIGHT SIDE: See More Button */}
-                    <Link
-                      to={`/jobdetails/${selectedJob.job_id}`}
-                      target='_blank'
-                      className="btn btn-primary"
-                      style={{
-                        padding: '10px 20px',
-                        fontWeight: '500',
-                      }}
-                    >
-                      See more
-                    </Link>
+                    {applied[0]?.applied_status ? (
+                      <Button
+                          variant="primary"
+                          size="lg"
+                          className="ms-2 d-flex align-items-center justify-content-center"
+                          style={{
+                              backgroundColor: '#d7ecff',
+                              borderRadius: '5px',
+                              color: '#0A65CC',
+                              width: '171px',
+                              height: '55px',
+                              fontSize: '16px',
+                              fontWeight: '500',
+                              border: 'none'
+                          }}
+                      >
+                          {applied[0]?.applied_status}
+                      </Button>
+                      ) : (
+                        <Button
+                          variant="primary"
+                          size="lg"
+                          className="ms-2 d-flex align-items-center justify-content-center"
+                          style={{
+                              backgroundColor: '#0A65CC',
+                              borderRadius: '5px',
+                              color: 'white',
+                              width: '171px',
+                              height: '55px',
+                              fontSize: '15px',
+                              fontWeight: '500',
+                          }}
+                          onClick={handleShowModal}
+                      >
+                          Apply Now <FaArrowRight style={{ marginLeft: '15px' }} />
+                      </Button> 
+                      )}
                   </div>
 
                 </div>
-                <Card className="salary-location mt-4" style={{ width: '100%', padding: '15px' }}>
+                <Card className="salary-location mt-4" style={{ width: '100%', padding: '15px', boxShadow: 'rgba(0, 0, 0, 0.2) 1px 4px 16px', borderColor: '#71bdff'}}>
                     <Card.Body>
                         <Row className="text-center">
                             <Col xs={6} className="d-flex flex-column align-items-center border-end">
@@ -500,7 +596,7 @@ const JobCards = ({ jobs, applicantId }) => {
                         </Row>
                     </Card.Body>
                 </Card>
-                <Card className="salary-location mt-4" style={{ width: '100%', padding: '15px' }}>
+                <Card className="salary-location mt-4" style={{ width: '100%', padding: '15px', boxShadow: 'rgba(0, 0, 0, 0.2) 1px 4px 16px', borderColor: '#71bdff'}}>
                     <Card.Body>
                 {selectedJob.selectedBenefits?.length > 0 && (
                     <div>
@@ -526,6 +622,56 @@ const JobCards = ({ jobs, applicantId }) => {
                   )}
                                       </Card.Body>
                 </Card>
+
+                <Card className="job-overview mt-4" style={{ width: '100%', padding: '20px', boxShadow: 'rgba(0, 0, 0, 0.2) 1px 4px 16px', borderColor: '#71bdff'}}>
+                            <Card.Body>
+                                <h4 className="text-start" style={{ fontSize: '22px', color: '#4d4d4d' }}>Job Overview</h4>
+
+                                <Row className="text-start mt-3" style={{ fontWeight: '500' }}>
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaCalendarAlt className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Job Posted</div>
+                                    <div style={{ color: '#4d4d4d' }}>{formatDate(selectedJob.job_created_at)}</div>
+                                </Col>
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaBusinessTime className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Job Expires</div>
+                                    <div style={{ color: '#4d4d4d' }}>{formatDate(selectedJob.expirationDate)}</div>
+                                </Col>
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaSuitcase className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Job Level</div>
+                                    <div style={{ color: '#4d4d4d' }}>{selectedJob.jobLevel}</div>
+                                </Col>
+                               
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaBriefcase className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Job Type</div>
+                                    <div style={{ color: '#4d4d4d' }}>{selectedJob.jobType}</div>
+                                </Col>
+                                </Row>
+
+                                <Row className="text-start mt-3" style={{ fontWeight: '500' }}>
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaUserClock className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Experience</div>
+                                    <div style={{ color: '#4d4d4d' }}>{selectedJob.experience}</div>
+                                </Col>
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaUserTie className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Job Role</div>
+                                    <div style={{ color: '#4d4d4d' }}>{selectedJob.jobRole}</div>
+                                </Col>
+
+                                <Col xs={6} md={3} className="mb-3">
+                                    <FaGraduationCap className="me-2" style={{ color: '#0a60bb', width: '25px', height: '25px' }} />
+                                    <div style={{ color: '#767F8C', marginTop: '5px' }}>Education</div>
+                                    <div style={{ color: '#4d4d4d' }}>{selectedJob.education}</div>
+                                </Col>
+                                </Row>
+
+                            </Card.Body>
+                            </Card>
                
                 {/* JOB DESCRIPTION */}
                 <h4 style={{ marginTop: '1.5rem' }}>Job Description</h4>
@@ -538,10 +684,24 @@ const JobCards = ({ jobs, applicantId }) => {
                 <p style={{ marginTop: '1rem' }}>
                     No detailed description provided for this job.
                 </p>
-                )}      
+                )}
+                {/* Job Location Map */}
+                <div className="mt-4">
+                    <MapComponent job_id={selectedJob.job_id} />
+                </div>
+                      
 
             </div>
+                            <ApplyModal 
+                    {...(user?.id && { applicant_id: user.id })}
+                    job_id={selectedJob.job_id}
+                    jobTitle={selectedJob.jobTitle}
+                    companyName={selectedJob.company_name}
+                    show={modalShow} 
+                    handleClose={handleCloseModal} 
+                />  
             </div>
+            
             )
           )}
         </div>

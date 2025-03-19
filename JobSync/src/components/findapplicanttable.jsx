@@ -6,7 +6,7 @@ import ViewProfileModal from '../components/viewprofilemodal';
 import Pagination from '../components/Pagination';
 
 const ApplicantRow = ({ applicant, handleShowModal }) => (
-    <div className="card mb-3 border-0 shadow-sm">
+    <div className="card mb-3 border-0" style={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'}}>
         <div className="card-body p-3">
             <div className="row align-items-center">
                 <div className="col-12 col-md-8 mb-3 mb-md-0">
@@ -41,13 +41,15 @@ const ApplicantRow = ({ applicant, handleShowModal }) => (
                             }} />
                         </button>
                         <button
-                            className="btn btn-sm text-primary flex-grow-1 flex-md-grow-0"
+                            className="btn btn-sm flex-grow-1 flex-md-grow-0"
                             style={{
                                 padding: '10px 15px', 
-                                background: '#ddf2ff', 
+                                background: '#307ef5', 
                                 fontWeight: '500', 
                                 border: 'none',
-                                minWidth: '140px'
+                                minWidth: '140px',
+                                color: 'white',
+                                height: '50px'
                             }}
                             onClick={() => handleShowModal(applicant.applicant_id)}
                         >

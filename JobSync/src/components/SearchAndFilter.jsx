@@ -25,7 +25,7 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
             <Row className="mb-3" style={{ marginTop }}>
                 <Col md={12}>
                     <form className="d-flex flex-wrap justify-content-between">
-                        <div className="d-flex flex-wrap flex-md-nowrap" style={{ width: "100%" }}>
+                        <div className="d-flex flex-wrap flex-md-nowrap" style={{ width: "100%", boxShadow: 'rgba(0, 0, 0, 0.3) 1px 9px 13px', borderRadius: '8px' }}>
                             {/* Job Search Input */}
                             <div className="input-group" style={{ maxWidth: "600px", flexGrow: "1", minWidth: "250px" }}>
                                 <div className="input-group-prepend">

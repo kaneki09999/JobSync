@@ -1,9 +1,9 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PostedJobTable from '../../../components/PostedJobTable';
 import { Container, Row, Col, Card, Button, Offcanvas } from "react-bootstrap";
 import { FaBriefcase, FaUser, FaEnvelope, FaArrowRight, FaBars } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../../AuthContext'
+import { useAuth } from '../../../AuthContext';
 import { postToEndpoint } from '../../../components/apiService';
 import EmployerSidebar from '../../../components/employersidebar';
 
@@ -35,7 +35,6 @@ export default function EmployerOverview() {
 
     return (
         <>
-            
             <Container className='container-lg' style={{ marginTop: "3rem" }}>
                 <Row className="mb-4">
                     <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
@@ -49,8 +48,8 @@ export default function EmployerOverview() {
                             style={{
                                 position: "relative",
                                 left: "0",
-                                color: "#333", // Dark color
-                                fontSize: "24px", // Bigger icon
+                                color: "#333", 
+                                fontSize: "24px", 
                                 padding: "5px"
                             }}
                         >
@@ -66,78 +65,114 @@ export default function EmployerOverview() {
                             <EmployerSidebar />
                         </Offcanvas.Body>
                     </Offcanvas>
-                <Col lg={9} className="p-4">
-                    <Row className="mb-4 g-3">
-                    {/* Open Jobs Card */}
-                        <Col xs={12} sm={6} md={4}>
-                            <Card style={{ backgroundColor: "#b8e2fe" }} className="shadow-sm border-0">
-                                <Card.Body className="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <Card.Title className="fs-3">{counts[0]?.job_post_count}</Card.Title>
-                                        <Card.Text>Open Jobs</Card.Text>
-                                    </div>
-                                    <div className="p-2 bg-light rounded">
-                                        <FaBriefcase size={40} style={{ color: "#0A65CC" }} />
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        
-                        {/* Saved Applicants Card */}
-                        <Col xs={12} sm={6} md={4}>
-                            <Card style={{ backgroundColor: "#ffd4bb" }} className="shadow-sm border-0">
-                                <Card.Body className="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <Card.Title className="fs-3">5</Card.Title>
-                                        <Card.Text >Saved Applicants</Card.Text>
-                                    </div>
-                                    <div className="p-2 bg-light rounded">
-                                        <FaUser size={40} style={{ color: "#FF8616" }} />
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        
-                        {/* Messages Card */}
-                        <Col xs={12} sm={6} md={4}>
-                            <Card style={{ backgroundColor: "#d7ffd4" }} className="shadow-sm border-0">
-                                <Card.Body className="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <Card.Title className="fs-3">8</Card.Title>
-                                        <Card.Text>Messages</Card.Text>
-                                    </div>
-                                    <div className="p-2 bg-light rounded">
-                                        <FaEnvelope size={40} style={{ color: "#169E5D" }} />
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+                    <Col lg={9} className="p-4">
+                        <Row className="mb-4 g-3">
+                            {/* Open Jobs Card */}
+                            <Col xs={12} sm={6} md={4}>
+                                <Card className="modern-card shadow-lg border-0 p-3 text-dark">
+                                    <Card.Body className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <Card.Text className="display-6 fw-bold">{counts[0]?.job_post_count}</Card.Text>
+                                            <Card.Title className="h6 text-secondary mb-0">Open Jobs</Card.Title>
+                                        </div>
+                                        <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                                            <FaBriefcase size={30} className="text-primary" />
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
 
+                            {/* Saved Applicants Card */}
+                            <Col xs={12} sm={6} md={4}>
+                                <Card className="modern-card shadow-lg border-0 p-3 text-dark">
+                                    <Card.Body className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <Card.Text className="display-6 fw-bold">5</Card.Text>
+                                            <Card.Title className="h6 text-secondary mb-0">Saved Applicants</Card.Title>
+                                        </div>
+                                        <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                                            <FaUser size={30} className="text-warning" />
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
 
-                    <Row className="d-flex justify-content-between align-items-center mb-3">
-                        <Col>
-                            <h5  style={{ fontSize: '15px', fontWeight: '500', color: '#333', marginBottom: '-20px', textAlign: 'left'}} className="fw-bold text-secondary">Recently Posted Jobs</h5>
-                        </Col>
-                        <Col className="text-end">
-                            <Link to="/employer/myjobs">
-                                <Button variant="link" className="text-decoration-none fw-bold text-dark">
-                                    View All <FaArrowRight className="ms-2" />
+                            {/* Messages Card */}
+                            <Col xs={12} sm={6} md={4}>
+                                <Card className="modern-card shadow-lg border-0 p-3 text-dark">
+                                    <Card.Body className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <Card.Text className="display-6 fw-bold">8</Card.Text>
+                                            <Card.Title className="h6 text-secondary mb-0">Messages</Card.Title>
+                                        </div>
+                                        <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
+                                            <FaEnvelope size={30} className="text-success" />
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+
+                        {/* Recently Posted Jobs Section */}
+                        <Row className="mb-3">
+                            <Col className="d-flex justify-content-between align-items-center recently-applied">
+                                <h3 className="fs-5 fw-semibold text-secondary recently">Recently Posted Jobs</h3>
+                                <Button className="d-flex align-items-center text-primary border-0" style={{background: '#ddf2ff', height: '42px', fontSize: '12px'}}>
+                                    View All <FaArrowRight className="ms-2" style={{fontSize: '13px'}}/>
                                 </Button>
-                            </Link>
-                        </Col>
-                    </Row>
-                    <Col className="table-responsive">
-                        <PostedJobTable />
+                            </Col>
+                        </Row>
+
+                        {/* Posted Jobs Table */}
+                        <Row>
+                            <Col className="table-responsive">
+                                <PostedJobTable />
+                            </Col>
+                        </Row>
                     </Col>
-                </Col>
-            </Row>
+                </Row>
             </Container>
-        <style>{`
-            #root {
-                width: 100%;
-            }
-        `}</style>
+
+            <style>{`
+                .offcanvas.show {
+                    display: block !important;
+                }
+                #root {
+                    width: 100%;
+                }
+
+                .modern-card {
+                    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+                    border-radius: 15px;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+
+                .modern-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+                }
+
+                .icon-wrapper {
+                    background: #ffffff;
+                    padding: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .recently-applied {
+                    margin-top: 20px;
+                    font-size: 16px;
+                }
+
+                @media (max-width: 768px) { 
+                    .recently-applied {
+                        font-size: 14px !important;
+                    }
+
+                    .recently-applied button {
+                        font-size: 11px;
+                    }
+                }
+            `}</style>
         </>
     );
 }

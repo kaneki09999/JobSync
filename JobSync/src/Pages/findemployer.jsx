@@ -23,9 +23,9 @@ const FindEmployer = () => {
         try {
             const response = await getFromEndpoint('/viewCompany.php');
             setCompanies(response.data);
-            setFilteredCompanies(response.data); // Initialize filteredCompanies with all data
+            setFilteredCompanies(response.data); 
         } catch (error) {
-            setError('Error fetching company data');
+            setError('No Company Data');
         } finally {
             setLoading(false);
         }
@@ -35,7 +35,6 @@ const FindEmployer = () => {
   }, []);
 
   useEffect(() => {
-    // Filter companies whenever searchTerm or locationSearch changes
     const filtered = companies.filter(company =>
       company.company_name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       company.city.toLowerCase().includes(locationSearch.toLowerCase())
@@ -53,35 +52,35 @@ const FindEmployer = () => {
   return (
     <>
 <Container className="job-grid-container">
-  <div className="fixed-search-container">
-    {/* Search Bar */}
-    <Form className="search-form" onSubmit={(e) => e.preventDefault()}>
-      <Row className="align-items-center">
-        <Col md={5} sm={6} xs={12}>
-          <Form.Control
-            type="text"
-            placeholder="Search by company name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </Col>
-        <Col md={5} sm={6} xs={12}>
-          <Form.Control
-            type="text"
-            className="margins"
-            placeholder="Search by location"
-            value={locationSearch}
-            onChange={(e) => setLocationSearch(e.target.value)}
-          />
-        </Col>
-        <Col md={2} xs={12} className="text-center">
-          <Button className="search-btn">
-            <FontAwesomeIcon icon={faSearch} /> Search
-          </Button>
-        </Col>
-      </Row>
-    </Form>
-  </div>
+<div className="fixed-search-container w-full">
+  {/* Search Bar */}
+  <Form className="search-form w-full container" onSubmit={(e) => e.preventDefault()}>
+    <Row className="align-items-center w-full mx-0">
+      <Col md={5} sm={6} xs={12}>
+        <Form.Control
+          type="text"
+          placeholder="Search by company name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </Col>
+      <Col md={5} sm={6} xs={12}>
+        <Form.Control
+          type="text"
+          className="margins"
+          placeholder="Search by location"
+          value={locationSearch}
+          onChange={(e) => setLocationSearch(e.target.value)}
+        />
+      </Col>
+      <Col md={2} xs={12} className="text-center">
+        <Button className="search-btn">
+          <FontAwesomeIcon icon={faSearch} /> Search
+        </Button>
+      </Col>
+    </Row>
+  </Form>
+</div>
   
   {/* Job Grid with top padding to account for fixed search bar */}
   <div className="jobs-content-area">
@@ -109,7 +108,7 @@ const FindEmployer = () => {
                   {/* Job Info */}
                   <Col md={8} sm={8} xs={8}>
                     <div className="company-details">
-                      <span className="company-name" style={{ fontSize: '18px' }}>{company.company_name}</span>
+                      <span className="company-name" style={{ fontSize: '18px', color: '#353535' }}>{company.company_name}</span>
                      
                     </div>
                     <div className="company-location">
@@ -153,6 +152,7 @@ const FindEmployer = () => {
     width: 100%;
     position: relative;
     padding-top: 120px; /* Space for fixed search bar */
+    margin: 0 auto; /* Center the container */
   }
   
   .fixed-search-container {
@@ -161,24 +161,41 @@ const FindEmployer = () => {
     left: 0;
     right: 0;
     z-index: 100;
-    background-color: #f8f9fa;
-    padding: 15px;
+    background: linear-gradient(62deg, rgba(41,108,182,1) 0%, rgba(40,118,185,1) 51%, rgba(23,96,184,1) 98%);
+    padding: 15px 0;  
+    width: 100%; 
+    margin: 0;
+    height: 110px;
+  }
+
+  .search-form-wrapper {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    padding: 0 15px; /* Add padding inside the wrapper instead */
   }
   
   .search-form {
     background: #fff;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 6px 14px rgba(0, 0, 0, 0.4);
     margin-bottom: 0;
   }
   
+  .page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f8f9fa;
+    z-index: -1;
+  }
+
   .jobs-content-area {
     width: 100%;
-    min-height: 50vh; /* Ensure there's enough space */
+    min-height: 50vh;
   }
   
   .search-btn {
@@ -195,6 +212,7 @@ const FindEmployer = () => {
   .company-res {
     width: 1215px;
     margin: auto;
+    
   }
   
   .job-grid {
@@ -212,10 +230,11 @@ const FindEmployer = () => {
     border: 1px solid #ddd;
     padding: 15px;
     border-radius: 8px;
-    background-color: #f8f9fa;
+    background-color: #d8ecff;
     text-align: center;
     width: 100%;
     max-width: 100%;
+    box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.2);
   }
   
   .company-logo {
@@ -257,7 +276,7 @@ const FindEmployer = () => {
     padding: 6px 12px;
     width: 100%;
     color: #0A65CC;
-    background-color: #add1ff;
+    background-color: #ffffff;
     border: none;
     transition: 0.3s ease-in-out;
   }
@@ -284,7 +303,18 @@ const FindEmployer = () => {
   }
   
   /* Responsive Design */
+  @media (max-width: 1260px) {
+    .company-res {
+      width: auto;
+    }
+  } 
   @media (max-width: 992px) {
+    .fixed-search-container {
+      height: 125px;
+    }
+    .company-res {
+      width: auto;
+    }
     .job-card {
       padding: 10px;
     }
@@ -323,11 +353,18 @@ const FindEmployer = () => {
       font-size: 12px;
     }
     .fixed-search-container {
-      padding: 10px;
+      padding: 10px 0;
+      height: 155px;
+    }
+    .job-grid-container {
+      padding-top: 170px;
     }
   }
   
   @media (max-width: 576px) {
+    .fixed-search-container {
+      height:185px;
+    }
     .job-grid-container {
       padding-top: 220px; /* Even more space for mobile layout */
     }
