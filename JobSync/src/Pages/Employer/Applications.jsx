@@ -129,26 +129,16 @@ export default function Applications() {
         <table className="table table-hover" style={{ width: '100%', tableLayout: 'fixed' }}>
           <thead className="thead-light">
             <tr>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '70px' }}>ID</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '250px' }}>Name</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '215px' }}>Date Applied</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '180px' }}>Job</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '130px' }}>Contact</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '130px' }}>Status</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '193px' }}>Actions</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '70px' }}>ID</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '250px' }}>Name</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '215px' }}>Date Applied</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '180px' }}>Job</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '130px' }}>Contact</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '130px' }}>Status</th>
+              <th style={{ color: 'white', background: '#1863b9', width: '193px' }}>Actions</th>
             </tr>
           </thead>
-          <tfoot className="tfoot-light">
-            <tr>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '70px' }}>ID</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '250px' }}>Name</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '215px' }}>Date Applied</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '180px' }}>Job</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '130px' }}>Contact</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '130px' }}>Status</th>
-              <th style={{ color: '#676767', background: '#ebebebc2', width: '193px' }}>Actions</th>
-            </tr>
-          </tfoot>
+          
             <tbody>
               {currentApplications.length > 0 ? (
                 currentApplications.map((app, index) => {

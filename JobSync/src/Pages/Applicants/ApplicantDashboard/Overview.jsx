@@ -98,7 +98,7 @@ export default function Overview() {
                 </Col>
             </Row>
 
-            {/* Recently Applied Section */}
+            {/* Recently Applied Section */} 
             <Row className="mb-3">
                 <Col className="d-flex justify-content-between align-items-center recently-applied">
                     <h3 className="fs-5 fw-semibold text-secondary recently">Recently Applied</h3>
