@@ -60,10 +60,12 @@ useEffect(() => {
           FIND A JOB THAT SUITS<br className="d-none d-md-block" />YOUR INTEREST & SKILLS.
         </h1>
         <div className="mt-4">
-          <button className="btn-search">
-            Find Job Now
-            <i className="fa fa-arrow-right ms-2"></i>
-          </button>
+          <a href="/findjob">
+            <button className="btn-search">
+              Find Job Now
+              <i className="fa fa-arrow-right ms-2"></i>
+            </button>
+          </a>
         </div>
       </div>
       <div className="col-md-5 text-center text-md-end mt-5 mt-md-0">
