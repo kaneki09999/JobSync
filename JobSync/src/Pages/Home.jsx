@@ -38,24 +38,43 @@ export default function Home() {
     {loading && <div id='preloader'></div>}
 
     <header className="py-4 header-bg" style={{ marginTop: '60px' }}>
-        <div className="container">
-            <div className="row align-items-center">
-                <div className="col-md-7 text-md-center text-center headerss" style={{fontSize: '20px'}}>
-                    <h1 className="fw-bold text-white">
-                        Find a job that suits<br />your interest & skills.
-                    </h1> 
-                </div>
-                <div className="col-md-5 text-md-end text-center">
-                    <img 
-                        src="https://i0.wp.com/freelancemethod.com/wp-content/uploads/2021/06/blogging.png?resize=768%2C576&ssl=1" 
-                        alt="Job search" 
-                        className="img-fluid" 
-                        style={{ maxWidth: '100%' }} 
-                    />
-                </div>
-            </div>
+  <div className="container">
+    <div className="row align-items-center">
+      <div className="col-md-7 text-md-center text-center headerss" style={{ fontSize: '20px', position: 'relative', zIndex: 2 }}>
+        <h1 className="fw-bold text-white">
+          FIND A JOB THAT SUITS<br />YOUR INTEREST & SKILLS.
+        </h1>
+        <div className="mt-4">
+          <button className="btn-search" style={{ backgroundColor: '#ffbd00', color: 'black', marginLeft: '-400px' }}>
+            Find Job Now
+            <i className="fa fa-arrow-right" style={{ marginLeft: '8px' }}></i>
+          </button>
         </div>
-    </header>
+      </div>
+      <div className="col-md-5 text-md-end text-center" style={{ position: 'relative', zIndex: 1 }}>
+        <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <img src="/src/assets/blogging.webp" alt="Job search 1" className="img-fluid" style={{ maxWidth: '100%' }} />
+            </div>
+            <div className="carousel-item">
+              <img src="/src/assets/c1.png" alt="Job search 2" className="img-fluid" style={{ maxWidth: '100%' }} />
+            </div>
+            <div className="carousel-item">
+              <img src="/src/assets/c2.png" alt="Job search 3" className="img-fluid" style={{ maxWidth: '100%' }} />
+            </div>
+            <div className="carousel-item">
+              <img src="/src/assets/c3.png" alt="Job search 4" className="img-fluid" style={{ maxWidth: '100%' }} />
+            </div>
+            <div className="carousel-item">
+              <img src="/src/assets/c4.png" alt="Job search 5" className="img-fluid" style={{ maxWidth: '100%' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
     <main className="container mt-4">
         <div className="search-bar d-flex justify-content-center align-items-center my-4">
@@ -82,39 +101,61 @@ export default function Home() {
     </main>
 
     <style>{`
-        .header-bg {
-            background: linear-gradient(135deg, #1d73cb, #9c9ecd);
-            padding: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            position: relative;
-            left: 0;
-            right: 0;
-        }
+    .header-bg {
+        background: linear-gradient(135deg, #1d73cb, #9c9ecd);
+        padding: 2rem 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100vw;
+        height: 55vh;
+        margin-left: calc(-50vw + 50%);
+        position: relative;
+        left: 0;
+        right: 0;
+    }
 
+    .headerss h1 {
+        font-size: 3rem;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
         .headerss h1 {
-            font-size: 3rem;
-            color: white;
+            font-size: 1.5rem !important;
+            margin-top: 2rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .text-guest {
+            font-size: 14px;
+        }
+        .paddings {
+            padding: 0 25px !important;     
+            margin-top: 5rem !important;
         }
 
-        @media (max-width: 768px) {
-            .headerss h1 {
-                font-size: 1.5rem !important;
-                margin-top: 2rem;
-            }
+        .carousel-img {
+            width: 100%; 
+            height: 300px; /* Set a fixed height for all images */
+            object-fit: cover; /* This ensures images fill the space and maintain aspect ratio */
         }
+    }
 
-        @media (max-width: 576px) {
-            .text-guest {
-                font-size: 14px;
-            }
-            .paddings {
-                padding: 0 25px !important;     
-                margin-top: 5rem !important;
-            }
-        }
-    `}</style>
+    /* Fix the carousel height */
+    .carousel {
+        height: 50vh;
+        overflow: hidden; /* Prevent carousel images from overflowing */
+    }
+
+    .carousel-inner {
+        height: 100%;
+    }
+
+    .carousel-item img {
+        height: 100%; /* Ensure images cover the full carousel height */
+        object-fit: cover; /* Keeps aspect ratio and ensures the image covers the area */
+    }
+`}</style>
 </div>
 
     );
