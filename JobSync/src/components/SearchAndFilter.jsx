@@ -9,13 +9,12 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
     const location = useLocation();
 
     useEffect(() => {
+        const delaySearch = setTimeout(() => {
         const queryParams = new URLSearchParams();
         if (jobSearch) queryParams.set("query", jobSearch);
         if (locationSearch) queryParams.set("location", locationSearch);
-
-        const delaySearch = setTimeout(() => {
             navigate(`/findjob?${queryParams.toString()}`);
-        }, 500);  
+        }, 600);  
 
         return () => clearTimeout(delaySearch);
     }, [jobSearch, locationSearch, navigate]);
@@ -25,7 +24,7 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
             <Row className="mb-3" style={{ marginTop }}>
                 <Col md={12}>
                     <form className="d-flex flex-wrap justify-content-between">
-                        <div className="d-flex flex-wrap flex-md-nowrap" style={{ width: "100%", boxShadow: 'rgba(0, 0, 0, 0.3) 1px 9px 13px', borderRadius: '8px' }}>
+                        <div className="d-flex flex-wrap flex-md-nowrap mobile" style={{ width: "100%", boxShadow: 'rgba(0, 0, 0, 0.3) 1px 9px 13px', borderRadius: '8px' }}>
                             {/* Job Search Input */}
                             <div className="input-group" style={{ maxWidth: "600px", flexGrow: "1", minWidth: "250px" }}>
                                 <div className="input-group-prepend">
@@ -113,6 +112,14 @@ const JobSearchBar = ({ jobSearch, setJobSearch, locationSearch, setLocationSear
                     </form>
                 </Col>
             </Row>
+            <style>{`
+            @media (max-width: 768px) {
+                .mobile {
+                    box-shadow: none !important;
+                }
+              }
+              
+            `}</style>
         </Container>
     );
 };

@@ -290,7 +290,7 @@ function SignInEmployer() {
                     <div className="position-relative w-100">
                         {/* Background Image */}
                         <Image
-                        src="/src/assets/signinemployer.png"
+                        src="https://img.freepik.com/free-vector/computer-login-concept-illustration_114360-7962.jpg?t=st=1742353583~exp=1742357183~hmac=7a7cc4e9d5072a4a24c6af69975f9511b4a4df84c3b8e9f8d23026c4ea4db440&w=740"
                         alt="Registration Visual"
                         fluid
                         className="w-100 h-100"
@@ -298,7 +298,7 @@ function SignInEmployer() {
                         />
                    {/* Overlay Text */}
                    <div className="position-absolute bottom-0 end-0 text-white text-center p-4">
-                          <p>Image by <span style={{ color: '#1863b9' , fontWeight: 'bold' }}>Freepik</span></p>
+                          <p>Image by <span style={{ color: '#1863b9' , fontWeight: 'bold' }}><a href="https://www.freepik.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#0d6efd', textDecoration: 'none' }}>Freepik</a></span></p>
                           </div>
                       
                     </div>

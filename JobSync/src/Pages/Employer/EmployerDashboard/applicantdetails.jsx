@@ -7,15 +7,20 @@ import { postToEndpoint } from '../../../components/apiService';
 import ModalComponent from '../../../components/modalAssessment';
 import ModalInterview from '../../../components/InterviewScheduleModal';
 import { useAuth } from '../../../AuthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function ProfilePage() {
         const { user } = useAuth(); 
         const [isBookmarked, setIsBookmarked] = useState(false);
         const [screeningAnswer, setScreeningAnswer] = useState([]);
+        const [assessmentAnswer, setAssessmentAnswer] = useState([]);
         const iconStyle = { color: '#007bff', fontSize: '1.2rem' };
         const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
         const { application_id, job_id, applicant_id } = useParams();
         const [applications, setApplications] = useState([]);
+        const navigate = useNavigate();
         useEffect(() => {
           const fetchApplied = async () => {
               try {
@@ -48,8 +53,24 @@ export default function ProfilePage() {
         };
     
         fetchQuestionAnswer();
+
+        const fetchAsessmentAnswer = async () => {
+          try {
+              const response = await postToEndpoint('/getAssessmentAnswers.php', { application_id, job_id });
+              if (response.data.answer) {
+                setAssessmentAnswer(response.data.answer);
+              } else {
+                  console.error('No jobs found or an error occurred:', response.data.error);
+              }
+          } catch (error) {
+              console.error('Error fetching jobs:', error);
+          }
+        }
+
+        fetchAsessmentAnswer();
+
     }, [application_id, job_id]);
-          
+      
     const handleBookmarkClick = () => {
     setIsBookmarked(!isBookmarked);
     };
@@ -77,6 +98,64 @@ export default function ProfilePage() {
       }
     };
 
+
+    const handleAppStatus = (status) => async () => {
+
+      const job_title = applications[0]?.headline;
+      const application_id = applications[0]?.application_id;
+      const job_id = applications[0]?.job_id;
+      const applicant_id = applications[0]?.applicant_id;
+
+      if(!job_title || !application_id || !job_id) {
+          console.error('Missing required data:', job_title, application_id, job_id);
+          return;
+      }
+
+      try {
+          const response = await postToEndpoint('/setApplicantStatus.php', { application_id, job_id, applicant_id, status, job_title });
+          if (response.data.success) {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Success!',
+                  text: 'You Approved the applicant',
+                  showConfirmButton: false,
+                  timer: 1500
+              }).then(() => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            });
+          } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Oops!',
+                  text: 'An error occurred while updating the status',
+                  showConfirmButton: false,
+                  timer: 1500
+              }).then(() => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            });
+          }
+      } catch (error) {
+          console.error('Error updating status:', error);
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops!',
+              text: 'An error occurred while updating the status',
+              showConfirmButton: false,
+              timer: 1500
+          }).then((result) => {
+            if (result.isConfirmed) {
+                navigate('/employer/applications');
+              }
+          });
+      }
+    };
+
+
+
     const handleCloseModal = () => setShowModal(false);
     const handleCloseModalInterview = () => setShowModalInterview(false);
     const [interview, setApplication] = useState([]);
@@ -99,8 +178,8 @@ export default function ProfilePage() {
       return () => clearInterval(interval);
   }, [user.id]); 
 
-  console.log(interview[0]?.status)
-  
+  console.log (applications);
+
   return (
     <>
   <Container style={{marginTop: '8rem'}}>
@@ -227,6 +306,50 @@ export default function ProfilePage() {
             <Button variant="link" className="text-primary" onClick={handleNextQuestion} disabled={currentQuestionIndex + 1 >= screeningAnswer.length}>
               <FaChevronRight />
             </Button>
+          </div>
+          
+
+          {/* Assessment Questions And Answers  */}
+          <h6 className="mt-4 mb-3" style={{ textAlign: "left", fontSize: "18px" }}>Assessment</h6>
+          <div className="p-3 bg-light rounded shadow-sm" style={{ background: "white", borderRadius: "10px" }}>
+            {Array.isArray(assessmentAnswer) && assessmentAnswer.length > 0 ? (
+              <div className="row">
+                {assessmentAnswer.map((item, index) => (
+                  <div key={index} className="col-12 mb-3">
+                    <div className="p-3 border rounded bg-white shadow-sm">
+                      <p className="mb-1" style={{ textAlign: 'left' }}>
+                        <span style={{ fontWeight: 'bold' }}>Q: </span>
+                        {item.Instructions}
+                      </p>
+                      <div className="d-flex justify-content-between flex-wrap text-muted">
+                        <p className="mb-0"><strong>Type:</strong> {item.Type}</p>
+                        <p className="mb-0"><strong>Answer:</strong> {item.Answer || "No answer provided"}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted text-center">No assessment answers yet</p>
+            )}
+          </div>
+
+          {/* Create approve or reject button */}
+          <div className="d-flex justify-content-end mt-4 gap-2 mb-5">
+
+
+
+            {applications[0]?.applied_status === "On hold" && (
+             <>
+              <Button variant="danger" className="d-flex align-items-center" style={{ width: '150px', justifyContent: 'center', height: '50px' }} onClick={handleAppStatus('Rejected')}>
+                Reject
+              </Button>
+              <Button variant="primary" className="d-flex align-items-center" style={{ width: '150px', justifyContent: 'center', height: '50px' }} onClick={handleAppStatus('Qualified')}> 
+                Approved
+              </Button>
+             </>
+            )}
+
           </div>
         </Col>
 

@@ -18,10 +18,15 @@ export default function EmployerSettings() {
 
   return (
     <>
+     <style>{`
+      #root {
+        width: 100% !important;
+      }
+  `}</style>
     <Container style={{marginTop: '3rem'}}> 
       <Row className="m-0">
       {/* Sidebar */}
-      <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+      <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                           <EmployerSidebar />
                       </Col>
                       {/* Sidebar Toggle Button (Small Screens) */}
@@ -110,11 +115,7 @@ export default function EmployerSettings() {
       </Col>
       </Row>
   </Container>
-  <style>{`
-      #root {
-        width: 100% !important;
-      }
-  `}</style>
+ 
   </>
   );
 }

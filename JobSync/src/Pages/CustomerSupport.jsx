@@ -17,7 +17,6 @@ const CustomerSupport = () => {
       question,
       attachment,
     });
-    alert('Form submitted successfully!');
   };
 
   return (
@@ -45,7 +44,7 @@ const CustomerSupport = () => {
           <Container 
             className="border p-4 rounded"
             style={{
-              background: "#1863b9",
+              background: "#5193df",
               boxShadow: "box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;",
             }}
           >

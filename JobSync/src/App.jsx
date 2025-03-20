@@ -96,9 +96,8 @@ import ResumeBuilder from './Pages/Resume/ResumeBuilder';
 import ResumeAIForm from './Pages/Resume/CreaeteResume';
 import ForgotPassword from './Pages/ForgotPassword';
 import MapComponent from './Pages/Applicants/Mapp';
-
+import EditJobPosted from './Pages/EditJobPosted';
 import TermsAndConditions from './components/termsandcondition';
-
 
 function Layout({ userId, setUserId }) {
   const location = useLocation();
@@ -344,6 +343,7 @@ const getBreadcrumbs = () => {
         <Route path='/employer/profile' element={<ProtectedRoute> <EmployerProfile /> </ProtectedRoute>} />
         <Route path='/employer/postjob' element={ <ProtectedRoute> <PostJobs  key={useLocation().pathname}/> </ProtectedRoute> } />
         <Route path='/employer/myjobs' element={<ProtectedRoute> <MyJobs /> </ProtectedRoute>} />
+        <Route path='/employer/edit-job-posted/:id' element={<ProtectedRoute> <EditJobPosted /> </ProtectedRoute>} />
         <Route path='/employer/message' element={<ProtectedRoute> <EmployerMessage /> </ProtectedRoute>} />
         <Route path='/employer/savedapplicant' element={<ProtectedRoute> <SavedApplicant /> </ProtectedRoute>} />  
         <Route path='/employer/settings' element={<ProtectedRoute> <EmployerSettings /> </ProtectedRoute>} />
@@ -369,7 +369,6 @@ const getBreadcrumbs = () => {
       {/* Employer Settings Routing */}
       <Route path='/employer/publisher/:application_id/:job_id' element={ <ProtectedRoute><Publisher /> </ProtectedRoute>} />
       <Route path='/applicant/subscriber/:application_id/:job_id' element={ <ProtectedRoute><Subscriber /> </ProtectedRoute>} />
-
       <Route path='/termsandconditions' element={<TermsAndConditions />} />
       </Routes>
       {!hideNavigationAndFooter && !hideFooter ? <Footer /> : null}

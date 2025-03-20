@@ -33,7 +33,7 @@ export default function MyJobs() {
         <Container style={{marginTop: '3rem'}}>
         <Row>
           {/* Sidebar */}
-          <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+          <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                         <EmployerSidebar />
                     </Col>
                     {/* Sidebar Toggle Button (Small Screens) */}

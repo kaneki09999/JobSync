@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Home() {
   return (
-    <Container className="mt-5">
+    <Container style={{marginTop: '5rem'}}>
       <Row className="align-items-center justify-content-between">
         {/* Left Content */}
         <Col xs={12} md={7} className="mb-4">
@@ -15,7 +15,7 @@ function Home() {
             boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
           }}>
             <div className="position-absolute top-0 start-0 w-100 h-100" style={{ background: "linear-gradient(135deg, rgba(0,123,255,0.1), rgba(0,123,255,0.2))" }}></div>
-            <h2 className="fw-bold text-primary position-relative text-center">Hi, Christian</h2>
+            <h2 className="fw-bold text-primary position-relative text-center">Hi, Good Day</h2>
             <p className="text-muted position-relative text-center">
               You are in the right place to find your next hire. Get started by
               creating your first job ad.
@@ -42,7 +42,7 @@ function Home() {
               </Col>
               <Col xs={12} md={5} className="text-center">
                 <img
-                  src="/src/assets/pic.png"
+                  src="/assets/pic.png"
                   alt="Employer"
                   className="img-fluid rounded"
                   style={{
@@ -57,7 +57,7 @@ function Home() {
         {/* Right Image Section */}
         <Col xs={12} md={5} className="text-center position-relative">
           <img
-            src="/src/assets/employer.jpg"
+            src="/assets/employer.jpg"
             alt="Employer"
             className="img-fluid rounded"
             style={{
@@ -85,7 +85,7 @@ function Home() {
       <Row className="align-items-center justify-content-center">
         <Col md={6} className="text-center">
           <img
-            src="/src/assets/hiring-process-removebg-preview.png"
+            src="/assets/hiring-process-removebg-preview.png"
             alt="Hiring Process"
             className="img-fluid rounded"
             style={{
@@ -110,7 +110,7 @@ function Home() {
             style={{
               boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
             }}>
-              <h5 className="fw-bold text-dark">Smart Matching</h5>
+              <h5 className="fw-bold text-dark">Find Applicants</h5>
               <p className="text-muted">Get matched with relevant candidates based on job requirements.</p>
             </div>
             <div className="p-4 bg-white rounded w-100"

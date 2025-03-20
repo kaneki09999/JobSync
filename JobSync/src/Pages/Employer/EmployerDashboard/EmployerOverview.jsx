@@ -1,43 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import PostedJobTable from '../../../components/PostedJobTable';
 import { Container, Row, Col, Card, Button, Offcanvas } from "react-bootstrap";
-import { FaBriefcase, FaUser, FaEnvelope, FaArrowRight, FaBars } from "react-icons/fa";
+import { FaBriefcase, FaUser, FaUsers, FaArrowRight, FaBars } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../AuthContext';
-import { postToEndpoint } from '../../../components/apiService';
+import { getFromEndpoint, postToEndpoint } from '../../../components/apiService';
 import EmployerSidebar from '../../../components/employersidebar';
 
 export default function EmployerOverview() {
     const { user } = useAuth(); 
     const [counts, setJobCounts] = useState([]);
       
+    const [jobPostCount, setJobPostCount] = useState(0);
+
     useEffect(() => {
-        const fetchCounts = async () => {
-            try {
-                const response = await postToEndpoint('/getCountJobs.php', { employer_id: user.id });
-                console.log(response.data.counts);
-                if (response.data.counts) {
-                    setJobCounts(response.data.counts);
-                } else {
-                    console.error('No jobs found or an error occurred:', response.data.error);
-                }
-            } catch (error) {
-                console.error('Error fetching jobs:', error);
-            }
-        };
-        const intervalId = setInterval(() => {
-            fetchCounts();
-        }, 15000); 
-        fetchCounts();
-        return () => clearInterval(intervalId);
+        if (user.id) {
+                getFromEndpoint(`/get_open_jobs_count.php?employer_id=${user.id}`)
+                .then(response => {
+                    setJobPostCount(response.data.count);
+                })
+                .catch(error => {
+                    console.error("Error fetching job post count:", error);
+                });
+        }
     }, [user.id]);
+
+    
     const [showSidebar, setShowSidebar] = useState(false);
+    const [savedCount, setSavedCount] = useState(0);
+    const [applicationCount, setApplicationCount] = useState(0);
+
+    useEffect(() => {
+        if (user.id) {
+                getFromEndpoint(`/get_saved_applicants_count.php?employer_id=${user.id}`)
+                .then(response => {
+                    setSavedCount(response.data.count);
+                })
+                .catch(error => {
+                    console.error("Error fetching saved applicants count:", error);
+                });
+        }
+    }, [user.id]);
+
+
+    useEffect(() => {
+        if (user.id) {
+            getFromEndpoint(`/get_applications_count.php?employer_id=${user.id}`)
+                .then(response => {
+                    setApplicationCount(response.data.count);
+                })
+                .catch(error => {
+                    console.error("Error fetching applications count:", error);
+                });
+        }
+    }, [user.id]);
 
     return (
         <>
             <Container className='container-lg' style={{ marginTop: "3rem" }}>
                 <Row className="mb-4">
-                    <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+                    <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                         <EmployerSidebar />
                     </Col>
                     {/* Sidebar Toggle Button (Small Screens) */}
@@ -72,7 +94,7 @@ export default function EmployerOverview() {
                                 <Card className="modern-card shadow-lg border-0 p-3 text-dark">
                                     <Card.Body className="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <Card.Text className="display-6 fw-bold">{counts[0]?.job_post_count}</Card.Text>
+                                            <Card.Text className="display-6 fw-bold">{jobPostCount}</Card.Text>
                                             <Card.Title className="h6 text-secondary mb-0">Open Jobs</Card.Title>
                                         </div>
                                         <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
@@ -87,7 +109,7 @@ export default function EmployerOverview() {
                                 <Card className="modern-card shadow-lg border-0 p-3 text-dark">
                                     <Card.Body className="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <Card.Text className="display-6 fw-bold">5</Card.Text>
+                                            <Card.Text className="display-6 fw-bold">{savedCount}</Card.Text>
                                             <Card.Title className="h6 text-secondary mb-0">Saved Applicants</Card.Title>
                                         </div>
                                         <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
@@ -102,11 +124,11 @@ export default function EmployerOverview() {
                                 <Card className="modern-card shadow-lg border-0 p-3 text-dark">
                                     <Card.Body className="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <Card.Text className="display-6 fw-bold">8</Card.Text>
-                                            <Card.Title className="h6 text-secondary mb-0">Messages</Card.Title>
+                                            <Card.Text className="display-6 fw-bold">{applicationCount}</Card.Text>
+                                            <Card.Title className="h6 text-secondary mb-0">Applications</Card.Title>
                                         </div>
                                         <div className="icon-wrapper d-flex align-items-center justify-content-center rounded-circle">
-                                            <FaEnvelope size={30} className="text-success" />
+                                            <FaUsers size={30} className="text-success" />
                                         </div>
                                     </Card.Body>
                                 </Card>

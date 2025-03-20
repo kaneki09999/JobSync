@@ -44,7 +44,8 @@ export default function ApplicantProfile() {
             style={{
               background: 'linear-gradient(49deg, rgba(232,242,255,1) 0%, rgba(255,255,255,1) 45%)',
               borderRadius: '8px',
-              boxShadow: '0px 4px 11px rgba(0, 0, 0, 0.2)'
+              boxShadow: '0px 4px 11px rgba(0, 0, 0, 0.2)',
+              
             }}
             title={
               <div style={{ width: '160px', textAlign: 'left' }}>

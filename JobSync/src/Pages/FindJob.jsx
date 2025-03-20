@@ -36,34 +36,35 @@ export default function FindJob() {
   const maxSalaryQuery = queryParams.get('maxSalary') || '';
   
   useEffect(() => {
-    const fetchSearchResults = async () => {
-        setLoading(true);
+    const delayFetch = setTimeout(() => {
+        const fetchSearchResults = async () => {
+            setLoading(true);
 
-        const params = {
-          query: jobSearch || searchQuery,
-          location: locationSearch || locationQuery,
-      };
-      
+            const params = {
+                query: jobSearch || searchQuery,
+                location: locationSearch || locationQuery,
+            };
 
-        console.log("Sending request with params:", params);
-
-        try {
-            const response = await getFromEndpoint('/getJobSearch.php', params);
-            if (response && Array.isArray(response.data)) {
-                setSearchJob(response.data);
-            } else {
+            try {
+                const response = await getFromEndpoint('/getJobSearch.php', params);
+                if (response && Array.isArray(response.data)) {
+                    setSearchJob(response.data);
+                } else {
+                    setSearchJob([]);
+                }
+            } catch (error) {
+                console.error('Error fetching search results:', error);
                 setSearchJob([]);
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error fetching search results:', error);
-            setSearchJob([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
 
-    fetchSearchResults();
+        fetchSearchResults();
+    }, 600);  
+    return () => clearTimeout(delayFetch);
 }, [jobSearch, locationSearch, searchQuery, locationQuery]);
+
 
 useEffect(() => {
   const fetchFilterSearchResults = async () => {
@@ -346,31 +347,26 @@ useEffect(() => {
             style={{ minWidth: "350px" }}
           >
             {FilterSearch && FilterSearch.length > 0 ? (
-              // Show Filtered Jobs
               <JobCards jobs={FilterSearch} applicantId={user?.id} />
             ) : searchQuery || locationQuery ? (
               SearchJob && SearchJob.length > 0 ? (
-                // Show Search Jobs
                 <JobCards jobs={SearchJob} applicantId={user?.id} />
               ) : (
-                // No Jobs Found
                 <div className="no-result">
                   No jobs found for "{searchQuery}" in "{locationQuery}". Try adjusting your search terms or filters.
                 </div>
               )
             ) : matchJob && matchJob.length > 0 ? (
-              // Show Recommended Jobs
               <>
                 <h5 className="mb-2" style={{ textAlign: "left" }}>Recommended Jobs:</h5>
                 <JobCards
                   jobs={matchJob}
                   jobType={jobType}
                   salaryRange={salaryRange}
-                  applicantId={user.id}
+                  applicantId={user?.id}
                 />
               </>
             ) : (
-              // Show Default Paginated Jobs
               <JobCards
                 jobs={paginatedJobs}
                 jobType={jobType}
@@ -378,7 +374,8 @@ useEffect(() => {
                 applicantId={user?.id}
               />
             )}
-        </Row>
+          </Row>
+
 
 
 
@@ -522,13 +519,16 @@ useEffect(() => {
     min-width: 160px;
   }
 }
+@media (max-width: 768px) {
+  .main-container {
+    margin-top: 6.6rem !important;
+  }
+}
 
 @media (max-width: 600px) {
   .fixed-search-area {
     padding: 16px;
-    border-radius: 10px;
   }
-
   .filters-row {
     flex-wrap: wrap;
   }

@@ -117,7 +117,7 @@ export default function ViewApplications() {
   return (
     <Container style={{marginTop: '3rem'}}>
     <Row>
-        <Col lg={3} className="applicant-sidebar bg-light vh-100 p-3 d-none d-lg-block">
+        <Col lg={3} className="applicant-sidebar vh-100 p-3 d-none d-lg-block" style={{background: '#e6f3ff'}}>
                         <EmployerSidebar />
                     </Col>
                     {/* Sidebar Toggle Button (Small Screens) */}
@@ -183,7 +183,7 @@ export default function ViewApplications() {
             />
           </InputGroup>
 
-          <div className="d-flex flex-wrap align-items-center mb-4" style={{ padding: '10px', borderRadius: '5px' }}>
+          <div className="d-flex flex-wrap align-items-center mb-2" style={{ padding: '10px', borderRadius: '5px' }}>
             <div className="me-3">
               <p className="mb-0" style={{ fontSize: '16px', fontWeight: '500', marginLeft: '20px' }}>
                 Showing <span style={{ fontWeight: '600', color: '#0A65CC' }}>{currentApplications.length}</span> applicant(s)
@@ -213,7 +213,7 @@ export default function ViewApplications() {
           </div>
           {/* Set Assessment Section */}
           {(filter === "All" || filter === "Pending") && hasPendingApplicants && (
-            <div className="d-flex mb-4" style={{ marginLeft: '20px' }}>
+            <div className="d-flex mb-2" style={{ marginLeft: '20px' }}>
               <button
                 className="btn"
                 onClick={handleSetAssessment}
@@ -245,7 +245,7 @@ export default function ViewApplications() {
       <table className="table table-striped" style={{ width: '100%' }}>
         <thead className="thead-light">
           <tr>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', width: '50px', fontWeight: '500' }}>
+            <th style={{ color: '#fff', background: '#1863b9', width: '50px', fontWeight: '500', fontSize: '14px' }}>
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -254,12 +254,12 @@ export default function ViewApplications() {
                 onChange={(e) => handleSelectAll(e.target.checked)}
               />
             </th>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', fontWeight: '500' }}>ID</th>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', fontWeight: '500' }}>Name</th>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', fontWeight: '500' }}>Date Applied</th>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', fontWeight: '500' }}>Contact</th>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', fontWeight: '500' }}>Status</th>
-            <th style={{ color: '#8a8a8a', background: '#d4e0e9c2', fontWeight: '500' }}>Actions</th>
+            <th style={{ color: '#fff', background: '#1863b9', fontWeight: '500', fontSize: '14px' }}>ID</th>
+            <th style={{ color: '#fff', background: '#1863b9', fontWeight: '500', fontSize: '14px' }}>Name</th>
+            <th style={{ color: '#fff', background: '#1863b9', fontWeight: '500', fontSize: '14px' }}>Date Applied</th>
+            <th style={{ color: '#fff', background: '#1863b9', fontWeight: '500', fontSize: '14px' }}>Contact</th>
+            <th style={{ color: '#fff', background: '#1863b9', fontWeight: '500', fontSize: '14px' }}>Status</th>
+            <th style={{ color: '#fff', background: '#1863b9', fontWeight: '500', fontSize: '14px' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
