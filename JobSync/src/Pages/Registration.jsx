@@ -45,7 +45,14 @@ function RegistrationForm() {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setInputs(values => ({ ...values, [name]: value }));
+        let newValue = value;
+    
+        if (name === 'firstname' || name === 'middlename' || name === 'lastname' || name === 'suffix') {
+            // Capitalize first letter of each word, maintain spaces (e.g., "Juan Dela Cruz")
+            newValue = value.replace(/\b\w/g, char => char.toUpperCase());
+        }
+    
+        setInputs(values => ({ ...values, [name]: newValue }));
     
         if (name === 'firstname' || name === 'lastname') {
             setNameError(prevErrors => ({ ...prevErrors, [name]: '' }));
@@ -57,7 +64,7 @@ function RegistrationForm() {
                 setNameError(prevErrors => ({ ...prevErrors, [name]: `${name.charAt(0).toUpperCase() + name.slice(1)} must be at least 2 characters.` }));
             }
         }
-        
+    
         if (name === 'password') {
             const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
             setPasswordError(passwordRegex.test(value) ? '' : "Password must be at least 8 characters, one uppercase, lowercase, numbers, and a special character.");
@@ -150,6 +157,7 @@ function RegistrationForm() {
                         className={`register ${showErrors && nameError.firstname ? "is-invalid" : ""}`} 
                         placeholder="First Name *" 
                         name="firstname" 
+                        value={inputs.firstname || ""}
                         onChange={handleChange} 
                         onKeyDown={(e) => {
                             if (/[^A-Za-z\s]/.test(e.key) && e.key !== "Backspace") e.preventDefault();
@@ -166,6 +174,7 @@ function RegistrationForm() {
                         className="register" 
                         placeholder="Middle Name (Optional)" 
                         name="middlename" 
+                        value={inputs.middlename || ""}
                         onChange={handleChange} 
                         onKeyDown={(e) => {
                             if (/[^A-Za-z\s]/.test(e.key) && e.key !== "Backspace") e.preventDefault();
@@ -182,6 +191,7 @@ function RegistrationForm() {
                         className={`register ${showErrors && nameError.lastname ? "is-invalid" : ""}`} 
                         placeholder="Last Name *" 
                         name="lastname" 
+                        value={inputs.lastname || ""}
                         onChange={handleChange} 
                         onKeyDown={(e) => {
                             if (/[^A-Za-z\s]/.test(e.key) && e.key !== "Backspace") e.preventDefault();
@@ -330,12 +340,12 @@ function RegistrationForm() {
         <>
         <Container className="mt-5 paddings">
         <Row>
-        <Col xs={12} lg={5}>
+        <Col xs={12} lg={6}>
                     <h3 className="mb-3 text-start">Create Account</h3>
                     <h4 className="mb-4 text-start" style={{ fontSize: '15px' }}>Already have an account? <Link to="/candidate_login" style={{ textDecoration: 'none', color: '#0A65CC' }}>Log In</Link>
                     </h4>
                     <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
+                        <Card className="p-4 text-center" style={{ backgroundColor: "aliceblue", borderRadius: "10px", boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px', border: 'none'}}>
                             <h5 className="text-center mb-3">Create Account as</h5>
                             <div className="d-flex flex-column flex-sm-row justify-content-center">
                                 <Button 
@@ -349,44 +359,33 @@ function RegistrationForm() {
                         </Card>
                     </div>
 
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} style={{padding: '20px', background: 'aliceblue', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px'}}>
                         {renderFormFields()}
                     </Form>
                 </Col>
             {/* Right Section - Image Display */}
-            <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
-                    <div className="position-relative w-100">
-                        {/* Background Image */}
-                        <Image
-                        src="/assets/our-services.jpg"
-                        alt="Registration Visual"
-                        fluid
-                        className="w-100 h-100"
-                        style={{ objectFit: "cover" }}
+            <Col xs={12} lg={6} className="d-none d-md-flex align-items-center justify-content-center">
+            <div
+                        className=" position-relative w-100 d-flex align-items-center justify-content-center"
+                        style={{
+                            borderRadius: "20px",
+                            minHeight: "400px",
+                            overflow: "hidden", 
+                        }}
+                    >
+                        <img 
+                            src="https://img.freepik.com/free-vector/online-resume-concept-illustration_114360-5166.jpg?t=st=1742575740~exp=1742579340~hmac=6fc04eea33e45b9326970137076d2b296466a83deeb8aee4eccfe6e3ffb75ae3&w=740"  // Replace with your actual image path
+                            alt="Job Search Banner"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",   
+                                borderRadius: "20px",
+                            }} 
                         />
-
-                        {/* Gradient Overlay */}
-                        <div
-                        className="position-absolute top-0 start-0 w-100 h-100"
-                        style={{
-                            background: "linear-gradient(rgba(10, 22, 101, 0.4), rgba(0, 8, 42, 0.7))",
-                            zIndex: 1,
-                        }}
-                        ></div>
-
-                        {/* Image Credit Overlay */}
-                        <div
-                        className="position-absolute bottom-0 start-0 w-100 text-center"
-                        style={{
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            color: "#fff",
-                            fontSize: "0.8rem",
-                            padding: "0.5rem",
-                            zIndex: 2,
-                        }}
-                        >
-                        Image credit: <a href="https://callclickmedia.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f0f0f0", textDecoration: "underline" }}>Call Click Media</a>
-                        </div>
+                      <div className="position-absolute bottom-0 end-0 text-white text-center p-4">
+                          <p>Image by <span style={{ color: '#1863b9' , fontWeight: 'bold' }}><a href="https://img.freepik.com/free-vector/online-resume-concept-illustration_114360-5166.jpg?t=st=1742575740~exp=1742579340~hmac=6fc04eea33e45b9326970137076d2b296466a83deeb8aee4eccfe6e3ffb75ae3&w=740" target="_blank" rel="noopener noreferrer" style={{ color: '#0d6efd', textDecoration: 'none' }}>Freepik</a></span></p>
+                          </div>
                     </div>
                     </Col>
         </Row>

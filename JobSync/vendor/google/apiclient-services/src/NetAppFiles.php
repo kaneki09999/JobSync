@@ -705,6 +705,16 @@ class NetAppFiles extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'validateDirectoryService' => [
+              'path' => 'v1/{+name}:validateDirectoryService',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

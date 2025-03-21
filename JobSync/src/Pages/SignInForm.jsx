@@ -195,7 +195,7 @@ function SignInForm() {
                         Don't have an account? <Link to="/registration" style={{ textDecoration: 'none', color: '#0A65CC' }}>Create Account</Link>
                     </h4>
                     <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
+                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "aliceblue", borderRadius: "10px", maxWidth: "580px", boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px', border: 'none' }}>
                             <h5 className="mb-3">Sign In as</h5>
                             <div className="d-flex flex-column flex-sm-row justify-content-center">
                                 <Button 
@@ -228,7 +228,7 @@ function SignInForm() {
                         </Card>
                     </div>
 
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} style={{padding: '30px', background: 'aliceblue', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px', borderRadius: '10px'}}>
                     {genericError && <small style={{ position: 'relative', color: '#dc3545', bottom: '10px' }}>{genericError}</small>}
                         <Form.Group className="mb-3">
                             <Form.Control
@@ -285,7 +285,7 @@ function SignInForm() {
                         </div>
                         <div className='text-muted text-center mt-3'>or</div>
                         <div className="d-grid">
-                            <Button type='button' onClick={loginGoogle} variant="light" className="btn-custom w-100 mt-3 mb-4"  style={{ backgroundColor: '#ffffff', width: '588px', marginTop: '20px', color: 'black'}}>
+                            <Button type='button' onClick={loginGoogle} variant="light" className="btn-custom w-100 mt-3"  style={{ backgroundColor: '#ffffff', width: '588px', marginTop: '20px', color: 'black'}}>
                                 <img src="/assets/google.png" alt="Google Logo" style={{ width: '20px', marginRight: '10px' }} />
                                 Sign in with Google
                             </Button>
@@ -294,41 +294,29 @@ function SignInForm() {
                 </Col>
                 <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
                     <div
-                        className="modern-login-card position-relative w-100 d-flex flex-column align-items-center justify-content-center text-white p-5"
+                        className=" position-relative w-100 d-flex align-items-center justify-content-center"
                         style={{
-                            background: "rgba(255, 255, 255, 0.1)",
-                            // backdropFilter: "blur(10px)",
                             borderRadius: "20px",
-                            boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-                            border: "1px solid rgba(255,255,255,0.2)",
                             minHeight: "400px",
-                            transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                            // border: "1px solid rgba(255,255,255)"
+                            overflow: "hidden", 
                         }}
                     >
-                        <h2 className="fw-bold fs-1" style={{ color: "#1863b9" }}>
-                            Find Your Next Opportunity
-                        </h2>
-                        <p className="text-center" style={{ maxWidth: "450px", fontSize: "16px", opacity: "0.9" }}>
-                            Connect with top employers, discover job opportunities, and take the next step in your career journey.
-                        </p>
-
-                        <div className="d-flex flex-column align-items-center gap-3 mt-4">
-                            <div className="d-flex align-items-center gap-2 text-primary">
-                                <FaBriefcase size={24} />
-                                <span>Browse thousands of jobs</span>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 text-primary">
-                                <FaUserShield size={24} />
-                                <span>Secure application process</span>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 text-primary">
-                                <FaLock size={24} />
-                                <span>Confidential & safe job search</span>
-                            </div>
-                        </div>
+                        <img 
+                            src="https://img.freepik.com/free-vector/job-vacancy-isometric-illustration-with-hr-manager-looking-laptop-screen-with-resume-applicants-vector-illustration_1284-81713.jpg?t=st=1742575431~exp=1742579031~hmac=d55abd70aa9ff666d7a7d09288d2c8b8daf46a11185b0594779e5567be11f63c&w=740"  // Replace with your actual image path
+                            alt="Job Search Banner"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",   
+                                borderRadius: "20px",
+                            }} 
+                        />
+                      <div className="position-absolute bottom-0 end-0 text-white text-center p-4">
+                          <p>Image by <span style={{ color: '#1863b9' , fontWeight: 'bold' }}><a href="https://img.freepik.com/free-vector/job-vacancy-isometric-illustration-with-hr-manager-looking-laptop-screen-with-resume-applicants-vector-illustration_1284-81713.jpg?t=st=1742575431~exp=1742579031~hmac=d55abd70aa9ff666d7a7d09288d2c8b8daf46a11185b0594779e5567be11f63c&w=740" target="_blank" rel="noopener noreferrer" style={{ color: '#0d6efd', textDecoration: 'none' }}>Freepik</a></span></p>
+                          </div>
                     </div>
-                </Col>
+                    </Col>
+
 
             </Row>
         </Container>

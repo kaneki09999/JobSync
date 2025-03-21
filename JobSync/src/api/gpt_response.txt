@@ -1,0 +1,8 @@
+{
+  "Name": "John Smith",
+  "Email": "johnsmith@email.com",
+  "Phone": "123-456-7890",
+  "Skills": "Java, Python, SQL, HTML, CSS",
+  "Work Experience": "Software Developer at XYZ Company, Intern at ABC Company",
+  "Education": "Bachelor's Degree in Computer Science from University of XYZ"
+}

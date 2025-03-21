@@ -19,6 +19,8 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1EvaluateInstancesRequest extends \Google\Model
 {
+  protected $autoraterConfigType = GoogleCloudAiplatformV1AutoraterConfig::class;
+  protected $autoraterConfigDataType = '';
   protected $bleuInputType = GoogleCloudAiplatformV1BleuInput::class;
   protected $bleuInputDataType = '';
   protected $coherenceInputType = GoogleCloudAiplatformV1CoherenceInput::class;
@@ -69,7 +71,33 @@ class GoogleCloudAiplatformV1EvaluateInstancesRequest extends \Google\Model
   protected $toolParameterKeyMatchInputDataType = '';
   protected $toolParameterKvMatchInputType = GoogleCloudAiplatformV1ToolParameterKVMatchInput::class;
   protected $toolParameterKvMatchInputDataType = '';
+  protected $trajectoryAnyOrderMatchInputType = GoogleCloudAiplatformV1TrajectoryAnyOrderMatchInput::class;
+  protected $trajectoryAnyOrderMatchInputDataType = '';
+  protected $trajectoryExactMatchInputType = GoogleCloudAiplatformV1TrajectoryExactMatchInput::class;
+  protected $trajectoryExactMatchInputDataType = '';
+  protected $trajectoryInOrderMatchInputType = GoogleCloudAiplatformV1TrajectoryInOrderMatchInput::class;
+  protected $trajectoryInOrderMatchInputDataType = '';
+  protected $trajectoryPrecisionInputType = GoogleCloudAiplatformV1TrajectoryPrecisionInput::class;
+  protected $trajectoryPrecisionInputDataType = '';
+  protected $trajectoryRecallInputType = GoogleCloudAiplatformV1TrajectoryRecallInput::class;
+  protected $trajectoryRecallInputDataType = '';
+  protected $trajectorySingleToolUseInputType = GoogleCloudAiplatformV1TrajectorySingleToolUseInput::class;
+  protected $trajectorySingleToolUseInputDataType = '';
 
+  /**
+   * @param GoogleCloudAiplatformV1AutoraterConfig
+   */
+  public function setAutoraterConfig(GoogleCloudAiplatformV1AutoraterConfig $autoraterConfig)
+  {
+    $this->autoraterConfig = $autoraterConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1AutoraterConfig
+   */
+  public function getAutoraterConfig()
+  {
+    return $this->autoraterConfig;
+  }
   /**
    * @param GoogleCloudAiplatformV1BleuInput
    */
@@ -419,6 +447,90 @@ class GoogleCloudAiplatformV1EvaluateInstancesRequest extends \Google\Model
   public function getToolParameterKvMatchInput()
   {
     return $this->toolParameterKvMatchInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1TrajectoryAnyOrderMatchInput
+   */
+  public function setTrajectoryAnyOrderMatchInput(GoogleCloudAiplatformV1TrajectoryAnyOrderMatchInput $trajectoryAnyOrderMatchInput)
+  {
+    $this->trajectoryAnyOrderMatchInput = $trajectoryAnyOrderMatchInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1TrajectoryAnyOrderMatchInput
+   */
+  public function getTrajectoryAnyOrderMatchInput()
+  {
+    return $this->trajectoryAnyOrderMatchInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1TrajectoryExactMatchInput
+   */
+  public function setTrajectoryExactMatchInput(GoogleCloudAiplatformV1TrajectoryExactMatchInput $trajectoryExactMatchInput)
+  {
+    $this->trajectoryExactMatchInput = $trajectoryExactMatchInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1TrajectoryExactMatchInput
+   */
+  public function getTrajectoryExactMatchInput()
+  {
+    return $this->trajectoryExactMatchInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1TrajectoryInOrderMatchInput
+   */
+  public function setTrajectoryInOrderMatchInput(GoogleCloudAiplatformV1TrajectoryInOrderMatchInput $trajectoryInOrderMatchInput)
+  {
+    $this->trajectoryInOrderMatchInput = $trajectoryInOrderMatchInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1TrajectoryInOrderMatchInput
+   */
+  public function getTrajectoryInOrderMatchInput()
+  {
+    return $this->trajectoryInOrderMatchInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1TrajectoryPrecisionInput
+   */
+  public function setTrajectoryPrecisionInput(GoogleCloudAiplatformV1TrajectoryPrecisionInput $trajectoryPrecisionInput)
+  {
+    $this->trajectoryPrecisionInput = $trajectoryPrecisionInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1TrajectoryPrecisionInput
+   */
+  public function getTrajectoryPrecisionInput()
+  {
+    return $this->trajectoryPrecisionInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1TrajectoryRecallInput
+   */
+  public function setTrajectoryRecallInput(GoogleCloudAiplatformV1TrajectoryRecallInput $trajectoryRecallInput)
+  {
+    $this->trajectoryRecallInput = $trajectoryRecallInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1TrajectoryRecallInput
+   */
+  public function getTrajectoryRecallInput()
+  {
+    return $this->trajectoryRecallInput;
+  }
+  /**
+   * @param GoogleCloudAiplatformV1TrajectorySingleToolUseInput
+   */
+  public function setTrajectorySingleToolUseInput(GoogleCloudAiplatformV1TrajectorySingleToolUseInput $trajectorySingleToolUseInput)
+  {
+    $this->trajectorySingleToolUseInput = $trajectorySingleToolUseInput;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1TrajectorySingleToolUseInput
+   */
+  public function getTrajectorySingleToolUseInput()
+  {
+    return $this->trajectorySingleToolUseInput;
   }
 }
 
