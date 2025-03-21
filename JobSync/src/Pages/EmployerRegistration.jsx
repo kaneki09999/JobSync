@@ -285,120 +285,76 @@ export default function EmployerRegistrationForm() {
 
     const renderFormFieldsStep2 = () => (
 
-    <>
-    <Row className="mb-3">
-    {/* DTI Certificate */}
-    <Col xs={12} md={6}>
+        <>
+        <Row className="mb-3" style={{textAlign: 'start'}}>
+          {/* DTI Certificate */}
+            <div className="mb-3">
+              <label className="form-label">DTI Business Name Registration</label>
+              <input
+                type="file"
+                className="form-control"
+                accept=".pdf,.jpg,.png"
+                onChange={(e) => handleFileUpload(e, setDtiCertificate, setDtiPreview)}
+              />
+            </div>
+      
+          {/* BIR Certificate */}
+            <div className="mb-3">
+              <label className="form-label">BIR Registration Certificate</label>
+              <input
+                type="file"
+                className="form-control"
+                accept=".pdf,.jpg,.png"
+                onChange={(e) => handleFileUpload(e, setBirCertificate, setBirPreview)}
+              />
+            </div>
+
+      
+        {/* Business Permit */}
         <div className="mb-3">
-        <label className="form-label">Upload DTI Business Name Registration</label>
-        <input
+          <label className="form-label">Business Permit</label>
+          <input
             type="file"
             className="form-control"
             accept=".pdf,.jpg,.png"
-            onChange={(e) => handleFileUpload(e, setDtiCertificate, setDtiPreview)}
-        />
-        {dtiPreview ? (
-            <div className="mt-3">
-            {dtiCertificate.type === "application/pdf" ? (
-                <embed src={dtiPreview} className="w-100" height="400px" />
-            ) : (
-                <img src={dtiPreview} alt="DTI Preview" className="img-fluid rounded" style={{ maxHeight: "300px" }} />
-            )}
-            </div>
-        ) : (
-            <div className="mt-3 text-center bg-light rounded d-flex flex-column align-items-center justify-content-center" style={{ height: "200px" }}>
-            <span className="text-muted">Documents Preview</span>
-            <FontAwesomeIcon icon={faFileLines} className="mt-2 text-primary" style={{ fontSize: "50px" }} />
-            </div>
-        )}
+            onChange={(e) => handleFileUpload(e, setBusinessPermit, setPermitPreview)}
+          />
         </div>
-    </Col>
-
-    {/* BIR Certificate */}
-    <Col xs={12} md={6}>
-        <div className="mb-3">
-        <label className="form-label">Upload BIR Registration Certificate</label>
-        <input
-            type="file"
-            className="form-control"
-            accept=".pdf,.jpg,.png"
-            onChange={(e) => handleFileUpload(e, setBirCertificate, setBirPreview)}
-        />
-        {birPreview ? (
-            <div className="mt-3">
-            {birCertificate.type === "application/pdf" ? (
-                <embed src={birPreview} className="w-100" height="400px" />
-            ) : (
-                <img src={birPreview} alt="BIR Preview" className="img-fluid rounded" style={{ maxHeight: "300px" }} />
-            )}
-            </div>
-        ) : (
-            <div className="mt-3 text-center bg-light rounded d-flex flex-column align-items-center justify-content-center" style={{ height: "200px" }}>
-            <span className="text-muted">Documents Preview</span>
-            <FontAwesomeIcon icon={faFileLines} className="mt-2 text-primary" style={{ fontSize: "50px" }} />
-            </div>
-        )}
+      
+        {/* Buttons */}
+        <div className="d-flex flex-column flex-md-row justify-content-center mb-3">
+          <button
+            type="button"
+            className="btn btn-secondary btn-custom mb-2 mb-md-0"
+            style={{ backgroundColor: "transparent", width: "100%", maxWidth: "340px", color: "#000000" }}
+            onClick={handleBack1}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
+          </button>
+      
+          <button
+            type="button"
+            className="btn btn-primary btn-custom ms-md-3"
+            style={{
+              backgroundColor: "#0A65CC",
+              width: "100%",
+              maxWidth: "340px",
+              border: "none",
+            }}
+            onClick={() => { setStep(4) }}
+            disabled={!isStep3Valid()}
+          >
+            Next <FontAwesomeIcon icon={faArrowRight} />
+          </button>
         </div>
-    </Col>
-    </Row>
-
-    {/* Business Permit */}
-    <div className="mb-3">
-    <label className="form-label">Upload Business Permit</label>
-    <input
-        type="file"
-        className="form-control"
-        accept=".pdf,.jpg,.png"
-        onChange={(e) => handleFileUpload(e, setBusinessPermit, setPermitPreview)}
-    />
-    {permitPreview ? (
-        <div className="mt-3">
-        {businessPermit.type === "application/pdf" ? (
-            <embed src={permitPreview} className="w-100" height="400px" />
-        ) : (
-            <img src={permitPreview} alt="Business Permit Preview" className="img-fluid rounded" style={{ maxHeight: "300px" }} />
-        )}
-        </div>
-    ) : (
-        <div className="mt-3 text-center bg-light rounded d-flex flex-column align-items-center justify-content-center" style={{ height: "200px" }}>
-        <span className="text-muted">Documents Preview</span>
-        <FontAwesomeIcon icon={faFileLines} className="mt-2 text-primary" style={{ fontSize: "50px" }} />
-        </div>
-    )}
-    </div>
-
-    {/* Buttons */}
-    <div className="d-flex flex-column flex-md-row justify-content-center mb-3">
-    <button
-        type="button"
-        className="btn btn-secondary btn-custom mb-2 mb-md-0"
-        style={{ backgroundColor: "transparent", width: "100%", maxWidth: "340px", color: "#000000" }}
-        onClick={handleBack1}
-    >
-        <FontAwesomeIcon icon={faArrowLeft} /> Back
-    </button>
-
-    <button
-        type="button"
-        className="btn btn-primary btn-custom ms-md-3"
-        style={{
-        backgroundColor: "#0A65CC",
-        width: "100%",
-        maxWidth: "340px",
-        border: "none",
-        }}
-        onClick={() => { setStep(4) }}
-        disabled={!isStep3Valid()}
-    >
-        Next <FontAwesomeIcon icon={faArrowRight} />
-    </button>
-    </div>
-
-    </>
-
+        </Row>
+      </>
+      
 
     );
-
+    const capitalizeWords = (str) => {
+        return str.replace(/\b\w/g, char => char.toUpperCase());
+    };
     const renderFormFieldsStep1 = () => (
         <>
             <h6 style={{ textAlign: 'left', color: '#505050' }}>Authorized Representative:</h6>
@@ -410,7 +366,8 @@ export default function EmployerRegistrationForm() {
                         placeholder="First Name *" 
                         value={firstName} 
                         onChange={(e) => {
-                            setFirstName(e.target.value);
+                            const capitalized = capitalizeWords(e.target.value);
+                            setFirstName(capitalized);
                             if (showValidation) setFirstNameError('');
                         }} 
                         onKeyDown={handleTextInput} 
@@ -423,7 +380,7 @@ export default function EmployerRegistrationForm() {
                         className="form-control register" 
                         placeholder="Middle Name (Optional)" 
                         value={middleName} 
-                        onChange={(e) => setMiddleName(e.target.value)} 
+                        onChange={(e) => setMiddleName(capitalizeWords(e.target.value))} 
                         onKeyDown={handleTextInput} 
                     />
                 </div>
@@ -437,7 +394,8 @@ export default function EmployerRegistrationForm() {
                         placeholder="Last Name *"     
                         value={lastName} 
                         onChange={(e) => {
-                            setLastName(e.target.value);
+                            const capitalized = capitalizeWords(e.target.value);
+                            setLastName(capitalized);
                             if (showValidation) setLastNameError('');
                         }} 
                         onKeyDown={handleTextInput} 
@@ -450,7 +408,7 @@ export default function EmployerRegistrationForm() {
                         className="form-control register" 
                         placeholder="Suffix (Optional)" 
                         value={suffix} 
-                        onChange={(e) => setSuffix(e.target.value)} 
+                        onChange={(e) => setSuffix(capitalizeWords(e.target.value))} 
                         onKeyDown={handleTextInput} 
                     />
                 </div>
@@ -648,52 +606,70 @@ export default function EmployerRegistrationForm() {
       
     return (
         <>
-        <Container className="mt-5 mb-5 paddings">
-        <Row className="justify-content-center">
-            <Col xs={12} md={8} lg={6}>
-                <h3 className="mb-3 text-start">Create Account</h3>
-                <h4 className="mb-4 text-start" style={{ fontSize: "15px" }}>
-                    Already have an account?{" "}
-                    <Link to="/employer_login" style={{ textDecoration: "none", color: "#0A65CC" }}>
-                        Log In
-                    </Link>
-                </h4>
+<Container className="mb-5 paddings">
+    <Row className="justify-content-center">
+        <Col xs={12} md={6} lg={6}>
+            <h3 className="mb-3 text-start">Create Account</h3>
+            <h4 className="mb-4 text-start" style={{ fontSize: "15px" }}>
+                Already have an account?{" "}
+                <Link to="/employer_login" style={{ textDecoration: "none", color: "#0A65CC" }}>
+                    Log In
+                </Link>
+            </h4>
 
-                <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px"}}>
-                            <h5 className="text-center mb-3">Create Account as</h5>
-                            <div className="container">
-                                <Button 
-                                     className={`btn btn-primary mx-1 custom-button ${formType === 'employer' ? 'active' : ''}  btn5`}
-                                     style={{ backgroundColor: formType === 'employer' ? '#1863b9' : 'white', color: formType === 'employer' ? 'white' : 'black', width: '100%',  }} 
-                                     onClick={() => setFormType('employer')}
-                                >
-                                    <FontAwesomeIcon icon={faUser} /> Employer
-                                </Button>
-                            </div>
-                        </Card>
+            <div className="d-flex justify-content-center mb-4">
+                <Card className="p-4 text-center" style={{ background: 'aliceblue', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px', borderRadius: "10px", border: 'none'}}>
+                    <h5 className="text-center mb-3">Create Account as</h5>
+                    <div className="container">
+                        <Button 
+                            className={`btn btn-primary mx-1 custom-button ${formType === 'employer' ? 'active' : ''}  btn5`}
+                            style={{ backgroundColor: formType === 'employer' ? '#1863b9' : 'white', color: formType === 'employer' ? 'white' : 'black', width: '100%',  }} 
+                            onClick={() => setFormType('employer')}
+                        >
+                            <FontAwesomeIcon icon={faUser} /> Employer
+                        </Button>
                     </div>
-                {/* Form Section */}
-                <div className="text-center">
-                    {renderProgressBar()}
-                    <form onSubmit={handleSubmit} style={{ width: step === 3 ? "100%" : "100%", margin: "auto" }}>
-                        {step === 1 
-                        ? renderFormFieldsStep1() 
-                        : step === 2
-                        ? renderFormFieldsStep2() 
-                        : renderFormFieldsStep3()}
-                    </form>
-                </div>
-            </Col>
-        </Row>
-    </Container>
+                </Card>
+            </div>
+
+            {/* Form Section */}
+            <div className="text-center" style={{ padding: '40px', borderRadius: '10px', background: 'aliceblue', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px'}}>
+                {renderProgressBar()}
+                <form onSubmit={handleSubmit} style={{ width: "100%", margin: "auto" }}>
+                    {step === 1 
+                    ? renderFormFieldsStep1() 
+                    : step === 2
+                    ? renderFormFieldsStep2() 
+                    : renderFormFieldsStep3()}
+                </form>
+            </div>
+        </Col>
+        <Col xs={12} md={6} lg={6} className="mb-4 mb-md-0" style={{alignContent: 'center'}}>
+            {/* Image Column */}
+            <div className="image-wrapper text-center">
+                <img 
+                    src="https://img.freepik.com/premium-vector/woman-sitting-online-marketing-working-with-pc-desktop-from-home-flat-design_115968-65.jpg?w=996" 
+                    alt="Create Account" 
+                    className="img-fluid form-image"
+                    style={{ borderRadius: '10px', maxHeight: '500px', objectFit: 'cover', width: '800px', boxShadow: 'none'}}
+                />
+            </div>
+        </Col>
+
+    </Row>
+</Container>
     <style>{`
             #root {
                 width: 100%;
             }
-        /* Card Responsiveness */
+            .form-image {
+                width: 100%;
+                border-radius: 10px;
+                box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 10px;
+            }
+        /* Card Responsiveness */   
         .paddings {
-
+            margin-top: 6rem;   
         }
         .btn5 {
             width: 270px;

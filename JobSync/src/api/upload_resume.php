@@ -1,122 +1,57 @@
-<?php 
+<?php
 include 'dbconnect.php';
+use Smalot\PdfParser\Parser;
 require '../../vendor/autoload.php';
+
 use Dotenv\Dotenv;
 
+// Load .env API key
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+// Handle file upload
+if ($_FILES['resume']['error'] === UPLOAD_ERR_OK) {
+    $tmpName = $_FILES['resume']['tmp_name'];
 
-$OPENAI_API_KEY = $_ENV['API_KEY'];
+    // Parse PDF text
+    $parser = new Parser();
+    $pdf = $parser->parseFile($tmpName);
+    $text = $pdf->getText();
 
-$objDb = new Dbconnect();
-$conn = $objDb->connect();   
+    file_put_contents('parsed_text.txt', $text); // Save extracted text for debugging
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['resume'])) {
-    $fileTmpPath = $_FILES['resume']['tmp_name'];
-    $fileName = $_FILES['resume']['name'];
-
-    $uploadFileDir = 'uploads/';
-    if (!is_dir($uploadFileDir)) {
-        mkdir($uploadFileDir, 0777, true);
-    }
-
-    $destPath = $uploadFileDir . $fileName;
-
-    if (!move_uploaded_file($fileTmpPath, $destPath)) {
-        echo json_encode(['message' => 'Failed to upload file.']);
-        exit;
-    }
-
-    // Parse PDF
-    try {
-        $parser = new \Smalot\PdfParser\Parser();
-        $pdf = $parser->parseFile($destPath);
-        $text = $pdf->getText();
-    } catch (Exception $e) {
-        echo json_encode(['message' => 'Failed to parse PDF.', 'error' => $e->getMessage()]);
-        exit;
-    }
-
-    // Prepare OpenAI Prompt
-    $prompt = "Extract the following fields from this resume: Name, Email, Phone, Skills, Education. Format it in JSON.\n\n$text";
-
-    $postData = [
-        'model' => 'gpt-3.5-turbo',
-        'messages' => [
-            ['role' => 'user', 'content' => $prompt]
-        ],
-        'temperature' => 0.2, 
-        'max_tokens' => 1000
-    ];
+    // Prepare prompt for OpenAI
+    $prompt = "Extract the following fields from this resume: full name, email, phone number, list of skills, education history, and work experience. Return in JSON format: {\"name\": \"\", \"email\": \"\", \"phone\": \"\", \"skills\": [], \"education\": [], \"experience\": []}.\n\nResume Text:\n$text";
 
     // Call OpenAI API
-    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    $OPENAI_API_KEY = $_ENV['API_KEY'];
+    $postData = [
+        "model" => "gpt-3.5-turbo",
+        "messages" => [
+            ["role" => "user", "content" => $prompt]
+        ],
+        "temperature" => 0.2,
+    ];
+
+    $ch = curl_init("https://api.openai.com/v1/chat/completions");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . $OPENAI_API_KEY,
-        'Content-Type: application/json'
+        "Content-Type: application/json",
+        "Authorization: Bearer $OPENAI_API_KEY"
     ]);
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-    $result = curl_exec($ch);
 
-    if (curl_errno($ch)) {
-        echo json_encode(['message' => 'OpenAI API request failed.', 'error' => curl_error($ch)]);
-        curl_close($ch);
-        exit;
-    }
+    $response = curl_exec($ch);
     curl_close($ch);
 
-    $resultData = json_decode($result, true);
-    $content = $resultData['choices'][0]['message']['content'] ?? '';
+    $result = json_decode($response, true);
+    $content = $result['choices'][0]['message']['content'];
 
-    // Attempt to parse JSON
-    $extractedData = json_decode($content, true);
-
-    // If invalid JSON, try to fix with regex (fallback)
-    if (!$extractedData) {
-        $content = trim($content);
-        $content = preg_replace('/```json|```/', '', $content);  // Remove markdown formatting if present
-        $extractedData = json_decode($content, true);
-    }
-
-    if (!$extractedData) {
-        echo json_encode(['message' => 'Failed to parse GPT response.', 'gpt_output' => $content]);
-        exit;
-    }
-
-    // Optional: Validate required fields
-    $requiredFields = ['Name', 'Email', 'Phone', 'Skills', 'Education'];
-    foreach ($requiredFields as $field) {
-        if (!isset($extractedData[$field])) {
-            echo json_encode(['message' => "Missing required field: $field"]);
-            exit;
-        }
-    }
-
-    // Assign to variables for bindParam (pass by reference)
-    $name = $extractedData['Name'];
-    $email = $extractedData['Email'];
-    $phone = $extractedData['Phone'];
-    $skills = json_encode($extractedData['Skills']);
-    $education = json_encode($extractedData['Education']);
-
-    // Insert into Database
-    try {
-        $sql = "INSERT INTO resumes (name, email, phone, skills, experience, education) 
-                VALUES (:name, :email, :phone, :skills, null, :education)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone', $phone);
-        $stmt->bindParam(':skills', $skills);
-        $stmt->bindParam(':education', $education);
-        $stmt->execute();
-
-        echo json_encode(['message' => 'Resume processed and saved successfully.']);
-    } catch (PDOException $e) {
-        echo json_encode(['message' => 'Database error.', 'error' => $e->getMessage()]);
-    }
+    // Return extracted JSON data
+    header('Content-Type: application/json');
+    echo $content;
 } else {
-    echo json_encode(['message' => 'No file uploaded.']);
+    http_response_code(400);
+    echo json_encode(["error" => "Failed to upload file."]);
 }
 ?>

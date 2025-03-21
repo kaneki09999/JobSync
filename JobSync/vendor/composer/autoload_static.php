@@ -28,6 +28,8 @@ class ComposerStaticInitb33a1849b87f8a7a326568227f84f97f
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\Process\\' => 26,
+            'Spatie\\PdfToText\\' => 17,
         ),
         'P' => 
         array (
@@ -83,6 +85,14 @@ class ComposerStaticInitb33a1849b87f8a7a326568227f84f97f
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Spatie\\PdfToText\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/pdf-to-text/src',
         ),
         'Psr\\Log\\' => 
         array (

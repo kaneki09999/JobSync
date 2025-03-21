@@ -210,7 +210,7 @@ function SignInEmployer() {
 
                     {/* Sign In as Card */}
                     <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
+                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "aliceblue", borderRadius: "10px", maxWidth: "580px", boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px', border: 'none' }}>
                             <h5 className="mb-3">Sign In as</h5>
                             <div className="d-flex flex-column flex-sm-row justify-content-center">
                                 <Button 
@@ -229,7 +229,7 @@ function SignInEmployer() {
                     </div>
 
                     {/* Sign-in Form */}
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} style={{padding: '30px', background: 'aliceblue', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 4px 10px', borderRadius: '10px'}}>
                         <Form.Group className="mb-3">
                             <Form.Control
                                 type="email"

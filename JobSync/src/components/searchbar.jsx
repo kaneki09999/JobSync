@@ -234,11 +234,11 @@ function SearchJobs() {
                                                     <li className="notification-empty">No notifications available.</li>
                                                 )}
                                             </ul>
-                                            <div className="text-center">
+                                            {/* <div className="text-center">
                                                 <button className="btn btn-link notification-view-all">
                                                     View All
                                                 </button>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 )}

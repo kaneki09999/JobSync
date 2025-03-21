@@ -26,7 +26,7 @@ const CustomerSupport = () => {
         <Col md={6} xs={12}>
           <div className="d-flex align-items-center mb-3">
             <img
-              src="/src/assets/logo jobsync2.png"
+              src="/assets/logo jobsync2.png"
               alt="Support Icon"
               className="me-2"
               style={{ width: '100px', height: 'auto' }}
