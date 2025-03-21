@@ -58,6 +58,8 @@ class Finding extends \Google\Collection
   protected $dataAccessEventsDataType = 'array';
   protected $dataFlowEventsType = DataFlowEvent::class;
   protected $dataFlowEventsDataType = 'array';
+  protected $dataRetentionDeletionEventsType = DataRetentionDeletionEvent::class;
+  protected $dataRetentionDeletionEventsDataType = 'array';
   protected $databaseType = Database::class;
   protected $databaseDataType = '';
   /**
@@ -90,6 +92,10 @@ class Finding extends \Google\Collection
   protected $iamBindingsDataType = 'array';
   protected $indicatorType = Indicator::class;
   protected $indicatorDataType = '';
+  protected $ipRulesType = IpRules::class;
+  protected $ipRulesDataType = '';
+  protected $jobType = Job::class;
+  protected $jobDataType = '';
   protected $kernelRootkitType = KernelRootkit::class;
   protected $kernelRootkitDataType = '';
   protected $kubernetesType = Kubernetes::class;
@@ -122,6 +128,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $networksType = Network::class;
+  protected $networksDataType = 'array';
   /**
    * @var string
    */
@@ -390,6 +398,20 @@ class Finding extends \Google\Collection
     return $this->dataFlowEvents;
   }
   /**
+   * @param DataRetentionDeletionEvent[]
+   */
+  public function setDataRetentionDeletionEvents($dataRetentionDeletionEvents)
+  {
+    $this->dataRetentionDeletionEvents = $dataRetentionDeletionEvents;
+  }
+  /**
+   * @return DataRetentionDeletionEvent[]
+   */
+  public function getDataRetentionDeletionEvents()
+  {
+    return $this->dataRetentionDeletionEvents;
+  }
+  /**
    * @param Database
    */
   public function setDatabase(Database $database)
@@ -558,6 +580,34 @@ class Finding extends \Google\Collection
     return $this->indicator;
   }
   /**
+   * @param IpRules
+   */
+  public function setIpRules(IpRules $ipRules)
+  {
+    $this->ipRules = $ipRules;
+  }
+  /**
+   * @return IpRules
+   */
+  public function getIpRules()
+  {
+    return $this->ipRules;
+  }
+  /**
+   * @param Job
+   */
+  public function setJob(Job $job)
+  {
+    $this->job = $job;
+  }
+  /**
+   * @return Job
+   */
+  public function getJob()
+  {
+    return $this->job;
+  }
+  /**
    * @param KernelRootkit
    */
   public function setKernelRootkit(KernelRootkit $kernelRootkit)
@@ -710,6 +760,20 @@ class Finding extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param Network[]
+   */
+  public function setNetworks($networks)
+  {
+    $this->networks = $networks;
+  }
+  /**
+   * @return Network[]
+   */
+  public function getNetworks()
+  {
+    return $this->networks;
   }
   /**
    * @param string

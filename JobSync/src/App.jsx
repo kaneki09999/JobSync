@@ -98,6 +98,7 @@ import ForgotPassword from './Pages/ForgotPassword';
 import MapComponent from './Pages/Applicants/Mapp';
 import EditJobPosted from './Pages/EditJobPosted';
 import TermsAndConditions from './components/termsandcondition';
+import ResumeUpload from './Pages/Resume/ResumeRegister';
 
 function Layout({ userId, setUserId }) {
   const location = useLocation();
@@ -284,6 +285,7 @@ const getBreadcrumbs = () => {
 
 
       <Routes>
+      <Route path='/sample' element={<ResumeUpload/>} />
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={renderHomePage()} />
         <Route path='/findjob' element={<FindJob/>} />

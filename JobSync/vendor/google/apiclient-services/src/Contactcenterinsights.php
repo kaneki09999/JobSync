@@ -40,6 +40,8 @@ class Contactcenterinsights extends \Google\Service
 
   public $projects_locations;
   public $projects_locations_analysisRules;
+  public $projects_locations_authorizedViewSets_authorizedViews;
+  public $projects_locations_authorizedViewSets_authorizedViews_conversations;
   public $projects_locations_conversations;
   public $projects_locations_conversations_analyses;
   public $projects_locations_conversations_feedbackLabels;
@@ -233,6 +235,50 @@ class Contactcenterinsights extends \Google\Service
                   'required' => true,
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_authorizedViewSets_authorizedViews = new Contactcenterinsights\Resource\ProjectsLocationsAuthorizedViewSetsAuthorizedViews(
+        $this,
+        $this->serviceName,
+        'authorizedViews',
+        [
+          'methods' => [
+            'queryMetrics' => [
+              'path' => 'v1/{+location}:queryMetrics',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'location' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_authorizedViewSets_authorizedViews_conversations = new Contactcenterinsights\Resource\ProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations(
+        $this,
+        $this->serviceName,
+        'conversations',
+        [
+          'methods' => [
+            'calculateStats' => [
+              'path' => 'v1/{+location}/conversations:calculateStats',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'location' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -693,7 +739,17 @@ class Contactcenterinsights extends \Google\Service
         'issues',
         [
           'methods' => [
-            'delete' => [
+            'create' => [
+              'path' => 'v1/{+parent}/issues',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
