@@ -9,8 +9,8 @@ const TermsAndConditions = ({ show, onClose }) => {
       onHide={onClose}
       size="lg"
       centered
-      dialogClassName="fade-scale" // Custom class for scaling animation
-      animation={true} // Enabling animation
+      dialogClassName="fade-scale" 
+      animation={true} 
     >
       <Modal.Header style={{ backgroundColor: '#1863b9' }} closeButton>
         {/* Flex container to align logo and title */}
@@ -19,7 +19,7 @@ const TermsAndConditions = ({ show, onClose }) => {
           <img
             src={logo} 
             alt="Logo"
-            style={{ width: '60px', height: '60px', marginRight: '10px' }} // Adjust the logo size
+            style={{ width: '60px', height: '60px', marginRight: '10px' }}
           />
           {/* Modal title */}
           <Modal.Title style={{ color: 'white' }}>Terms and Conditions</Modal.Title>

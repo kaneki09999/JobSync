@@ -9,6 +9,8 @@ import { useAuth } from '../AuthContext';
 import Swal from 'sweetalert2';
 import { postToEndpoint } from '../components/apiService';
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Form } from 'react-bootstrap';
+import EmployerTermsAndConditions from '../components/empterms&conditions';
 
 
 export default function EmployerRegistrationForm() {
@@ -35,6 +37,12 @@ export default function EmployerRegistrationForm() {
     const [dtiPreview, setDtiPreview] = useState(null);
     const [birPreview, setBirPreview] = useState(null);
     const [permitPreview, setPermitPreview] = useState(null);
+
+    const [showModal, setShowModal] = useState(false);
+
+
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
     
     const handleFileUpload = (e, setFile, setPreview) => {
         const file = e.target.files[0];
@@ -48,6 +56,8 @@ export default function EmployerRegistrationForm() {
             setPreview(null);
         }
     };
+
+    
 
 
     const isStep3Valid = () => {
@@ -510,6 +520,23 @@ export default function EmployerRegistrationForm() {
                 </div>
                 {contactError && showValidation && <div style={{ color: 'red', fontSize: '0.8em' }}>{contactError}</div>}
             </div>
+
+             {/* Terms Agreement */}
+             <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
+                <Form.Check 
+                    type="checkbox" 
+                    checked={isAgreed} 
+                    onChange={() => setIsAgreed(!isAgreed)} 
+                />
+                <div>
+                <Form.Label className="ms-2">
+                    I've read and agreed with{' '}
+                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
+                </Form.Label>
+                <EmployerTermsAndConditions show={showModal} onClose={handleCloseModal} />
+                </div>
+            </Form.Group>
+
             <div className="d-flex justify-content-center">
                 <button 
                     type="button" 

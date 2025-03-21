@@ -98,6 +98,7 @@ import ForgotPassword from './Pages/ForgotPassword';
 import MapComponent from './Pages/Applicants/Mapp';
 import EditJobPosted from './Pages/EditJobPosted';
 import TermsAndConditions from './components/termsandcondition';
+import EmployerTermsAndConditions from './components/empterms&conditions';
 
 function Layout({ userId, setUserId }) {
   const location = useLocation();
@@ -370,6 +371,7 @@ const getBreadcrumbs = () => {
       <Route path='/employer/publisher/:application_id/:job_id' element={ <ProtectedRoute><Publisher /> </ProtectedRoute>} />
       <Route path='/applicant/subscriber/:application_id/:job_id' element={ <ProtectedRoute><Subscriber /> </ProtectedRoute>} />
       <Route path='/termsandconditions' element={<TermsAndConditions />} />
+      <Route path='/employerterms&conditions' element={<EmployerTermsAndConditions />} />
       </Routes>
       {!hideNavigationAndFooter && !hideFooter ? <Footer /> : null}
       {hideNavigationAndFooter || !hideFooter ? null : <SemiFooter />}
