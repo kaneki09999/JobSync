@@ -285,7 +285,6 @@ const getBreadcrumbs = () => {
 
 
       <Routes>
-      <Route path='/sample' element={<ResumeUpload/>} />
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={renderHomePage()} />
         <Route path='/findjob' element={<FindJob/>} />

@@ -114,7 +114,7 @@ const EmpTermsAndConditions = ({ show, onClose }) => {
 
         <h6>10. Contact Us</h6>
         <p style={{ textAlign: 'justify', textIndent: '30px'  }}>
-          For inquiries or concerns regarding these Terms and Conditions, contact us at [Insert Contact Email].
+          For inquiries or concerns regarding these Terms and Conditions, contact us at me.jobsync@gmail.com.
         </p>
 
         <p style={{ textAlign: 'justify', textIndent: '30px'  }}>

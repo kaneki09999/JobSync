@@ -478,23 +478,6 @@ export default function EmployerRegistrationForm() {
                 </div>
                 {contactError && showValidation && <div style={{ color: 'red', fontSize: '0.8em' }}>{contactError}</div>}
             </div>
-
-             {/* Terms Agreement */}
-             <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
-                <Form.Check 
-                    type="checkbox" 
-                    checked={isAgreed} 
-                    onChange={() => setIsAgreed(!isAgreed)} 
-                />
-                <div>
-                <Form.Label className="ms-2">
-                    I've read and agreed with{' '}
-                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
-                </Form.Label>
-                <EmployerTermsAndConditions show={showModal} onClose={handleCloseModal} />
-                </div>
-            </Form.Group>
-
             <div className="d-flex justify-content-center">
                 <button 
                     type="button" 
@@ -541,17 +524,22 @@ export default function EmployerRegistrationForm() {
                 />
             </div>
 
-            <div className="form-check mb-3 d-flex align-items-center">
-                <input
-                    type="checkbox"
-                    className="form-check-input"
-                    checked={isAgreed}
-                    onChange={() => setIsAgreed(!isAgreed)}
+           
+             {/* Terms Agreement */}
+             <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
+                <Form.Check 
+                    type="checkbox" 
+                    checked={isAgreed} 
+                    onChange={() => setIsAgreed(!isAgreed)} 
                 />
-                <label className="form-check-label" style={{ marginLeft: 10 }}>
-                    I've read and agreed with your Terms and Services
-                </label>
-            </div>
+                <div>
+                <Form.Label className="ms-2">
+                    I've read and agreed with{' '}
+                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
+                </Form.Label>
+                <EmployerTermsAndConditions show={showModal} onClose={handleCloseModal} />
+                </div>
+            </Form.Group>
 
             {/* Button Section */}
             <div className="d-flex flex-column mb-3">
@@ -592,6 +580,7 @@ export default function EmployerRegistrationForm() {
                     )}
 
                     {/* Create Account Button */}
+                    
                     <Button
                         type="submit"
                         className="btn btn-success btn-custom w-100 w-md-50 mt-3 mt-md-0"
