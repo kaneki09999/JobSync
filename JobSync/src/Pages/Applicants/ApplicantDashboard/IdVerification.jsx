@@ -146,7 +146,7 @@ export default function IDVerification(){
             reader.onerror = (error) => reject(error);
         });
     };
-
+    const isFormComplete = documentImage && backImage && faceImage;
   return (
     <>
     {verified[0]?.account_status === 'verified' ? (
@@ -238,11 +238,19 @@ export default function IDVerification(){
                 <Col xs={12} md={6} className="d-flex flex-column flex-md-row justify-content-center">
                     <button 
                         type="button" 
-                        className="btn btn-primary btn-custom" 
+                        className="btn btn-primary btn-custom d-flex align-items-center justify-content-center" 
                         onClick={handleSubmit}
                         style={{ backgroundColor: '#0A65CC', width: '150px', border: 'none' }}
+                        disabled={!isFormComplete || isLoading}
                     >
-                        Verify 
+                        {isLoading ? (
+                            <>
+                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Verifying...
+                            </>
+                        ) : (
+                            "Verify"
+                        )}
                     </button>
                 </Col>
             </Row>
