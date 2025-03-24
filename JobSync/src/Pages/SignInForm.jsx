@@ -201,10 +201,11 @@ function SignInForm() {
                                 <Button 
                                     className={`mx-1 mb-2 mb-sm-0 ${formType === "candidate" ? "active" : ""} btn5`}
                                     style={{ 
-                                        backgroundColor: formType === "candidate" ? "#1863b9" : "white", 
+                                        backgroundColor: formType === "candidate" ? "rgb(24 99 185 / 80%)" : "white", 
                                         color: formType === "candidate" ? "white" : "black", 
                                         flexGrow: 1, 
-                                        
+                                        border:'none',
+                                        cursor: 'default' 
                                     }}
                                     onClick={() => setFormType("candidate")}
                                 >

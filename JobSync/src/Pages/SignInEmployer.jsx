@@ -216,9 +216,11 @@ function SignInEmployer() {
                                 <Button 
                                     className={`mx-1 ${formType === "employer" ? "active" : ""} btn5`}
                                     style={{ 
-                                        backgroundColor: formType === "employer" ? "#1863b9" : "white", 
+                                        backgroundColor: formType === "employer" ? "rgb(24 99 185 / 80%)" : "white", 
                                         color: formType === "employer" ? "white" : "black", 
                                         flexGrow: 1, 
+                                        border: 'none',
+                                        cursor: 'default'
                                     }}
                                 >
                                     <FontAwesomeIcon icon={faUser} /> Employer
