@@ -37,6 +37,11 @@ function RegistrationForm() {
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
 
+    const handleAgreeModal = () => {
+        setIsAgreed(true);  // Automatically check the checkbox when "Agree" is clicked
+        setShowModal(false);  // Close the modal after agreeing
+      };
+
     useEffect(() => {
         if (user) {
             navigate('/applicants/overview');
@@ -285,21 +290,26 @@ function RegistrationForm() {
                 )}
             </Form.Group>
 
-            {/* Terms Agreement */}
-            <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
-                <Form.Check 
-                    type="checkbox" 
-                    checked={isAgreed} 
-                    onChange={() => setIsAgreed(!isAgreed)} 
-                />
-                <div>
-                <Form.Label className="ms-2">
-                    I've read and agreed with{' '}
-                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
-                </Form.Label>
-                <TermsAndConditions show={showModal} onClose={handleCloseModal} />
-                </div>
-            </Form.Group>
+             {/* Terms Agreement */}
+      <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
+        <Form.Check 
+          type="checkbox" 
+          checked={isAgreed} 
+          onChange={() => {}}
+          disabled={isAgreed}  // Disable the checkbox once agreed
+        />
+        <div>
+          <Form.Label className="ms-2">
+            I've read and agreed with{' '}
+            <a href="#!" onClick={handleShowModal}>Terms and Conditions</a>
+          </Form.Label>
+          <TermsAndConditions 
+            show={showModal} 
+            onClose={handleCloseModal} 
+            onAgree={handleAgreeModal} // Pass the agree handler to the modal
+          />
+        </div>
+      </Form.Group>
 
             {/* Submit Button with Loader */}
             <div className="d-flex justify-content-center position-relative">
@@ -334,20 +344,7 @@ function RegistrationForm() {
                     <h3 className="mb-3 text-start">Create Account</h3>
                     <h4 className="mb-4 text-start" style={{ fontSize: '15px' }}>Already have an account? <Link to="/candidate_login" style={{ textDecoration: 'none', color: '#0A65CC' }}>Log In</Link>
                     </h4>
-                    <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
-                            <h5 className="text-center mb-3">Create Account as</h5>
-                            <div className="d-flex flex-column flex-sm-row justify-content-center">
-                                <Button 
-                                     className={`btn btn-primary mx-1 custom-button mb-3 ${formType === 'candidate' ? 'active' : ''} btn5`}
-                                     style={{ backgroundColor: formType === 'candidate' ? '#1863b9' : 'white', color: formType === 'candidate' ? 'white' : 'black', width: '100%',  }} 
-                                     onClick={() => setFormType('candidate')}
-                                >
-                                    <FontAwesomeIcon icon={faUser} /> Candidate
-                                </Button>
-                            </div>
-                        </Card>
-                    </div>
+                    
 
                     <Form onSubmit={handleSubmit}>
                         {renderFormFields()}

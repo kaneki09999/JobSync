@@ -188,150 +188,109 @@ function SignInForm() {
             </div>
         )}
         <Container className="mt-5 paddings">
-            <Row>
-                <Col xs={12} lg={5}>
-                    <h3 className="mb-3 text-start">Sign In</h3>
-                    <h4 className="mb-4 text-start" style={{ fontSize: '15px' }}>
-                        Don't have an account? <Link to="/registration" style={{ textDecoration: 'none', color: '#0A65CC' }}>Create Account</Link>
-                    </h4>
-                    <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
-                            <h5 className="mb-3">Sign In as</h5>
-                            <div className="d-flex flex-column flex-sm-row justify-content-center">
-                                <Button 
-                                    className={`mx-1 mb-2 mb-sm-0 ${formType === "candidate" ? "active" : ""} btn5`}
-                                    style={{ 
-                                        backgroundColor: formType === "candidate" ? "#1863b9" : "white", 
-                                        color: formType === "candidate" ? "white" : "black", 
-                                        flexGrow: 1, 
-                                        
-                                    }}
-                                    onClick={() => setFormType("candidate")}
-                                >
-                                    <FontAwesomeIcon icon={faUser} /> Candidate
-                                </Button>
-                                {/* <Link to="/employer_login" className="text-decoration-none">
-                                    <Button 
-                                        className={`mx-1 ${formType === "employer" ? "active" : ""} resp btn5`}
-                                        style={{ 
-                                            backgroundColor: formType === "employer" ? "#042852" : "white", 
-                                            color: formType === "employer" ? "white" : "black", 
-                                            flexGrow: 1, 
-                                            width: "225px", 
-                                            borderColor: "black" 
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faBuilding} /> Employer
-                                    </Button>
-                                </Link> */}
-                            </div>
-                        </Card>
-                    </div>
+    <Row className="align-items-center justify-content-center">
+        <Col xs={12} lg={5} className="text-start">
+            <h3 className="mb-3">Sign In as Applicant</h3>
+            <h4 className="mb-4" style={{ fontSize: '15px' }}>
+                Don't have an account? <Link to="/registration" style={{ textDecoration: 'none', color: '#0A65CC' }}>Create Account</Link>
+            </h4>
 
-                    <Form onSubmit={handleSubmit}>
-                    {genericError && <small style={{ position: 'relative', color: '#dc3545', bottom: '10px' }}>{genericError}</small>}
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="email"
-                                name='email'
-                                className={`form-control register ${emailError ? 'border border-danger' : isEmailCorrect ? 'border border-success' : ''}`}
-                                placeholder="Email"
-                                onChange={handleChange}
-                                value={inputs.email}
-                                required
-                            />
-                            {emailError && <small className="text-danger">{emailError}</small>}
-                        </Form.Group>
-                        <Form.Group className="mb-3 position-relative">
-                            <Form.Control
-                                type={passwordVisible ? 'text' : 'password'}
-                                name='password'
-                                className={`form-control register ${passwordError ? 'border border-danger' : isPasswordCorrect ? 'border border-success' : ''}`}
-                                placeholder="Password"
-                                onChange={handleChange}
-                                value={inputs.password}
-                                required
-                            />
-                            <div
-                                className="position-absolute"
-                                onClick={() => setPasswordVisible(!passwordVisible)}
-                                style={{
-                                    right: '18px',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    color: '#696969',
-                                    cursor: 'pointer',
-                                    zIndex: 2, 
-                                    pointerEvents: 'auto',
-                                }}
-                            >
-                                <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
-                            </div>
-                        </Form.Group>
-                        {passwordError && <small className="text-danger mt-2">{passwordError}</small>}
-                        <div className="d-flex justify-content-between mb-3">
-                            <Form.Check 
-                                type="checkbox" 
-                                label="Remember Me" 
-                                checked={isRemembered} 
-                                onChange={() => setIsRemembered(!isRemembered)} 
-                            />
-                            <Link to="/forgotPassword" style={{ textDecoration: 'underline', color: '#0A65CC' }}>Forgot Password?</Link>
-                        </div>
-                        <div className="d-grid">
-                            <Button type="submit" variant="primary" className="btn-custom w-100" style={{ backgroundColor: '#0A65CC', width: '700px', marginTop: '20px' }}>
-                                Sign In <FontAwesomeIcon icon={faArrowRight} />
-                            </Button>
-                        </div>
-                        <div className='text-muted text-center mt-3'>or</div>
-                        <div className="d-grid">
-                            <Button type='button' onClick={loginGoogle} variant="light" className="btn-custom w-100 mt-3 mb-4"  style={{ backgroundColor: '#ffffff', width: '588px', marginTop: '20px', color: 'black'}}>
-                                <img src="/assets/google.png" alt="Google Logo" style={{ width: '20px', marginRight: '10px' }} />
-                                Sign in with Google
-                            </Button>
-                        </div>
-                    </Form>
-                </Col>
-                <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
+            <Form onSubmit={handleSubmit}>
+                {genericError && <small style={{ position: 'relative', color: '#dc3545', bottom: '10px' }}>{genericError}</small>}
+                <Form.Group className="mb-3">
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        className={`form-control register ${emailError ? 'border border-danger' : isEmailCorrect ? 'border border-success' : ''}`}
+                        placeholder="Email"
+                        onChange={handleChange}
+                        value={inputs.email}
+                        required
+                    />
+                    {emailError && <small className="text-danger">{emailError}</small>}
+                </Form.Group>
+                <Form.Group className="mb-3 position-relative">
+                    <Form.Control
+                        type={passwordVisible ? 'text' : 'password'}
+                        name="password"
+                        className={`form-control register ${passwordError ? 'border border-danger' : isPasswordCorrect ? 'border border-success' : ''}`}
+                        placeholder="Password"
+                        onChange={handleChange}
+                        value={inputs.password}
+                        required
+                    />
                     <div
-                        className="modern-login-card position-relative w-100 d-flex flex-column align-items-center justify-content-center text-white p-5"
+                        className="position-absolute"
+                        onClick={() => setPasswordVisible(!passwordVisible)}
                         style={{
-                            background: "rgba(255, 255, 255, 0.1)",
-                            // backdropFilter: "blur(10px)",
-                            borderRadius: "20px",
-                            boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-                            border: "1px solid rgba(255,255,255,0.2)",
-                            minHeight: "400px",
-                            transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                            // border: "1px solid rgba(255,255,255)"
+                            right: '18px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#696969',
+                            cursor: 'pointer',
+                            zIndex: 2,
+                            pointerEvents: 'auto',
                         }}
                     >
-                        <h2 className="fw-bold fs-1" style={{ color: "#1863b9" }}>
-                            Find Your Next Opportunity
-                        </h2>
-                        <p className="text-center" style={{ maxWidth: "450px", fontSize: "16px", opacity: "0.9" }}>
-                            Connect with top employers, discover job opportunities, and take the next step in your career journey.
-                        </p>
-
-                        <div className="d-flex flex-column align-items-center gap-3 mt-4">
-                            <div className="d-flex align-items-center gap-2 text-primary">
-                                <FaBriefcase size={24} />
-                                <span>Browse thousands of jobs</span>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 text-primary">
-                                <FaUserShield size={24} />
-                                <span>Secure application process</span>
-                            </div>
-                            <div className="d-flex align-items-center gap-2 text-primary">
-                                <FaLock size={24} />
-                                <span>Confidential & safe job search</span>
-                            </div>
-                        </div>
+                        <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
                     </div>
-                </Col>
+                </Form.Group>
+                {passwordError && <small className="text-danger mt-2">{passwordError}</small>}
+                <div className="d-flex justify-content-between mb-3">
+                    <Form.Check
+                        type="checkbox"
+                        label="Remember Me"
+                        checked={isRemembered}
+                        onChange={() => setIsRemembered(!isRemembered)}
+                    />
+                    <Link to="/forgotPassword" style={{ textDecoration: 'underline', color: '#0A65CC' }}>Forgot Password?</Link>
+                </div>
+                <div className="d-grid">
+                    <Button type="submit" variant="primary" className="btn-custom w-100" style={{ backgroundColor: '#0A65CC', marginTop: '20px' }}>
+                        Sign In <FontAwesomeIcon icon={faArrowRight} />
+                    </Button>
+                </div>
+                <div className="text-muted text-center mt-3">or</div>
+                <div className="d-grid">
+                    <Button type="button" onClick={loginGoogle} variant="light" className="btn-custom w-100 mt-3 mb-4" style={{ backgroundColor: '#ffffff', color: 'black' }}>
+                        <img src="/assets/google.png" alt="Google Logo" style={{ width: '20px', marginRight: '10px' }} />
+                        Sign in with Google
+                    </Button>
+                </div>
+            </Form>
+        </Col>
 
-            </Row>
-        </Container>
+        <Col xs={12} lg={7} className="d-none d-md-flex align-items-center justify-content-center">
+            <div className="position-relative w-100">
+                {/* Background Image */}
+                <Image
+                    src="/src/assets/signin.png"
+                    alt="Registration Visual"
+                    fluid
+                    
+                    style={{ objectFit: 'cover' , width: '100%', height: '100%' }}
+                />
+                {/* Overlay Text */}
+                <div className="position-absolute bottom-0 end-0 text-white text-center p-4" style={{ backgroundColor: 'white' , width: '100%' }}>
+                    <p>
+                        Image by{' '}
+                        <span style={{ color: '#1863b9', fontWeight: 'bold' }}>
+                            <a
+                                href="https://www.freepik.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: '#0d6efd', textDecoration: 'none' }}
+                            >
+                                Freepik
+                            </a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </Col>
+    </Row>
+</Container>
+
 
         <style>{`
             #root {

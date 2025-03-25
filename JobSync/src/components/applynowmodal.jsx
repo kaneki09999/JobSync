@@ -9,7 +9,8 @@ import apiClient from './apiClient';
 const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, companyName }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [progress, setProgress] = useState(0); 
-    const [coverLetter, setCoverLetter] = useState('');
+    const [coverLetter, setCoverLetter] = useState(null);
+    const [newCoverLetter, setNewCoverLetter] = useState(null); 
     const [ApplicantProfile, setApplicantProfile] = useState([]);
     const [resume, setResume] = useState([]);
     const [selectedResume, setSelectedResume] = useState('');
@@ -19,6 +20,34 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
     const [selectedOption, setSelectedOption] = useState({}); 
     const [loading, setLoading] = useState(false);
     const [loadingSub, setLoadingSubmmit] = useState(false);
+
+    const FileIcon = ({ fileName, size = 40 }) => {
+        const lowerName = fileName?.toLowerCase();
+        
+        return (
+          <>
+            {lowerName?.endsWith('.pdf') ? (
+              <img 
+                src="/src/assets/pdf.png" 
+                alt="PDF" 
+                style={{ width: size, height: size, marginRight: '10px', objectFit: 'contain' }}
+              />
+            ) : lowerName?.endsWith('.docx') || lowerName?.endsWith('.doc') ? (
+              <img 
+                src="/src/assets/docx.png" 
+                alt="Word" 
+                style={{ width: size, height: size, marginRight: '10px', objectFit: 'contain' }}
+              />
+            ) : (
+              <img 
+                src="/src/assets/pdf.png" 
+                alt="File" 
+                style={{ width: size, height: size, marginRight: '10px', objectFit: 'contain' }}
+              />
+            )}
+          </>
+        );
+      };
 
     const resetApplicationData = () => {
         setCurrentStep(1); 
@@ -53,9 +82,15 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
         setProgress(newProgress);
     };
     const handleNext = () => {
-        if (currentStep === 2 && !isStep2Valid) return; 
-        if (currentStep === 3 && !isStep3Valid) return; 
-
+        if (currentStep === 2 && !isStep2Valid) return;
+        if (currentStep === 3 && !isStep3Valid) return;
+    
+        // When proceeding from Step 3 to Step 4, update the cover letter if a new one was selected
+        if (currentStep === 3 && newCoverLetter) {
+            setCoverLetter(newCoverLetter);
+            setNewCoverLetter(null);
+        }
+    
         if (currentStep < 4) {
             setCurrentStep(currentStep + 1);
             setProgress(progress + 33.33);
@@ -170,10 +205,14 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
             formData.append('applicant_id', applicant_id);
             formData.append('job_id', job_id);
             formData.append('jobTitle', jobTitle);
-            formData.append('coverLetter', coverLetter);
+           
             formData.append('resume', selectedResume);
             formData.append('resume_name', resume.find((item) => item.resumePath === selectedResume)?.resumeName);
-        
+            
+            if (coverLetter) {
+                formData.append('coverLetter', coverLetter);
+            }
+            
             Object.keys(selectedOption).forEach((questionId) => {
                 formData.append(`screening_answer_${questionId}`, selectedOption[questionId]);
             });
@@ -417,18 +456,32 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                                 </Form.Control>
                             </Form.Group>
 
-                            {/* Cover Letter */}
-                            <Form.Group className="mb-3" controlId="coverLetter">
-                                <Form.Label>Cover Letter (Optional)</Form.Label>
-                                <ReactQuill
-                                    value={coverLetter}
-                                    onChange={handleCoverLetterChange}
-                                    placeholder="Write your cover letter here"
-                                    modules={{ toolbar: [['bold', 'italic', 'underline'], ['link']] }}
-                                />
-                            </Form.Group>
-                        </Form>
-                    </div>
+                            <Form.Group className="mb-3" controlId="coverLetterUpload">
+    <Form.Label>Upload Cover Letter (Optional)</Form.Label>
+    <Form.Control
+        type="file"
+        accept=".pdf,.doc,.docx"
+        onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+                setNewCoverLetter(file); // Store new file without immediately replacing current one
+            }
+        }}
+        className="register1"
+    />
+    {coverLetter && (
+        <div className="mt-2">
+            <small className="text-muted">
+                Current file: {coverLetter.name} ({(coverLetter.size / 1024).toFixed(2)} KB)
+            </small>
+        </div>
+    )}
+    <Form.Text className="text-muted">
+        Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
+    </Form.Text>
+</Form.Group>
+        </Form>
+    </div>
                 )}
                 {/* Step 4: Confirmation */}
                 {currentStep === 4 && (
@@ -436,39 +489,7 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                         <h5 style={{ marginTop: '20px' }}>Review your Application</h5>
                         <p className="mb-0">The employer will also receive a copy of your profile</p>
 
-                        <hr className="my-4" />
-                        <h5 style={{ marginTop: '10px', marginBottom: '15px' }}>Contact Information</h5>
-                        <div className="d-flex align-items-center mb-3">
-                            <img
-                                src={ApplicantProfile.profile}
-                                alt="Profile"
-                                className="rounded-circle me-2"
-                                style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-                            />
-                            <div>
-                                <strong>{ApplicantProfile.firstname} {ApplicantProfile.middlename} {ApplicantProfile.lastname}</strong>
-                                <p className="mb-0" style={{ fontSize: '1rem' }}>
-                                    {ApplicantProfile.headline}
-                                </p>
-                                <p className="mb-0" style={{ fontSize: '0.9rem', color: 'gray' }}>
-                                {ApplicantProfile.address} - {ApplicantProfile.city}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <strong>Email address</strong>
-                            <p className="mb-3">{ApplicantProfile.email}</p>
-                        </div>
-                        <div>
-                            <strong>City</strong>
-                            <p className="mb-3">{ApplicantProfile.city}</p>
-                        </div>
-                        <div>
-                            <strong>Phone number</strong>
-                            <p className="mb-3">+63{ApplicantProfile.contact}</p>
-                        </div>
-
+                       
                         <hr className="my-4 position-relative" />
                         <button 
                             className="btn btn-outline-secondary position-absolute" 
@@ -478,30 +499,32 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                             Edit
                         </button>
                         <div className="mb-3">
-                            {/* Uploaded Resume */}
-                            <h6>Uploaded Resume</h6>
-                            {selectedResume ? (
-                                <>
-                                <div className='d-flex flex-row justify-content-start'>
-                                    <p className="text-muted mb-0">
-                                        {resume.find((item) => item.resumePath === selectedResume)?.resumeName}.
-                                    </p>
-                                    <a
-                                        href={`${apiClient.defaults.baseURL}/${selectedResume}`} 
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn btn-link"
-                                        style={{ fontSize: '0.9rem', padding: '0', marginLeft: '10px', textDecoration: 'none' }}
-                                    >
-                                        View Resume
-                                    </a>
-                                </div>
-                                </>
-                            ) : (
-                                <p className="text-muted">No resume selected</p>
-                            )}
-                            {/* Edit button */}
-                        </div>
+    <h6>Uploaded Resume</h6>
+    {selectedResume ? (
+        <div className="d-flex align-items-center">
+            <FileIcon 
+                fileName={resume.find(r => r.resumePath === selectedResume)?.resumeName} 
+                size={40}
+            />
+            <div>
+                <p className="text-muted mb-0">
+                    {resume.find(r => r.resumePath === selectedResume)?.resumeName}
+                </p>
+                <a
+                    href={`${apiClient.defaults.baseURL}/${selectedResume}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-link"
+                    style={{ fontSize: '0.9rem', padding: '0', textDecoration: 'none' }}
+                >
+                    View Resume
+                </a>
+            </div>
+        </div>
+    ) : (
+        <p className="text-muted">No resume selected</p>
+    )}
+</div>
                         <hr className="my-4 position-relative" />
                         <button 
                             className="btn btn-outline-secondary position-absolute" 
@@ -523,26 +546,54 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                             <p>No screening questions were answered.</p>
                         )}
                             <hr className="my-4 position-relative" />
-                            {/* Cover Letter */}
                             {coverLetter && (
-                                <div>
-                                    <button 
-                                        className="btn btn-outline-secondary position-absolute" 
-                                        style={{  backgroundColor: 'transparent', color: '#0073b1', border: 'none',  right: '40px' }}
-                                        onClick={() => handleEditStep(3)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <div className="mb-3">
-                                        <h6>Cover Letter</h6>
-                                        <div className="quill-preview">
-                                            <div
-                                                dangerouslySetInnerHTML={{ __html: coverLetter }}
-                                                className="text-muted"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+    <div>
+        <button 
+            className="btn btn-outline-secondary position-absolute" 
+            style={{ backgroundColor: 'transparent', color: '#0073b1', border: 'none', right: '40px' }}
+            onClick={() => handleEditStep(3)}
+        >
+            Edit
+        </button>
+        <div className="mb-3">
+            <h6>Cover Letter</h6>
+            <div className="d-flex align-items-center">
+                {coverLetter.name?.toLowerCase().endsWith('.pdf') ? (
+                    <img 
+                        src="/src/assets/pdf.png" 
+                        alt="PDF" 
+                        style={{ width: '40px', height: '40px', marginRight: '10px' }}
+                    />
+                ) : coverLetter.name?.toLowerCase().endsWith('.docx') || 
+                  coverLetter.name?.toLowerCase().endsWith('.doc') ? (
+                    <img 
+                        src="/src/assets/docx.png" 
+                        alt="Word" 
+                        style={{ width: '40px', height: '40px', marginRight: '10px' }}
+                    />
+                ) : (
+                    <img 
+                        src="/images/default-file-icon.png" 
+                        alt="File" 
+                        style={{ width: '40px', height: '40px', marginRight: '10px' }}
+                    />
+                )}
+                <div>
+                    <p className="text-muted mb-0">{coverLetter.name}</p>
+                    <a
+                        href={URL.createObjectURL(coverLetter)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-link"
+                        style={{ fontSize: '0.9rem', padding: '0', textDecoration: 'none' }}
+                    >
+                        View Cover Letter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
                             )}
                         <p className="text-muted mt-3 mb-0" style={{ fontSize: '0.9rem' }}>
                             We will automatically save your answer and resume to pre-fill future applications and improve your experience on JobSync.

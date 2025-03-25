@@ -39,10 +39,13 @@ export default function EmployerRegistrationForm() {
     const [permitPreview, setPermitPreview] = useState(null);
 
     const [showModal, setShowModal] = useState(false);
-
-
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
+
+    const handleAgreeModal = () => {
+        setIsAgreed(true);  // Automatically check the checkbox when "Agree" is clicked
+        setShowModal(false);  // Close the modal after agreeing
+      };
     
     const handleFileUpload = (e, setFile, setPreview) => {
         const file = e.target.files[0];
@@ -522,21 +525,25 @@ export default function EmployerRegistrationForm() {
             </div>
 
              {/* Terms Agreement */}
-             <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
-                <Form.Check 
-                    type="checkbox" 
-                    checked={isAgreed} 
-                    onChange={() => setIsAgreed(!isAgreed)} 
-                />
-                <div>
-                <Form.Label className="ms-2">
-                    I've read and agreed with{' '}
-                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
-                </Form.Label>
-                <EmployerTermsAndConditions show={showModal} onClose={handleCloseModal} />
-                </div>
-            </Form.Group>
-
+      <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
+        <Form.Check 
+          type="checkbox" 
+          checked={isAgreed} 
+          onChange={() => {}}
+          disabled={isAgreed}  // Disable the checkbox once agreed
+        />
+        <div>
+          <Form.Label className="ms-2">
+            I've read and agreed with{' '}
+            <a href="#!" onClick={handleShowModal}>Terms and Conditions</a>
+          </Form.Label>
+          <EmployerTermsAndConditions 
+            show={showModal} 
+            onClose={handleCloseModal} 
+            onAgree={handleAgreeModal} // Pass the agree handler to the modal
+          />
+        </div>
+      </Form.Group>
             <div className="d-flex justify-content-center">
                 <button 
                     type="button" 
@@ -686,20 +693,7 @@ export default function EmployerRegistrationForm() {
                     </Link>
                 </h4>
 
-                <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px"}}>
-                            <h5 className="text-center mb-3">Create Account as</h5>
-                            <div className="container">
-                                <Button 
-                                     className={`btn btn-primary mx-1 custom-button ${formType === 'employer' ? 'active' : ''}  btn5`}
-                                     style={{ backgroundColor: formType === 'employer' ? '#1863b9' : 'white', color: formType === 'employer' ? 'white' : 'black', width: '100%',  }} 
-                                     onClick={() => setFormType('employer')}
-                                >
-                                    <FontAwesomeIcon icon={faUser} /> Employer
-                                </Button>
-                            </div>
-                        </Card>
-                    </div>
+              
                 {/* Form Section */}
                 <div className="text-center">
                     {renderProgressBar()}

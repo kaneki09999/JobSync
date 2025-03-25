@@ -197,10 +197,10 @@ function SignInEmployer() {
             </div>
         )}
         <Container className="mt-5 paddings">
-            <Row className="justify-content-center">
+            <Row className="align-items-center justify-content-center">
                 {/* Sign-in Section */}
                 <Col xs={12} lg={5}className="mt-5">
-                    <h3 className="mb-3 text-start">Sign In</h3>
+                    <h3 className="mb-3 text-start">Sign In as Employer</h3>
                     <h4 className="mb-4 text-start" style={{ fontSize: "15px" }}>
                         Don't have an account?{" "}
                         <Link to="/registration_employer" style={{ textDecoration: "none", color: "#0A65CC" }}>
@@ -208,26 +208,7 @@ function SignInEmployer() {
                         </Link>
                     </h4>
 
-                    {/* Sign In as Card */}
-                    <div className="d-flex justify-content-center mb-4">
-                        <Card className="p-4 text-center w-100" style={{ backgroundColor: "#F1F2F4", borderRadius: "10px", maxWidth: "580px" }}>
-                            <h5 className="mb-3">Sign In as</h5>
-                            <div className="d-flex flex-column flex-sm-row justify-content-center">
-                                <Button 
-                                    className={`mx-1 ${formType === "employer" ? "active" : ""} btn5`}
-                                    style={{ 
-                                        backgroundColor: formType === "employer" ? "#1863b9" : "white", 
-                                        color: formType === "employer" ? "white" : "black", 
-                                        flexGrow: 1, 
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faUser} /> Employer
-                                </Button>
-                               
-                            </div>
-                        </Card>
-                    </div>
-
+                   
                     {/* Sign-in Form */}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
@@ -235,7 +216,7 @@ function SignInEmployer() {
                                 type="email"
                                 name="email"
                                 className={`register ${emailError ? "border border-danger" : ""}`}
-                                placeholder="Email"
+                                placeholder="Service Email or Business Email"
                                 onChange={handleChange}
                                 value={inputs.email}
                                 required
