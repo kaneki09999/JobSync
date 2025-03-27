@@ -7,15 +7,28 @@ import { useAuth } from '../../../AuthContext';
 import Swal from 'sweetalert2';
 import { FaArrowLeft } from 'react-icons/fa';
 
-
-export default function AddressInfo() {
+export default function AddressInfo() { 
   const [biography, setBiography] = useState('');
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
   const [barangay, setBarangay] = useState('');
   const [postal, setPostal] = useState('');
-  const [initialData, setInitialData] = useState(null); // To store the initial fetched data
+  const [initialData, setInitialData] = useState(null);
+  const [bioError, setBioError] = useState('');
   const { user } = useAuth();
+  const [lastValidBiography, setLastValidBiography] = useState('');
+  const [wordCount, setWordCount] = useState(0);
+  const MAX_WORDS = 150; // Set your word limit here
+
+  // Function to count words without HTML tags
+  const countWords = (html) => {
+    if (!html) return 0;
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const text = div.textContent || div.innerText || '';
+    // Split by whitespace and filter out empty strings
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
 
   useEffect(() => {
     const fetchApplicantInfo = async () => {
@@ -26,19 +39,14 @@ export default function AddressInfo() {
           });
 
           if (response.data) {
-            const {
-              biography,
-              city,
-              address,
-              barangay,
-              postal,
-            } = response.data;
+            const { biography, city, address, barangay, postal } = response.data;
             setBiography(biography || '');
+            setLastValidBiography(biography || '');
+            setWordCount(countWords(biography || ''));
             setCity(city || '');
             setAddress(address || '');
             setBarangay(barangay || '');
             setPostal(postal || '');
-
             setInitialData({
               biography,
               city,
@@ -55,8 +63,30 @@ export default function AddressInfo() {
     fetchApplicantInfo();
   }, [user]);
 
-  const handleBiographyChange = (value) => {
-    setBiography(value);
+  const handleBiographyChange = (content, delta, source, editor) => {
+    const currentWordCount = countWords(content);
+    
+    if (currentWordCount <= MAX_WORDS) {
+      setBiography(content);
+      setWordCount(currentWordCount);
+      
+      if (currentWordCount === MAX_WORDS) {
+        setBioError(`Maximum limit reached (${MAX_WORDS} words)`);
+      } else {
+        setBioError('');
+      }
+    } else {
+      // If over limit, revert to last valid biography
+      setBiography(prev => {
+        const prevWordCount = countWords(prev);
+        
+        // Only update if the new content has fewer words
+        if (currentWordCount > prevWordCount) {
+          return prev;
+        }
+        return content;
+      });
+    }
   };
 
   const isChanged = () => {
@@ -70,8 +100,28 @@ export default function AddressInfo() {
     );
   };
 
+  const isValidBio = () => {
+    const words = countWords(biography);
+    return words === 0 || (words >= 100 && words <= MAX_WORDS); // Example: 10-30 words
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!isValidBio()) {
+      Swal.fire({
+        title: 'Invalid Biography',
+        text: `Please ensure your biography is between 10-${MAX_WORDS} words`,
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+      return;
+    }
+
     if (user?.id) {
       try {
         const response = await postToEndpoint('/updateApplicantAddress.php', {
@@ -121,6 +171,7 @@ export default function AddressInfo() {
       }
     }
   };
+
   return (
     <Container
       fluid="md"
@@ -205,6 +256,7 @@ export default function AddressInfo() {
               <small style={{ fontStyle: 'italic' }}>
                 Note: Make sure to include a well-written biography that showcases your unique abilities, experiences,
                 and accomplishments, offering prospective employers a compelling reason to consider you for the position.
+                (Must be 10-{MAX_WORDS} words) Current count: {wordCount}/{MAX_WORDS} words
               </small>
             </div>
             <ReactQuill
@@ -216,9 +268,20 @@ export default function AddressInfo() {
                   [{ list: 'ordered' }, { list: 'bullet' }],
                 ],
               }}
-              style={{ minHeight: '150px', textAlign: 'left' }}
-              placeholder="Enter your biography..."
+              style={{ 
+                minHeight: '150px', 
+                textAlign: 'left',
+                border: bioError ? '1px solid red' : '1px solid #ccc'
+              }}
+              placeholder={`Enter your biography (up to ${MAX_WORDS} words)...`}
             />
+            {bioError && <div style={{ color: 'red', fontSize: '0.875rem' }}>{bioError}</div>}
+            <div style={{ 
+              textAlign: 'right', 
+              color: wordCount === MAX_WORDS ? 'red' : 'inherit'
+            }}>
+              {wordCount}/{MAX_WORDS} words
+            </div>
           </Col>
         </Row>
 
@@ -234,11 +297,11 @@ export default function AddressInfo() {
               className="mt-3 btn-address"
               style={{
                 width: '100%',
-                maxWidth: '185px', // Ensures the button does not exceed 185px on larger screens
+                maxWidth: '185px',
                 height: '55px',
                 color: '#0d6efd',
                 background: 'transparent',
-                marginBottom: '10px', // Adds space between buttons on mobile view
+                marginBottom: '10px',
               }}
             >
               <FaArrowLeft style={{ fontSize: '14px', marginRight: '12px' }} /> Back
@@ -249,25 +312,24 @@ export default function AddressInfo() {
               className="mt-3 btn-address"
               style={{
                 width: '100%',
-                maxWidth: '185px', // Ensures the button does not exceed 185px on larger screens
+                maxWidth: '185px',
                 height: '55px',
               }}
-              disabled={!isChanged()}
+              disabled={!isChanged() || !isValidBio()}
             >
               Save Changes
             </Button>
           </Col>
         </Row>
 
-      </Form>
-
-      <style>{`
+        <style>{`
           @media (max-width: 768px) {
             .btn-address {
                 max-width: 100% !important
             }
           }          
-      `}</style>
+        `}</style>
+      </Form>
     </Container>
   );
 }
