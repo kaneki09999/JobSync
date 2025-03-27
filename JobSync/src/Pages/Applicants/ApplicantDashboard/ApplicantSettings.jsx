@@ -51,7 +51,7 @@ export default function ApplicantSettings() {
                     </Offcanvas.Body>
                 </Offcanvas>
         
-                <Col xs={12} md={9} lg={9} className="px-0">
+                <Col xs={12} md={9} lg={9} className="px-0" style={{marginTop: '1rem'}}>
                   <Tabs
                     activeKey={activeKey}
                     onSelect={(k) => setActiveKey(k)}

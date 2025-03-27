@@ -439,14 +439,25 @@ export default function Personal() {
         />
       </Col>
       <Col xs={12} sm={6} md={4}>
-        <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Suffix <span className='text-muted'>(Optional)</span></Form.Label>
-        <Form.Control
-          className="register1"
-          placeholder="Suffix"
-          value={suffix}
-          onChange={(e) => setSuffix(e.target.value)}
-        />
-      </Col>
+  <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>
+    Suffix <span className='text-muted'>(Optional)</span>
+  </Form.Label>
+  <Form.Select
+    className="register1"
+    value={suffix}
+    onChange={(e) => setSuffix(e.target.value)}
+  >
+    <option value="">Select Suffix</option>
+    <option value="Jr.">Jr.</option>
+    <option value="Sr.">Sr.</option>
+    <option value="II">II</option>
+    <option value="III">III</option>
+    <option value="IV">IV</option>
+    <option value="PhD">PhD</option>
+    <option value="MD">MD</option>
+    {/* Add more options as needed */}
+  </Form.Select>
+</Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Contact Number</Form.Label>
         <Form.Control
