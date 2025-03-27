@@ -37,6 +37,11 @@ function RegistrationForm() {
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
 
+    const handleAgreeModal = () => {
+        setIsAgreed(true);  // Automatically check the checkbox when "Agree" is clicked
+        setShowModal(false);  // Close the modal after agreeing
+      };
+
     useEffect(() => {
         if (user) {
             navigate('/applicants/overview');
@@ -295,21 +300,26 @@ function RegistrationForm() {
                 )}
             </Form.Group>
 
-            {/* Terms Agreement */}
-            <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
-                <Form.Check 
-                    type="checkbox" 
-                    checked={isAgreed} 
-                    onChange={() => setIsAgreed(!isAgreed)} 
-                />
-                <div>
-                <Form.Label className="ms-2">
-                    I've read and agreed with{' '}
-                    <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
-                </Form.Label>
-                <TermsAndConditions show={showModal} onClose={handleCloseModal} />
-                </div>
-            </Form.Group>
+             {/* Terms Agreement */}
+      <Form.Group className="mb-3 no-margin-bot d-flex align-items-center">
+        <Form.Check 
+          type="checkbox" 
+          checked={isAgreed} 
+          onChange={() => {}}
+          disabled={isAgreed}  // Disable the checkbox once agreed
+        />
+        <div>
+          <Form.Label className="ms-2">
+            I've read and agreed with{' '}
+            <a href="#!" onClick={handleShowModal}>Terms and Conditions</a>
+          </Form.Label>
+          <TermsAndConditions 
+            show={showModal} 
+            onClose={handleCloseModal} 
+            onAgree={handleAgreeModal} // Pass the agree handler to the modal
+          />
+        </div>
+      </Form.Group>
 
             {/* Submit Button with Loader */}
             <div className="d-flex justify-content-center position-relative">

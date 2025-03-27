@@ -39,10 +39,13 @@ export default function EmployerRegistrationForm() {
     const [permitPreview, setPermitPreview] = useState(null);
 
     const [showModal, setShowModal] = useState(false);
-
-
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
+
+    const handleAgreeModal = () => {
+        setIsAgreed(true);  // Automatically check the checkbox when "Agree" is clicked
+        setShowModal(false);  // Close the modal after agreeing
+      };
     
     const handleFileUpload = (e, setFile, setPreview) => {
         const file = e.target.files[0];

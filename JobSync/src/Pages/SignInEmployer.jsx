@@ -197,10 +197,10 @@ function SignInEmployer() {
             </div>
         )}
         <Container className="mt-5 paddings">
-            <Row className="justify-content-center">
+            <Row className="align-items-center justify-content-center">
                 {/* Sign-in Section */}
                 <Col xs={12} lg={5}className="mt-5">
-                    <h3 className="mb-3 text-start">Sign In</h3>
+                    <h3 className="mb-3 text-start">Sign In as Employer</h3>
                     <h4 className="mb-4 text-start" style={{ fontSize: "15px" }}>
                         Don't have an account?{" "}
                         <Link to="/registration_employer" style={{ textDecoration: "none", color: "#0A65CC" }}>
@@ -237,7 +237,7 @@ function SignInEmployer() {
                                 type="email"
                                 name="email"
                                 className={`register ${emailError ? "border border-danger" : ""}`}
-                                placeholder="Email"
+                                placeholder="Service Email or Business Email"
                                 onChange={handleChange}
                                 value={inputs.email}
                                 required
