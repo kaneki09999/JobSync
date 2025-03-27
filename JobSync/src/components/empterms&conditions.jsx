@@ -159,9 +159,6 @@ const TermsAndConditions = ({ show, onClose, onAgree }) => {
         <p style={{ textAlign: 'justify' }}>
           For inquiries or concerns regarding these Terms and Conditions, contact us at [Insert Contact Email].
         </p>
-        <p style={{ textAlign: 'justify', textIndent: '30px'  }}>
-          For inquiries or concerns regarding these Terms and Conditions, contact us at me.jobsync@gmail.com.
-        </p>
 
         
         <p ref={lastParagraphRef} style={{ textAlign: 'justify' }}>
@@ -172,7 +169,7 @@ const TermsAndConditions = ({ show, onClose, onAgree }) => {
         <Button
           variant="primary"
           onClick={() => {
-            onAgree();  
+            onAgree();  // Call the passed onAgree function when the "Agree" button is clicked
           }}
           disabled={!isTextVisible}
           style={{

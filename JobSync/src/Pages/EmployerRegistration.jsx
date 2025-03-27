@@ -533,14 +533,15 @@ export default function EmployerRegistrationForm() {
                 <Form.Check 
                     type="checkbox" 
                     checked={isAgreed} 
-                    onChange={() => setIsAgreed(!isAgreed)} 
+                    onChange={() => {}}
+                    disabled={isAgreed} 
                 />
                 <div>
                 <Form.Label className="ms-2">
                     I've read and agreed with{' '}
                     <a href="#!" onClick={handleShowModal}> Terms and Condition</a>
                 </Form.Label>
-                <EmployerTermsAndConditions show={showModal} onClose={handleCloseModal} />
+                <EmployerTermsAndConditions show={showModal} onClose={handleCloseModal} onAgree={handleAgreeModal}/>
                 </div>
             </Form.Group>
 
