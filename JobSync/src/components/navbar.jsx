@@ -155,7 +155,7 @@ const MyNavbar = () => {
     return (
         <>
          <div>
-            <Navbar style={{ backgroundColor: '#1863b9' , fontWeight: '400' }} expand="lg" fixed="top">
+            <Navbar style={{ backgroundColor: '#1863b9' , fontWeight: '400' , paddingTop: '0.5rem', paddingBottom: '0.5rem' }} expand="lg" fixed="top">
                 <Container>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleNavbar} />
                     <Navbar.Collapse ref={navbarRef} id="basic-navbar-nav" className={isNavbarOpen ? 'show' : ''}>
@@ -171,38 +171,76 @@ const MyNavbar = () => {
             <div className="navbar-padding"></div>
         </div>
         <style>{`
-            .active-link {
-                color: #f8f9fa !important;
-            }
-
-            .custom-navbar {
-                background-color: #eaeaea;
-                font-weight: 400;
-                z-index: 1050;
-            }
-
-            /* Mobile dropdown adjustments */
-            @media (max-width: 991px) {
-                .navbar-collapse {
+                .nav-link-item {
+                    color: white !important;
+                    padding: 8px 15px !important;
+                    margin: 0 5px;
+                    border-radius: 8px;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+                
+                .nav-link-item:hover {
+                    background-color: rgba(255, 255, 255, 0.2) !important;
+                    transform: translateY(-2px);
+                }
+                
+                .active-link {
+                    color: #1863b9 !important;
+                    background-color: white !important;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+                
+                .active-link::after {
+                    content: '';
                     position: absolute;
-                    top: 100%;
-                    left: 0;
-                    width: 100%;
-                    background: white;
-                    z-index: 1000;
-                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                    padding: 10px 0;
+                    bottom: -5px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 0;
+                    height: 0;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-bottom: 5px solid white;
+                    transition: all 0.3s ease;
                 }
-
-                .navbar-collapse .nav-link {
-                    color: black !important; /* Make text black in mobile view */
+                
+                .active-link:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
                 }
-
-                body.navbar-open .navbar-padding {
-                    height: 200px; /* Adjust based on your navbar's height */
+                
+                /* Mobile dropdown adjustments */
+                @media (max-width: 991px) {
+                    .navbar-collapse {
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        width: 100%;
+                        background: #1863b9;
+                        z-index: 1000;
+                        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                        padding: 10px 0;
+                    }
+                
+                    .navbar-collapse .nav-link-item {
+                        display: block;
+                        padding: 10px 20px !important;
+                        margin: 5px 15px;
+                    }
+                
+                    .active-link::after {
+                        display: none;
+                    }
+                
+                    body.navbar-open .navbar-padding {
+                        height: 200px;
+                    }
                 }
-            }
-        `}</style>
+            `}</style>
 
         </>
     );
