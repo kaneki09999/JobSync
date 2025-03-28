@@ -60,22 +60,17 @@ try {
     }
 
     $requiredPersonalFields = [
-        'address', 'city', 'headline', 'birthday', 'birthplace', 
-        'barangay', 'postal', 'status', 'experience', 
-        'attainment', 'biography', 'nationality'
+        'headline', 'birthday', 'birthplace', 
+        'status', 'experience', 
+        'attainment', 'nationality'
     ];
     $fieldNames = [
-        'address' => 'Address',
-        'city' => 'City',
         'headline' => 'Headline',
         'birthday' => 'Birthday',
         'birthplace' => 'Birthplace',
-        'barangay' => 'Barangay',
-        'postal' => 'Postal Code',
         'status' => 'Status',
         'experience' => 'Experience',
         'attainment' => 'Attainment',
-        'biography' => 'Biography',
         'nationality' => 'Nationality'
     ];
     foreach ($requiredPersonalFields as $field) {

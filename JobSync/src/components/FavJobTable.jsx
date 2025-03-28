@@ -169,11 +169,13 @@ function FavoriteJob() {
             </Row>
         ))
     ) : (
-        <p>No favorite jobs found.</p>
+        <h2 className='mt-5'>No favorite jobs found.</h2>
     )}
 
     {/* Pagination */}
-    <Pagination currentPage={currentPage} itemsPerPage={itemsPerPage} totalItems={jobs.length} paginate={paginate} />
+    {currentJobs.length > itemsPerPage && (
+        <Pagination currentPage={currentPage} itemsPerPage={itemsPerPage} totalItems={displayJobs.length} paginate={paginate} />
+      )}
 </Container>
 
 <style>

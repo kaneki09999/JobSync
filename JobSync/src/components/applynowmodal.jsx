@@ -82,10 +82,13 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
         setProgress(newProgress);
     };
     const handleNext = () => {
-        if (currentStep === 2 && !isStep2Valid) return;
-        if (currentStep === 3 && !isStep3Valid) return;
+        if (currentStep === 2 && !isStep2Valid) {
+            return;
+        }
+        if (currentStep === 3 && !isStep3Valid) {
+            return;
+        }
     
-        // When proceeding from Step 3 to Step 4, update the cover letter if a new one was selected
         if (currentStep === 3 && newCoverLetter) {
             setCoverLetter(newCoverLetter);
             setNewCoverLetter(null);
@@ -96,6 +99,7 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
             setProgress(progress + 33.33);
         }
     };
+    
     const handleBack = () => {
         if (currentStep > 1) {
             setCurrentStep(currentStep - 1);
@@ -205,14 +209,13 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
             formData.append('applicant_id', applicant_id);
             formData.append('job_id', job_id);
             formData.append('jobTitle', jobTitle);
-           
             formData.append('resume', selectedResume);
             formData.append('resume_name', resume.find((item) => item.resumePath === selectedResume)?.resumeName);
             
             if (coverLetter) {
                 formData.append('coverLetter', coverLetter);
             }
-            
+        
             Object.keys(selectedOption).forEach((questionId) => {
                 formData.append(`screening_answer_${questionId}`, selectedOption[questionId]);
             });
@@ -252,7 +255,7 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                     confirmButtonText: 'OK',
                 });
             } finally {
-                setLoadingSubmmit(false); // Stop loading
+                setLoadingSubmmit(false); 
             }
         };
         
@@ -284,7 +287,7 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                 {/* Step 1: Contact Info */}
                 {currentStep === 1 && (
                     <div>
-                        <h5 style={{ marginTop: '20px' }}>Contact info</h5>
+                        <h5 style={{ marginTop: '20px' }}>Personal info</h5>
                         <div className="d-flex align-items-center mb-3">
                             <img
                                 src={ApplicantProfile.profile}
@@ -309,7 +312,7 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="phoneCountryCode">
                                 <Form.Label>City</Form.Label>
-                                <Form.Control className='register1' type="email" disabled value={ApplicantProfile.city}/>
+                                <Form.Control className='register1' placeholder='City' type="email" disabled value={ApplicantProfile.city}/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="mobilePhoneNumber">
                                 <Form.Label>Mobile phone number*</Form.Label>
@@ -457,29 +460,28 @@ const ApplyModal = ({ show, handleClose, applicant_id, job_id, jobTitle, company
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="coverLetterUpload">
-    <Form.Label>Upload Cover Letter (Optional)</Form.Label>
-    <Form.Control
-        type="file"
-        accept=".pdf,.doc,.docx"
-        onChange={(e) => {
-            const file = e.target.files[0];
-            if (file) {
-                setNewCoverLetter(file); // Store new file without immediately replacing current one
-            }
-        }}
-        className="register1"
-    />
-    {coverLetter && (
-        <div className="mt-2">
-            <small className="text-muted">
-                Current file: {coverLetter.name} ({(coverLetter.size / 1024).toFixed(2)} KB)
-            </small>
-        </div>
-    )}
-    <Form.Text className="text-muted">
-        Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
-    </Form.Text>
-</Form.Group>
+             <Form.Label>Upload Cover Letter (Optional)</Form.Label>
+                <Form.Control
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            setCoverLetter(file);  
+                        }
+                    }}
+                />
+                {coverLetter && (
+                    <div className="mt-2">
+                        <small className="text-muted">
+                            Current file: {coverLetter.name} ({(coverLetter.size / 1024).toFixed(2)} KB)
+                        </small>
+                    </div>
+                )}
+                <Form.Text className="text-muted">
+                    Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
+                </Form.Text>
+            </Form.Group>
         </Form>
     </div>
                 )}

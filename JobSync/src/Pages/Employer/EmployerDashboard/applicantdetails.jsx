@@ -10,6 +10,8 @@ import { useAuth } from '../../../AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProfilePage() {
         const { user } = useAuth(); 
@@ -228,9 +230,14 @@ export default function ProfilePage() {
 
             {/* Name and Headline */}
             <div className="ms-3" style={{textAlign: 'left'}}>
-              <h5 className="mb-1">
-                {applications[0]?.firstname} {applications[0]?.middlename} {applications[0]?.lastname}
-              </h5>
+              <div style={{display: 'flex'}}>
+                <h5 className="mb-1 d-flex align-items-center">
+                  {applications[0]?.firstname} {applications[0]?.middlename} {applications[0]?.lastname}
+                  {applications[0]?.account_status === 'verified' && (
+                    <FontAwesomeIcon icon={faCircleCheck} className="ms-1 mt-1 text-primary" size="sm" title='Verified' />
+                  )}
+                </h5>
+              </div>
               <p className="text-muted mb-0">{applications[0]?.headline}</p>
             </div>
           </div>
@@ -242,11 +249,15 @@ export default function ProfilePage() {
           {/* Cover Letter */}
           {applications[0]?.coverLetter && (
             <>
-              <h6 className="mt-4" style={{ textAlign: 'left' }}>Cover Letter</h6>
-              <p style={{ textAlign: 'justify'}}>{applications[0]?.coverLetter.replace(/<[^>]*>?/gm, "")}</p>
+              <div style={{textAlign: 'start'}}>
+                <h6 className="mt-4" style={{ textAlign: 'left' }}>Cover Letter</h6>
+                <a onClick={() => window.open(`/src/api/${applications[0]?.coverLetter}`, "_blank")} target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={faDownload} size="lg" style={{ color: '#0955b7', marginRight: '10px', width: '13px' }} />
+                  <small style={{ fontWeight: '400', color: '#0955b7' }}>Download Cover Letter</small>
+                </a>
+              </div>
             </>
           )}
-
           {/* Social Media Links */}
           <h6 className="mt-4" style={{ textAlign: 'left' }}>Follow Me on Social Media</h6>
           <div className="d-flex gap-3 mt-2">

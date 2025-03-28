@@ -4,11 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaSearch, FaDownload, FaEnvelope, FaCommentDots, FaRegCalendarCheck } from 'react-icons/fa';
 import Pagination from '../../components/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faCommentDots, } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelope, faCommentDots} from '@fortawesome/free-regular-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../AuthContext';
 import { postToEndpoint } from '../../components/apiService';
 import ModalInterview from '../../components/InterviewScheduleModal';
 import '../../App.css'
+import defaultProf from '../../assets/user_default.png'
 
 export default function Applications() {
   const { user } = useAuth();
@@ -64,7 +66,7 @@ export default function Applications() {
   const handleCloseModalInterview = () => setShowModalInterview(false);
 
   return (
-    <div className="container mt-5" style={{ paddingLeft: '0', paddingRight: '0' }}>
+    <div className="container" style={{ paddingLeft: '0', paddingRight: '0',  marginTop: '8rem'}}>
 
       <div className="input-group mb-4" style={{ width: '60%' , marginTop: '100px'}}>
         <span className="input-group-text" id="search-icon" style={{ borderRadius: '20px', marginRight: '10px', color: '#0A65CC', zIndex: '1' }}>
@@ -156,7 +158,7 @@ export default function Applications() {
                       <td className="align-content-center">
                       <div className="d-flex align-items-center">
                       <img
-                        src={app.profile_picture_url}  
+                        src={app.profile_picture_url || defaultProf }  
                         alt={`${app.firstname}'s profile`}
                         style={{
                           width: '40px',
@@ -167,6 +169,9 @@ export default function Applications() {
                         }}
                       />
                       <span>{app.firstname} {app.middlename || ''} {app.lastname}</span>
+                        {app.account_status === 'verified' && (
+                          <FontAwesomeIcon icon={faCircleCheck} className="ms-1 text-primary" size="sm" title='Verified' />
+                        )}
                     </div>
                       </td>
                       <td className="align-content-center">

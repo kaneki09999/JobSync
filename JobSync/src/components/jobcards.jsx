@@ -14,6 +14,7 @@ import { FaMapMarkerAlt, FaMoneyBillWave, FaCalendarAlt, FaBusinessTime, FaSuitc
 import { useAuth } from '../AuthContext';
 import ApplyModal from './applynowmodal';
 import MapComponent from '../Pages/Applicants/Mapp';
+import Swal from 'sweetalert2';
 
 const JobCards = ({ jobs, applicantId }) => {
   const [bookmarkedJobs, setBookmarkedJobs] = useState([]);
@@ -81,7 +82,6 @@ const JobCards = ({ jobs, applicantId }) => {
     }
   };
 
-  // Handle click on a card in desktop mode
   const handleCardClick = (job) => {
     if (isMobile) {
         navigate(`/jobdetails/${job.job_id}`);

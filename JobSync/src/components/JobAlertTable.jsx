@@ -21,25 +21,6 @@ function JobAlerts() {
           console.error('Applicant ID is required');
           return;
       }
-  
-      const fetchAlertJobs = async () => {
-          try {
-              const response = await getFromEndpoint('/getAlertJob.php');
-              const fetchedJobs = Array.isArray(response.data) ? response.data : response.data.favoriteJobs || [];
-              setJobs(fetchedJobs); 
-          } catch (error) {
-              console.error('There was an error fetching the jobs data!', error);
-          }
-      };
-  
-      fetchAlertJobs(); 
-  }, [user]); 
-  
-  useEffect(() => {
-      if (!user || !user.id) {
-          console.error('Applicant ID is required');
-          return;
-      }
 
       const fetchAlertJobsMatch = async () => {
           try {
@@ -190,10 +171,11 @@ function JobAlerts() {
           </Row>
         ))
       ) : (
-        <p>No job alerts found.</p>
+        <h2 className='mt-5'>No job alerts found.</h2>
       )}
-      <Pagination currentPage={currentPage} itemsPerPage={itemsPerPage} totalItems={displayJobs.length} paginate={paginate} />
-
+      {displayJobs.length > itemsPerPage && (
+        <Pagination currentPage={currentPage} itemsPerPage={itemsPerPage} totalItems={displayJobs.length} paginate={paginate} />
+      )}
       <style>{`
         @media (max-width: 768px) {
           .btn-view {

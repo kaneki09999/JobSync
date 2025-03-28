@@ -103,10 +103,10 @@ export default function FindApplicant() {
 
         <Col md={4} lg={3} className="d-none d-md-block mb-3" style={{zIndex: "2"}}>
           <div className="border p-3 rounded shadow sticky-top" style={{ top: "1rem" }}>
-            <h4>Gender</h4>
-            <Form.Check type="radio" label="All" name="gender" defaultChecked />
-            <Form.Check type="radio" label="Male" name="gender" />
-            <Form.Check type="radio" label="Female" name="gender" />
+            <h4>Experience</h4>
+            <Form.Check style={{textAlign: 'left'}} type="radio" label="Back End Developer" name="gender" defaultChecked />
+            <Form.Check style={{textAlign: 'left'}} type="radio" label="Web Developer" name="gender" />
+            <Form.Check style={{textAlign: 'left'}} type="radio" label="Front End Developer" name="gender" />
           </div>
         </Col>
         {/* Main Content */}

@@ -33,9 +33,30 @@ export default function Personal() {
   const [resume, setResume] = useState([]); 
   const [cvName, setCvName] = useState(''); 
   const [isFileUploaded, setIsFileUploaded] = useState(false); 
-
+  const [showDropdown, setShowDropdown] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const [profilePictureChanged, setProfilePictureChanged] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    const handleRouteChange = () => {
+      setShowDropdown(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("popstate", handleRouteChange);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("popstate", handleRouteChange);
+    };
+  }, []);
 
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
@@ -156,30 +177,65 @@ export default function Personal() {
   };
 
   const handleButtonClick = () => fileInputRef.current.click();
+  const [errors, setErrors] = useState({});
+  const validateForm = () => {
+    let newErrors = {};
   
-  const handleSaveChanges = async () => {
-    if (!user?.id) return;
+    if (!String(firstname).trim()) newErrors.firstname = "First name is required.";
+    if (!String(lastname).trim()) newErrors.lastname = "Last name is required.";
+    if (!String(contact).trim()) newErrors.contact = "Contact number is required.";
+    if (!String(experience).trim()) newErrors.experience = "Experience is required.";
+    if (!String(education).trim()) newErrors.education = "Education is required.";
+    if (!String(gender).trim()) newErrors.gender = "Gender is required.";
+    if (!String(maritalStatus).trim()) newErrors.maritalStatus = "Marital status is required.";
+    if (!String(birthday).trim()) newErrors.birthday = "Date of birth is required.";
+    if (!String(birthplace).trim()) newErrors.birthplace = "Place of birth is required.";
+    if (!String(nationality).trim()) newErrors.nationality = "Nationality is required.";
+    if (!String(headline).trim()) newErrors.headline = "Headline is required.";
   
-    let profilePictureBase64 = null;
-  
-    if (profileImage) {
-      if (profileImage instanceof File) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          profilePictureBase64 = reader.result.split(',')[1];
-          sendPayload(profilePictureBase64); 
-        };
-        reader.readAsDataURL(profileImage);
-        return; 
-      } else {
-        profilePictureBase64 = profileImage.split(',')[1]; 
-      }
-    } else if (profileUrl) {
-      profilePictureBase64 = null; 
-    }
-  
-    sendPayload(profilePictureBase64);
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; 
   };
+  
+
+  const handleSaveChanges = async () => {
+    if (validateForm()) {
+        if (!user?.id) return;
+      
+        let profilePictureBase64 = null;
+      
+        if (profileImage) {
+          if (profileImage instanceof File) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              profilePictureBase64 = reader.result.split(',')[1];
+              sendPayload(profilePictureBase64); 
+            };
+            reader.readAsDataURL(profileImage);
+            return; 
+          } else {
+            profilePictureBase64 = profileImage.split(',')[1]; 
+          }
+        } else if (profileUrl) {
+          profilePictureBase64 = null; 
+        }
+      
+        sendPayload(profilePictureBase64);
+    }
+  };
+  const handleInputChange = (e, setter, fieldName) => {
+    setter(e.target.value);
+    
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (String(e.target.value).trim()) {
+        delete newErrors[fieldName];
+      }
+      return newErrors;
+    });
+  };
+  
+  
   
   const sendPayload = async (profilePictureBase64) => {
     const payload = {
@@ -404,8 +460,10 @@ export default function Personal() {
           className="register1"
           placeholder="Ex. Web Developer..."
           value={headline}
-          onChange={(e) => setHeadline(e.target.value)}
+          onChange={(e) => handleInputChange(e, setHeadline, "headline")}
+          isInvalid={!!errors.headline}
         />
+        <Form.Control.Feedback type="invalid">{errors.headline}</Form.Control.Feedback>
       </Col>
     </Row>
     <hr />
@@ -417,8 +475,10 @@ export default function Personal() {
           className="register1"
           placeholder="First Name"
           value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
+          onChange={(e) => handleInputChange(e, setFirstname, "firstname")}
+          isInvalid={!!errors.firstname}
         />
+        <Form.Control.Feedback type="invalid">{errors.firstname}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Middle Name <span className='text-muted'>(Optional)</span></Form.Label>
@@ -435,8 +495,10 @@ export default function Personal() {
           className="register1"
           placeholder="Last Name"
           value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
+          onChange={(e) => handleInputChange(e, setLastname, "lastname")}
+          isInvalid={!!errors.lastname}
         />
+        <Form.Control.Feedback type="invalid">{errors.lastname}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
   <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>
@@ -464,15 +526,18 @@ export default function Personal() {
           className="register1"
           placeholder="Contact Number"
           value={contact}
-          onChange={(e) => setContact(e.target.value)}
+          onChange={(e) => handleInputChange(e, setContact, "contact")}
+          isInvalid={!!errors.contact}
         />
+        <Form.Control.Feedback type="invalid">{errors.contact}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Experience</Form.Label>
         <Form.Select
           className="register"
           value={experience}
-          onChange={(e) => setExperience(e.target.value)}
+          onChange={(e) => handleInputChange(e, setExperience, "experience")}
+          isInvalid={!!errors.experience}
         >
           <option value="" disabled>Experience</option>
           <option value="Intern">Internship</option>
@@ -481,13 +546,15 @@ export default function Personal() {
           <option value="Senior level">Senior Level (5-10 years)</option>
           <option value="Expert level">Expert Level (10+ years)</option>
         </Form.Select>
+        <Form.Control.Feedback type="invalid">{errors.experience}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Educational Attainment</Form.Label>
         <Form.Select
           className="register"
           value={education}
-          onChange={(e) => setEducation(e.target.value)}
+          onChange={(e) => handleInputChange(e, setEducation, "education")}
+          isInvalid={!!errors.education}
         >
           <option value="" disabled>Education</option>
           <option value="High School Diploma">High School Diploma</option>
@@ -497,6 +564,7 @@ export default function Personal() {
           <option value="doctorate">Doctorate (PhD, EdD, etc.)</option>
           <option value="professional">Professional Certification</option>
         </Form.Select>
+        <Form.Control.Feedback type="invalid">{errors.education}</Form.Control.Feedback>
       </Col>
 
       <Col xs={12} sm={6} md={4}>
@@ -504,20 +572,23 @@ export default function Personal() {
         <Form.Select
           className="register"
           value={gender}
-          onChange={(e) => setGender(e.target.value)}
+          onChange={(e) => handleInputChange(e, setGender, "gender")}
+          isInvalid={!!errors.gender}
         >
           <option value="" disabled>Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Others">Others</option>
         </Form.Select>
+        <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Marital Status</Form.Label>
         <Form.Select
           className="register"
           value={maritalStatus}
-          onChange={(e) => setMaritalStatus(e.target.value)}
+          onChange={(e) => handleInputChange(e, setMaritalStatus, "maritalStatus")}
+          isInvalid={!!errors.maritalStatus}
         >
           <option value="" disabled>Status</option>
           <option value="Single">Single</option>
@@ -526,6 +597,7 @@ export default function Personal() {
           <option value="Widowed">Widowed</option>
           <option value="Separated">Separated</option>
         </Form.Select>
+        <Form.Control.Feedback type="invalid">{errors.maritalStatus}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Date of Birth</Form.Label>
@@ -534,10 +606,11 @@ export default function Personal() {
             type="date"
             className="register1"
             value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}
+            onChange={(e) => handleInputChange(e, setBirthday, "birthday")}
+            isInvalid={!!errors.birthday}
           />
-          <i className="bi bi-calendar" style={{ fontSize: '20px', marginLeft: '10px' }}></i>
         </div>
+        <Form.Control.Feedback type="invalid">{errors.birthday}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Place of Birth</Form.Label>
@@ -545,16 +618,19 @@ export default function Personal() {
           className="register1"
           placeholder="Place of Birth"
           value={birthplace}
-          onChange={(e) => setBirthplace(e.target.value)}
+          onChange={(e) => handleInputChange(e, setBirthplace, "birthplace")}
+          isInvalid={!!errors.birthplace}
         />
+        <Form.Control.Feedback type="invalid">{errors.birthplace}</Form.Control.Feedback>
       </Col>
       <Col xs={12} sm={6} md={4}>
         <Form.Label style={{ display: 'block', textAlign: 'left', marginBottom: '10px' }}>Nationality</Form.Label>
         <Form.Select
           className="register"
           value={nationality}
-          onChange={(e) => setNationality(e.target.value)}
-        >
+          onChange={(e) => handleInputChange(e, setNationality, "nationality")}
+          isInvalid={!!errors.nationality}
+          >
           <option value="" disabled>Select your nationality</option>
               {/* Africa */}
               <optgroup label="Africa">
@@ -615,7 +691,7 @@ export default function Personal() {
                 <option value="Marshallese">Marshallese</option>
               </optgroup>
             </Form.Select>
-
+            <Form.Control.Feedback type="invalid">{errors.nationality}</Form.Control.Feedback>
           </Col>
           
         </Row>
@@ -863,28 +939,33 @@ export default function Personal() {
           />
       )}
     </div>
-    <div
-      className="dropdown"
-      style={{ position: 'relative', alignSelf: 'flex-end', top: '-10px' }}
+    <div className="dropdown" style={{ position: "relative", alignSelf: "flex-end", top: "-10px" }}>
+    <button
+      type="button"
+      className="btn btn-light"
+      id="dropdownMenuButton"
+      onClick={() => setShowDropdown(!showDropdown)}
+      style={{
+        border: "none",
+        background: "transparent",
+        padding: "0",
+        cursor: "pointer",
+      }}
     >
-      <FontAwesomeIcon
-        icon={faEllipsisV}
-        size="lg"
-        style={{ cursor: 'pointer', color: 'gray', width: '20px' }}
-        id="dropdownMenuButton"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      />
-      <ul
-        className="dropdown-menu"
-        aria-labelledby="dropdownMenuButton"
-        style={{ minWidth: '150px' }}
-      >
+      <FontAwesomeIcon icon={faEllipsisV} size="lg" style={{ color: "gray", width: "20px" }} />
+    </button>
+
+    {showDropdown && (
+      <div className="dropdown-menu show" style={{ display: "block", minWidth: "150px", position: "absolute", right: "0" }}>
+        <ul className="list-unstyled mb-0">
         <li>
           <button
             type="button"
             className="dropdown-item d-flex align-items-center"
-            onClick={() => handleSetPrimary(cv.resume_id)}
+            onClick={() => {
+              handleSetPrimary(cv.resume_id);
+              setShowDropdown(false); 
+            }}
             style={{
               fontWeight: '500',
               fontSize: '14px',
@@ -913,7 +994,10 @@ export default function Personal() {
         <li>
           <button
             className="dropdown-item d-flex align-items-center text-danger"
-            onClick={() => handleDeleteResume(cv.resume_id)}
+            onClick={() => {
+              handleDeleteResume(cv.resume_id);
+              setShowDropdown(false); 
+            }}
             style={{
               fontWeight: '500',
               fontSize: '14px'
@@ -937,8 +1021,10 @@ export default function Personal() {
             Delete
           </button>
         </li>
-      </ul>
-    </div>
+        </ul>
+      </div>
+    )}
+  </div>
     <a href={`src/api/${cv.resumePath}`} target="_blank" rel="noopener noreferrer" style={{ position: 'relative', left: '50px', top: '-20px' }}>
       <FontAwesomeIcon icon={faDownload} size="lg" style={{ color: '#0955b7', marginRight: '10px', width: '13px' }} />
       <small style={{ fontWeight: '400', color: '#0955b7' }}>Download Cv/Resume</small>
@@ -1046,7 +1132,7 @@ export default function Personal() {
           <Button
             variant="primary"
             onClick={handleSaveChanges}
-            disabled={!isFormChanged()}
+            disabled={!isFormChanged() || Object.keys(errors).length > 0}
             className="mt-3 btn-save"
             style={{ width: '185px', height: '55px' }}
           >

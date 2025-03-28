@@ -21,11 +21,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $job_id = $_POST['job_id'];
     $jobTitle = $_POST['jobTitle'];
     $resumeName = $_POST['resume_name'];
-    $coverLetter = $_POST['coverLetter'];
     $resumePath = $_POST['resume'];
     $message = "A new applicant has applied for the job: $jobTitle.";
     $type = "Pending";
 
+    $coverLetterPath = null;
+    if (!empty($_FILES['coverLetter']['name'])) {
+        $coverLetterDir = "uploads/cover_letters/";
+        if (!is_dir($coverLetterDir)) {
+            mkdir($coverLetterDir, 0777, true);
+        }
+        $coverLetterName = time() . "_" . basename($_FILES['coverLetter']['name']);
+        $targetCoverLetterPath = $coverLetterDir . $coverLetterName;
+
+        if (move_uploaded_file($_FILES['coverLetter']['tmp_name'], $targetCoverLetterPath)) {
+            $coverLetterPath = $targetCoverLetterPath;
+        }
+    }
     $checkQuery = "SELECT COUNT(*) FROM js_applicant_application_resume WHERE applicant_id = :applicant_id AND job_id = :job_id";
     $checkStmt = $conn->prepare($checkQuery);
     $checkStmt->bindParam(':applicant_id', $applicant_id, PDO::PARAM_INT);
@@ -46,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resumeStmt->bindParam(':job_id', $job_id, PDO::PARAM_INT);
         $resumeStmt->bindParam(':resumeName', $resumeName, PDO::PARAM_STR);
         $resumeStmt->bindParam(':resumePath', $resumePath, PDO::PARAM_STR);
-        $resumeStmt->bindParam(':coverLetter', $coverLetter, PDO::PARAM_STR);
+        $resumeStmt->bindParam(':coverLetter', $coverLetterPath, PDO::PARAM_STR);
         $resumeStmt->execute();
 
         $application_id = $conn->lastInsertId();

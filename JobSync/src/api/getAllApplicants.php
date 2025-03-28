@@ -15,9 +15,10 @@ try {
         exit;
     }
 
-    $query = "SELECT v.*, a.profile_picture 
+    $query = "SELECT v.*, a.profile_picture, ver.account_status 
               FROM view_applications v
               JOIN js_applicants a ON v.applicant_id = a.applicant_id 
+              LEFT JOIN js_applicant_verified_id ver ON a.applicant_id = ver.applicant_id
               WHERE v.employer_id = :employer_id ORDER BY v.applied_at DESC";
 
     $stmt = $conn->prepare($query);

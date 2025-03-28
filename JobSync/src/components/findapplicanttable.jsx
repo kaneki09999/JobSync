@@ -4,6 +4,9 @@ import { FaBookmark, FaArrowRight, FaMapMarkerAlt, FaRegBookmark } from 'react-i
 import { postToEndpoint } from './apiService';
 import ViewProfileModal from '../components/viewprofilemodal';
 import Pagination from '../components/Pagination';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import defaultProf from '../assets/user_default.png'
 
 const ApplicantRow = ({ applicant, handleShowModal }) => (
     <div className="card mb-3 border-0" style={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'}}>
@@ -12,13 +15,17 @@ const ApplicantRow = ({ applicant, handleShowModal }) => (
                 <div className="col-12 col-md-8 mb-3 mb-md-0">
                     <div className="d-flex align-items-center">
                         <img 
-                            src={applicant.profile_picture_url} 
+                            src={applicant.profile_picture_url || defaultProf} 
                             alt={applicant.firstname} 
                             className="rounded-circle me-3" 
                             style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
                         />
                         <div>  
-                            <h6 className="mb-1">{applicant.firstname} {applicant.middlename || ''} {applicant.lastname}</h6>
+                            <h6 className="mb-1">{applicant.firstname} {applicant.middlename || ''} {applicant.lastname}
+                                {applicant.account_status === 'verified' && (
+                                    <FontAwesomeIcon icon={faCircleCheck} className="ms-1 text-primary" size="sm" title='Verified' />
+                                )}
+                            </h6>
                             <small className="text-muted d-block mb-1">{applicant.headline}</small>
                             <div className="d-flex align-items-center">
                                 <FaMapMarkerAlt className="me-1" style={{ color: '#6c757d', fontSize: '0.8rem' }} />
@@ -136,9 +143,9 @@ const ApplicantsTable = () => {
             ) : (
                 <>
                     <div className="mb-4">
-                        {currentApplicants.map((applicant) => (
+                        {currentApplicants.map((applicant, index) => (
                             <ApplicantRow 
-                                key={applicant.applicant_id} 
+                                key={applicant.applicant_id || `applicant-${index}`} 
                                 applicant={applicant} 
                                 handleShowModal={handleShowModal} 
                             />

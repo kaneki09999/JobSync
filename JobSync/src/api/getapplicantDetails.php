@@ -11,9 +11,10 @@ try {
     $applicant_id = $input['applicant_id'] ?? null;
 
     $query = "SELECT a.* ,soc.facebook_icon, soc.instagram_icon, soc.youtube_icon, soc.twitter_icon, 
-    soc.tiktok_icon, soc.dribble_icon, soc.github_icon, soc.reddit_icon, soc.freelancer_icon 
+    soc.tiktok_icon, soc.dribble_icon, soc.github_icon, soc.reddit_icon, soc.freelancer_icon, v.account_status
     FROM applicant_details a
-    JOIN js_applicant_socialmedia soc ON a.applicant_id = soc.applicant_id
+    LEFT JOIN js_applicant_socialmedia soc ON a.applicant_id = soc.applicant_id
+    LEFT JOIN js_applicant_verified_id v ON a.applicant_id = v.applicant_id
     WHERE a.applicant_id = :applicant_id
     ";
     $stmt = $conn->prepare($query);

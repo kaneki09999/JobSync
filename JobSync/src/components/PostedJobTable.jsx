@@ -280,20 +280,12 @@ const PostedJobTable = () => {
                     <table className="table" style={{ maxWidth: '100%'}}>
                         <thead className="thead-light">
                             <tr>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Jobs</th>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Status</th>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Applications</th>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Actions</th>
+                                <th style={{ color: 'white', background: '#1863b9', }}>Jobs</th>
+                                <th style={{ color: 'white', background: '#1863b9', }}>Status</th>
+                                <th style={{ color: 'white', background: '#1863b9', }}>Applications</th>
+                                <th style={{ color: 'white', background: '#1863b9', }}>Actions</th>
                             </tr>
                         </thead>
-                        <tfoot className="tfoot-light">
-                            <tr>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Jobs</th>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Status</th>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Applications</th>
-                                <th style={{ color: '#676767', background: '#ebebebc2' }}>Actions</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             {displayedJobs.map((job, index) => (
                                 <JobRow key={job.job_id || `${job.jobTitle}-${index}`} job={job} handleShowModal={handleShowModal} />

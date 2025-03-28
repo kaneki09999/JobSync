@@ -3,6 +3,9 @@ import { Modal, Button } from 'react-bootstrap';
 import { FaBirthdayCake, FaFontAwesomeFlag, FaUser, FaVenusMars, FaBriefcase, FaGraduationCap, FaGlobe, FaMapMarkerAlt, FaPhone, FaEnvelope, FaDownload, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import { postToEndpoint } from './apiService';
 import { useAuth } from '../AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import defaultProf from '../assets/user_default.png'
 
 const ViewProfileModal = ({ show, handleClose, applicant }) => {
   const { user } = useAuth();
@@ -119,7 +122,7 @@ const ViewProfileModal = ({ show, handleClose, applicant }) => {
                 }}
               >
                 <img
-                  src={applicants[0]?.profile_picture_url || '/assets/profes.jpg'}
+                  src={applicants[0]?.profile_picture_url || defaultProf}
                   alt="Applicant"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -127,8 +130,12 @@ const ViewProfileModal = ({ show, handleClose, applicant }) => {
 
               {/* Name and Job Title */}
               <div>
-                <h5 className="mb-2 ms-3">{applicants[0]?.firstname || 'John'} {applicants[0]?.middlename || ''} {applicants[0]?.lastname || 'Doe'}</h5>
-                <p className="text-muted mb-0 ms-3">{applicants[0]?.headline || 'Graphic Designer'}</p>
+                <h5 className="mb-2 ms-3">{applicants[0]?.firstname || 'N/A'} {applicants[0]?.middlename || ''} {applicants[0]?.lastname || ''}
+                    {applicants[0]?.account_status === 'verified' && (
+                      <FontAwesomeIcon icon={faCircleCheck} className="ms-1 text-primary" size="sm" title='Verified' />
+                    )}
+                </h5>
+                <p className="text-muted mb-0 ms-3">{applicants[0]?.headline || 'N/A'}</p>
               </div>
             </div>
 
@@ -137,16 +144,6 @@ const ViewProfileModal = ({ show, handleClose, applicant }) => {
             <p style={{ textAlign: 'justify' }}>
               {applicants[0]?.biography?.replace(/<[^>]*>?/gm, '')}
             </p>
-            
-            {/* Cover Letter - if exists */}
-            {cover[0]?.coverLetter && (
-              <>
-                <h6 className="mt-4">Cover Letter</h6>
-                <p style={{ textAlign: 'justify' }}>
-                  {cover[0]?.coverLetter.replace(/<[^>]*>?/gm, '')}
-                </p>
-              </>
-            )}
             
             {/* Social Media */}
             <hr className="my-4" />

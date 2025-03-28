@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaBriefcase, FaGraduationCap, FaCogs, FaClipboardCheck, FaCertificate, FaLanguage, FaEdit, FaSuitcase } from "react-icons/fa";
+import { FaBriefcase, FaGraduationCap, FaCogs, FaTrash, FaCertificate, FaLanguage, FaEdit, FaSuitcase } from "react-icons/fa";
 import { postToEndpoint, getFromEndpoint } from "../../../components/apiService";
 import { useAuth } from "../../../AuthContext";
 import { Button, Card, Container, Row, Col, Modal, Form } from 'react-bootstrap';
-
+import Swal from "sweetalert2";
 
 export default function Qualifications() {
   const { user } = useAuth();
@@ -17,21 +17,26 @@ export default function Qualifications() {
   });
 
   useEffect(() => {
-    fetchQualifications();
-  }, []);
-
-  const fetchQualifications = async () => {
-    try {
-      const response = await getFromEndpoint(`/GetQualifications.php?applicant_id=${user.id}`);
-      if (response.data.status === "success") {
-        setQualifications(response.data.qualifications);
-      } else {
-        console.error("Error fetching data:", response.data.message);
+    const fetchQualifications = async () => {
+      try {
+        setTimeout(async () => {
+          const response = await getFromEndpoint(`/GetQualifications.php?applicant_id=${user.id}`);
+          if (response.data.status === "success") {
+            setQualifications(response.data.qualifications);
+          } else {
+            console.error("Error fetching data:", response.data.message);
+          }
+        }, 500); 
+      } catch (error) {
+        console.error("Error fetching qualifications:", error);
       }
-    } catch (error) {
-      console.error("Error fetching qualifications:", error);
-    }
-  };
+    };
+  
+    fetchQualifications();
+    const interval = setInterval(fetchQualifications, 6000);
+  
+    return () => clearInterval(interval); 
+  }, [user.id]); 
 
   const [activeForm, setActiveForm] = useState(null);
   const [editingEntry, setEditingEntry] = useState(null);
@@ -43,6 +48,11 @@ export default function Qualifications() {
     languages: { language: "", proficiency: "" },
   });
 
+  const yearsOptions = [
+    ...Array.from({ length: 14 }, (_, i) => `${i + 1} ${i + 1 === 1 ? "year" : "years"}`),
+    "15-20 years",
+    "21+ years",
+  ];
   const handleInputChange = (e, key) => {
     const { name, value } = e.target;
     setNewEntry((prev) => ({
@@ -66,38 +76,98 @@ export default function Qualifications() {
     });
   };
 
+  const handleDeleteEntry = async (key, id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This entry will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await postToEndpoint("/DeleteQualification.php", {
+            id,
+            qualificationType: key,
+            applicant_id: user.id,
+          });
+  
+          if (response.data.status === "success") {
+            setQualifications((prev) => ({
+              ...prev,
+              [key]: prev[key].filter((entry) => entry.id !== id),
+            }));
+  
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your entry has been deleted.",
+              icon: "success",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: response.data.message,
+              icon: "error",
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong. Please try again.",
+            icon: "error",
+          });
+          console.error("Error:", error);
+        }
+      }
+    });
+  };
   const handleAddOrUpdateEntry = async (key) => {
-    if (editingEntry && editingEntry.id) {
-      setQualifications((prev) => ({
-        ...prev,
-        [key]: prev[key].map((entry) =>
-          entry.id === editingEntry.id ? { ...newEntry[key], id: editingEntry.id } : entry
-        ),
-      }));
-    } else {
-      setQualifications((prev) => ({
-        ...prev,
-        [key]: [...prev[key], { ...newEntry[key], id: Date.now() }],
-      }));
-    }
-
     const entryData = { 
       ...newEntry[key], 
       qualificationType: key, 
-      applicant_id: user.id 
-    };
-
+      applicant_id: user.id, 
+      id: editingEntry ? editingEntry.id : null,   
+  };
+  
     try {
-      const response = await postToEndpoint("/AddQualification.php", entryData);
-      if (response.data.status === "success") {
-        console.log("Data saved successfully");
+      let response;
+      if (editingEntry && editingEntry.id) {
+        response = await postToEndpoint("/UpdateQualification.php", {
+          id: editingEntry.id,
+          qualificationType: key,
+          applicant_id: user.id,
+          ...newEntry[key],
+        });
+  
+        if (response.data.status === "success") {
+          setQualifications((prev) => ({
+            ...prev,
+            [key]: prev[key].map((entry) =>
+              entry.id === editingEntry.id ? { ...newEntry[key], id: editingEntry.id } : entry
+            ),
+          }));
+        } else {
+          console.error("Error updating data:", response.data.message);
+        }
       } else {
-        console.error("Error saving data: ", response.data.message);
+        response = await postToEndpoint("/AddQualification.php", entryData);
+        if (response.data.status === "success") {
+          setQualifications((prev) => ({
+            ...prev,
+            [key]: [...prev[key], { ...newEntry[key], id: Date.now() }],
+          }));
+        } else {
+          console.error("Error saving data:", response.data.message);
+        }
       }
     } catch (error) {
-      console.error("Error: ", error);
+      console.error("Error:", error);
     }
-
+  
     setNewEntry({
       ...newEntry,
       [key]: Object.keys(newEntry[key]).reduce((acc, field) => ({ ...acc, [field]: "" }), {}),
@@ -105,6 +175,7 @@ export default function Qualifications() {
     setActiveForm(null);
     setEditingEntry(null);
   };
+  
 
   const handleEditEntry = (key, entry) => {
     const { id, created_at, applicant_id, ...entryWithoutId } = entry;
@@ -125,7 +196,7 @@ export default function Qualifications() {
   ];
 
   return (
-    <Container className="con-height" style={{ maxWidth: "1200px", margin: "20px auto", height: '660px' }}>
+    <Container className="con-height" style={{ maxWidth: "1200px", margin: "20px auto", minHeight: "660px", height: "auto" }}>
       <h4 className="mb-3" style={{ fontSize: '28px', textAlign: 'start' }}>Qualifications</h4>
       <p className="mb-4" style={{ color: "#555", textAlign: 'start'  }}>
         Using your unique skills and experience, we refine job recommendations to connect you with the most suitable opportunities on JobSync.
@@ -162,10 +233,17 @@ export default function Qualifications() {
                           .map(([, value]) => value)
                           .join(" - ")}
                       </span>
-                      <FaEdit
-                        onClick={() => handleEditEntry(item.key, entry)}
-                        style={{ cursor: "pointer", color: "#007bff" }}
-                      />
+                        <div>
+                          <FaEdit
+                            onClick={() => handleEditEntry(item.key, entry)}
+                            style={{ cursor: "pointer", color: "#007bff" }}
+                          />
+                          <FaTrash
+                              className="ms-2"
+                              onClick={() => handleDeleteEntry(item.key, entry.id)}
+                              style={{ cursor: "pointer", color: "red" }}
+                            />
+                        </div>
                     </div>
                 ))
               ) : (
@@ -182,13 +260,28 @@ export default function Qualifications() {
                   <Form>
                     {Object.keys(newEntry[item.key]).map((field) => (
                       <Form.Group key={field} className="mb-3">
-                        <Form.Control
-                          type="text"
-                          name={field}
-                          placeholder={`Enter ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`}
-                          value={newEntry[item.key][field]}
-                          onChange={(e) => handleInputChange(e, item.key)}
-                        />
+                        {field.toLowerCase().includes("years") ? ( 
+                          <Form.Select
+                            name={field}
+                            value={newEntry[item.key][field]}
+                            onChange={(e) => handleInputChange(e, item.key)}
+                          >
+                            <option value="">Select Years</option>
+                            {yearsOptions.map((year, index) => (
+                              <option key={index} value={year}>
+                                {year}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        ) : (
+                          <Form.Control
+                            type="text"
+                            name={field}
+                            placeholder={`Enter ${field.replace(/([A-Z])/g, " $1").toLowerCase()}`}
+                            value={newEntry[item.key][field]}
+                            onChange={(e) => handleInputChange(e, item.key)}
+                          />
+                        )}
                       </Form.Group>
                     ))}
                   </Form>

@@ -14,7 +14,7 @@ try {
 if (isset($_GET['employer_id'])) {
     $employer_id = intval($_GET['employer_id']); 
 
-    $sql = "SELECT COUNT(*) as total FROM js_post_jobs WHERE employer_id = :employer_id";
+    $sql = "SELECT COUNT(*) as total FROM active_job_postings WHERE employer_id = :employer_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':employer_id', $employer_id, PDO::PARAM_INT);
     $stmt->execute();

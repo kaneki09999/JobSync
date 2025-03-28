@@ -18,8 +18,9 @@ try {
         exit;
     }
 
-    $sql = "SELECT a.*, res.applied_status FROM applicant_applied_details a 
+    $sql = "SELECT a.*, res.applied_status, v.account_status FROM applicant_applied_details a 
             JOIN js_applicant_application_resume res ON a.application_id = res.application_id
+            LEFT JOIN js_applicant_verified_id v ON res.applicant_id = v.applicant_id 
             WHERE a.job_id = :job_id AND a.application_id = :application_id";
     $stmt = $conn->prepare($sql);
 

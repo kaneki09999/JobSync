@@ -134,8 +134,7 @@ export default function Interview() {
     });
   };
   return (
-    <div className="container mt-5" style={{ paddingLeft: '0', paddingRight: '0' }}>
-
+    <div className="container" style={{ paddingLeft: '0', paddingRight: '0', marginTop: '8rem' }}>
       {/* Job Alerts Header */}
       <div className="input-group mb-4" style={{ width: '60%' , marginTop: '100px'}}>
         <span className="input-group-text" id="search-icon" style={{ borderRadius: '20px', marginRight: '10px', color: '#0A65CC', zIndex: '1' }}>

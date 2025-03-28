@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { FaGraduationCap, FaBriefcase, FaUserTie, FaCalendarAlt, FaMapMarkerAlt, FaRegClock, FaComments, FaTag, FaMoneyBillWave, FaClock, FaUserClock, FaSuitcase } from 'react-icons/fa';
+import { FaGraduationCap, FaBriefcase, FaUserTie, FaCalendarAlt, FaMapMarkerAlt, FaRegClock, FaMailBulk, FaTag, FaMoneyBillWave, FaClock, FaUserClock, FaSuitcase } from 'react-icons/fa';
 import { getFromEndpoint, postToEndpoint } from '../components/apiService';
 import { useAuth } from '../AuthContext'; 
 import DOMPurify from 'dompurify'; 
@@ -286,9 +286,9 @@ const JobDetailsModal = ({ show, handleClose, job_id, application_id }) => {
             <Button
               variant="outline-primary"
               className='btn-status'
-              style={{ height: '45px', fontSize: '13px' }}
+              style={{ height: '45px', fontSize: '16px' }}
             >
-              <FaComments className="me-2" /> Chat Employer
+              <FaMailBulk className="me-2" /> Email
             </Button>
 
             <style>{`

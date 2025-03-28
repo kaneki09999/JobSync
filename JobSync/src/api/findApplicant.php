@@ -8,7 +8,8 @@ try {
     $objDb = new Dbconnect();
     $conn = $objDb->connect();
     $input = json_decode(file_get_contents('php://input'), true);
-    $query = "SELECT * FROM applicant_details";
+    $query = "SELECT a.*, v.account_status FROM applicant_details a
+            LEFT JOIN js_applicant_verified_id v ON a.applicant_id = v.applicant_id";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 

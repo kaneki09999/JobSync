@@ -6,19 +6,26 @@ import Pagination from './Pagination';
 import { getFromEndpoint } from './apiService';
 import { useAuth } from '../AuthContext';
 import ViewProfileModal from './viewprofilemodal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import defaultProf from '../assets/user_default.png'
 
 const ApplicantRow = ({ applicant, handleViewProfile, handleShowOptions }) => (
     <tr style={{borderBottom: '#7c858d'}}>
         <td style={{ textAlign: 'left', padding: '15px' }}>
             <div className="d-flex align-items-center flex-wrap">
                 <img 
-                    src={applicant.profile_picture} 
+                    src={applicant.profile_picture || defaultProf } 
                     alt={applicant.firstname} 
                     className="rounded-circle me-2" 
                     style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
                 />
                 <div>
-                    <h6 className="mb-0">{applicant.firstname} {applicant.middlename} {applicant.lastname}</h6>
+                    <h6 className="mb-0">{applicant.firstname} {applicant.middlename} {applicant.lastname}
+                    {applicant.account_status === 'verified' && (
+                      <FontAwesomeIcon icon={faCircleCheck} className="ms-1 text-primary" size="sm" title='Verified' />
+                    )}
+                    </h6>
                     <small className="text-muted">{applicant.headline}</small>
                 </div>
             </div>
@@ -36,7 +43,7 @@ const ApplicantRow = ({ applicant, handleViewProfile, handleShowOptions }) => (
                 <button 
                     className="btn btn-sm btn-light text-primary fw-bold ms-md-2 mt-2 mt-md-0 w-md-auto" 
                     onClick={(e) => {
-                        e.stopPropagation(); // prevent triggering other events
+                        e.stopPropagation(); 
                         handleShowOptions(applicant, e);
                     }}
                 >
@@ -138,13 +145,17 @@ const ApplicantsTable = () => {
                     </tbody>
                 </Table>
             </div>
-
-            <Pagination
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                totalItems={applicants.length}
-                paginate={paginate}
-            />
+            {applicants.length === 0 && (
+                <h4 className="text-center text-muted mt-3">No saved applicants yet.</h4>
+            )}
+            {applicants.length > itemsPerPage && (
+                    <Pagination
+                        currentPage={currentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={applicants.length}
+                        paginate={paginate}
+                    />
+                )}
 
             {showOptionsModal && (
                 <div

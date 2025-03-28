@@ -20,8 +20,8 @@ function matchJobsWithGPT($skills, $workExperience, $jobs) {
 
     $prompt = "You are an AI job matching assistant. Given the applicant's skills and work experience, match them with the most relevant job postings.\n\n";
 
-    $prompt .= "Applicant Skills: " . implode(", ", $skills) . "\n";
-    $prompt .= "Work Experience: " . implode(", ", $workExperience) . "\n\n";
+    $prompt .= "Applicant Skills: " . (!empty($skills) ? implode(", ", $skills) : "No skills provided") . "\n";
+    $prompt .= "Work Experience: " . (!empty($workExperience) ? implode(", ", $workExperience) : "No work experience provided") . "\n\n";
     
     $prompt .= "Job Listings:\n";
     foreach ($jobs as $job) {
@@ -140,8 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute(['applicant_id' => $applicant_id]);
         $workExperience = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'job_title');
 
-        if (empty($skills) || empty($workExperience)) {
-            echo json_encode(["error" => "Job matching requires at least one skill and one work experience entry."]);
+        if (empty($skills) && empty($workExperience)) {
+            echo json_encode(["error" => "Job matching requires at least one skill or work experience entry."]);
             exit;
         }
         $stmt = $conn->prepare("SELECT * FROM active_job_postings");

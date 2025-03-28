@@ -10,7 +10,6 @@ import { useAuth } from '../AuthContext';
 import { useLocation } from 'react-router-dom';
 import JobSearchBar from '../components/SearchAndFilter';
 
-
 export default function FindJob() {
   const { user } = useAuth(); 
   const [jobSearch, setJobSearch] = useState('');
